@@ -51,16 +51,29 @@ class Order extends Model
 
     public function getStatus(): string
     {
-        return match ($this->status) {
-            0 => 'Default status',
-            1 => 'Waiting forwarder',
-            2 => 'Status received',
-            3 => 'Item returned',
-            4 => 'Error while sending',
-            6 => 'Error while refreshing',
-            5 => 'Order fulfilled',
-            default => 'Status not found',
-        };
+        switch ($this->status) {
+            case 0: $result = 'Default status'; break;
+            case 1: $result = 'Waiting forwarder'; break;
+            case 2: $result = 'Status received'; break;
+            case 3: $result = 'Item returned'; break;
+            case 4: $result = 'Error while sending'; break;
+            case 5: $result = 'Order fulfilled'; break;
+            case 6: $result = 'Error while refreshing'; break;
+            default: $result = 'Status not found';
+        }
+
+        return $result;
+
+//        return match ($this->status) {
+//            0 => 'Default status',
+//            1 => 'Waiting forwarder',
+//            2 => 'Status received',
+//            3 => 'Item returned',
+//            4 => 'Error while sending',
+//            6 => 'Error while refreshing',
+//            5 => 'Order fulfilled',
+//            default => 'Status not found',
+//        };
     }
 
     public static function getStatusArray(): array
