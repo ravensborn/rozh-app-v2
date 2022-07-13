@@ -39,7 +39,7 @@
 <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
@@ -53,7 +53,7 @@
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
             <a class="nav-link" href="{{ route('home') }}">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <i class="fas fa-fw fa-home"></i>
                 <span>Home</span></a>
         </li>
 
@@ -69,7 +69,7 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
+                <i class="fas fa-fw fa-file"></i>
                 <span>Orders</span>
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -78,6 +78,17 @@
                     <a class="collapse-item" href="{{ route('orders.statistic') }}">Statistics</a>
                 </div>
             </div>
+        </li>
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Version
+        </div>
+
+        <li class="nav-item">
+            <a class="nav-link">
+                <span>v1.10</span>
+            </a>
         </li>
 
 

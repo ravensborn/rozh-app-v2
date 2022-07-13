@@ -13,6 +13,10 @@
             <span>&nbsp; A place to manage {{ env('APP_NAME') }} orders.</span>
         </div>
 
+        <div class="col-12 mt-5">
+            <a href="{{ route('orders.index') }}">Click here to go to orders.</a>
+        </div>
+
     </div>
 
 
