@@ -116,6 +116,7 @@
                             <th>#</th>
                             <th>Image</th>
                             <th>Name</th>
+                            <th>Color & Size</th>
                             <th>Price</th>
                             <th>Quantity</th>
                             <th>Total</th>
@@ -135,6 +136,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $item->name }}</td>
+                                <td>{{ $item->color . ' - ' . $item->size }}</td>
                                 <td>{{ $item->price }} IQD</td>
                                 <td>{{ $item->quantity }}</td>
                                 <td>{{ $item->total() }} IQD</td>
@@ -146,10 +148,10 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7">There are no order items at the moment.</td>
+                                <td colspan="8">There are no order items at the moment.</td>
                             </tr>
                         @endforelse
-                            <td colspan="6"></td>
+                            <td colspan="7"></td>
                             <td><b>Total:</b> {{ $order->total() }} IQD</td>
                         </tr>
                     </table>

@@ -26,6 +26,11 @@ return new class extends Migration {
                 ->comment('The product name at the moment of buying.')
                 ->nullable();
 
+            $table->string('color')
+                ->nullable();
+            $table->string('size')
+                ->nullable();
+
             $table->integer('quantity');
 //            $table->decimal('price', 15, 4);
             $table->integer('price');
