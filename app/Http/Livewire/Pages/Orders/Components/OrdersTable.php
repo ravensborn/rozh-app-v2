@@ -9,10 +9,6 @@ use App\Models\Order;
 
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
-use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
-use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
-use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
-
 
 class OrdersTable extends DataTableComponent
 {

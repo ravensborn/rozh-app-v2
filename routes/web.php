@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Auth::routes(['register' => false]);
+Auth::routes(['register' => false, 'logout' => false]);
 
 Route::middleware('auth')->group(function () {
 
