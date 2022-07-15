@@ -60,7 +60,6 @@
                         <li class="list-group-item">
                             <h6><b>Secondary Phone:</b> {{ $order->customer_secondary_phone }}</h6>
                         </li>
-
                         <li class="list-group-item">
                             <h6>
                                 <b>Profile Link:</b>
@@ -69,50 +68,102 @@
                                 </a>
                             </h6>
                         </li>
-                        <div class="mt-3"></div>
+                    </ul>
 
-                        @if($order->hasForwarder())
+                    <div class="mt-3"></div>
+                    @if($order->hasForwarder())
 
-                            <h6>Forwarder details</h6>
-                            <ul class="list-group">
+                        <h6>Forwarder details</h6>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <h6><b>Forwarder:</b> {{ $order->forwarder->name }}</h6>
+                            </li>
+
+                            <li class="list-group-item">
+                                <h6><b>Forwarder Location:</b> {{ $order->forwarderLocation->name  }}</h6>
+                            </li>
+                            <li class="list-group-item">
+                                <h6><b>Forwarder Status:</b> {{ $order->forwarderStatus->name }}</h6>
+                            </li>
+                            <li class="list-group-item">
+                                <h6><b>Forwarder Id:</b> {{ $order->forwarder_order_id }}</h6>
+                            </li>
+                            <li class="list-group-item">
+                                <h6>
+                                    <b>Last
+                                        Refresh:</b> {{ $order->forwarder_refresh_timestamp ? $order->forwarder_refresh_timestamp->format('d-m-Y / h:i A') : null }}
+                                </h6>
+                            </li>
+                            @if(in_array($order->status, [\App\Models\Order::STATUS_FORWARDER_ERROR_SENDING, \App\Models\Order::STATUS_FORWARDER_NO_STATUS]))
                                 <li class="list-group-item">
-                                    <h6><b>Forwarder:</b> {{ $order->forwarder->name }}</h6>
+                                    <button class="btn btn-sm btn-primary" wire:click="sendToForwarder()">
+                                        Send to forwarder
+                                    </button>
                                 </li>
-
+                            @else
                                 <li class="list-group-item">
-                                    <h6><b>Forwarder Location:</b> {{ $order->forwarderLocation->name  }}</h6>
+                                    <button class="btn btn-sm btn-primary" wire:click="refreshWithForwarder()">
+                                        Refresh with forwarder
+                                    </button>
                                 </li>
-                                <li class="list-group-item">
-                                    <h6><b>Forwarder Status:</b> {{ $order->forwarderStatus->name }}</h6>
-                                </li>
-                                <li class="list-group-item">
-                                    <h6><b>Forwarder Id:</b> {{ $order->forwarder_order_id }}</h6>
-                                </li>
-                                <li class="list-group-item">
-                                    <h6><b>Last
-                                            Refresh:</b> {{ $order->forwarder_refresh_timestamp ? $order->forwarder_refresh_timestamp->format('d-m-Y / h:i A') : null }}
-                                    </h6>
-                                </li>
-                                @if(in_array($order->status, [\App\Models\Order::STATUS_FORWARDER_ERROR_SENDING, \App\Models\Order::STATUS_FORWARDER_NO_STATUS]))
-
-                                    <li class="list-group-item">
-                                        <button class="btn btn-sm btn-primary" wire:click="sendToForwarder()">
-                                            Send to forwarder
-                                        </button>
-                                    </li>
-
-                                @else
-
-                                    <li class="list-group-item">
-                                        <button class="btn btn-sm btn-primary" wire:click="refreshWithForwarder()">
-                                            Refresh with forwarder
-                                        </button>
-                                    </li>
-
-                                @endif
-                            </ul>
+                            @endif
+                        </ul>
 
                     @endif
+
+                    <div class="mt-3"></div>
+                    @if($order->items->count())
+
+                        <h6>Item Details</h6>
+
+                        <div>
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Color & Size</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @forelse($order->items as $item)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>
+                                            @if($item->hasMedia('images'))
+                                                <a href="{{ $item->getFirstMediaUrl('images') }}">
+                                                    <img src="{{ $item->getFirstMediaUrl('images') }}" alt="Item Image"
+                                                         width="64" class="img-thumbnail" height="auto">
+                                                </a>
+                                            @else
+                                                no-image
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->color . ' - ' . $item->size }}</td>
+                                        <td>{{ $item->price }} IQD</td>
+                                        <td>{{ $item->quantity }}</td>
+                                        <td>{{ $item->total() }} IQD</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="7">There are no order items at the moment.</td>
+                                    </tr>
+                                @endforelse
+                                <tr>
+                                    <td colspan="6"></td>
+                                    <td><b>Total:</b> {{ $order->total() }} IQD</td>
+                                </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    @endif
+
 
                 </div>
             </div>

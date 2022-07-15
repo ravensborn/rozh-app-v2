@@ -20,12 +20,16 @@ class Statistic extends Component
 
     public string $phone_number = "";
 
+    public $from_date = null;
+    public $to_date = null;
+
     public int $page_id = 1;
     public int $forwarder_id = 1;
     public int $forwarder_status_id = 0;
     public int $status = 0;
 
-    public function mount() {
+    public function mount()
+    {
 
         $this->orders = Order::query();
 
@@ -37,78 +41,93 @@ class Statistic extends Component
         $this->status = -1;
         $this->forwarder_status_id = -1;
 
-        if($this->ifForwarderSelected()) {
-            if($this->forwarderStatuses->count() > 0) {
+        if ($this->ifForwarderSelected()) {
+            if ($this->forwarderStatuses->count() > 0) {
                 $this->filterOrdersByForwarder();
             }
         }
     }
 
-    private function filterOrdersByForwarder() {
-        $this->orders->where('forwarder_id', $this->forwarder_id);
+    private function filterOrdersByForwarder()
+    {
+        if ($this->forwarder_id != 0) {
+            $this->orders->where('forwarder_id', $this->forwarder_id);
+        }
+
     }
 
-    private function filterOrderByForwarderStatus() {
-        if($this->forwarder_status_id != -1) {
+    private function filterOrderByForwarderStatus()
+    {
+        if ($this->forwarder_status_id != -1) {
             $this->orders->where('forwarder_status_id', $this->forwarder_status_id);
         }
     }
 
-    private function filterOrderByOrderStatus() {
-        if($this->status != -1) {
+    private function filterOrderByOrderStatus()
+    {
+        if ($this->status != -1) {
             $this->orders->where('status', $this->status);
         }
     }
 
-    private function filterOrderByPhoneNumber() {
-        $this->orders->where('customer_primary_phone', $this->phone_number);
-    }
-
-    public function resetFilter() {
-        $this->orders = Order::query();
-    }
-
-    public function updatedForwarderId() {
-
-        $this->phone_number = "";
-
-        if($this->forwarder_id == 0) {
-            $this->orders = Order::query();
-        } else {
-            $this->resetFilter();
-            $this->filterOrdersByForwarder();
+    private function filterOrderByPhoneNumber()
+    {
+        if($this->phone_number) {
+            $this->orders->where('customer_primary_phone', $this->phone_number);
         }
+    }
+
+    private function filterOrdersByDate()
+    {
+        if ($this->from_date && $this->to_date) {
+
+            $this->orders
+                ->whereDate('created_at', '>=', $this->from_date)
+                ->whereDate('created_at', '<=', $this->to_date);
+        }
+    }
+
+    public function filter()
+    {
+        $this->orders = Order::query();
+        $this->filterOrdersByForwarder();
+        $this->filterOrderByOrderStatus();
+        $this->filterOrderByForwarderStatus();
+        $this->filterOrderByPhoneNumber();
+        $this->filterOrdersByDate();
+    }
+
+    public function filterByDate() {
+        if ($this->from_date && $this->to_date) {
+            $this->filter();
+        }
+    }
+    public function updatedForwarderId()
+    {
+        $this->status = -1;
+        $this->forwarder_status_id = -1;
+        $this->filter();
 
         $this->forwarderStatuses = ForwarderStatus::where('forwarder_id', $this->forwarder_id)->get();
     }
-
-    public function updatedPhoneNumber() {
-        $this->forwarder_id = 0;
-        $this->forwarder_status_id = -1;
-        $this->status = -1;
-        $this->resetFilter();
-        $this->filterOrderByPhoneNumber();
+    public function updatedPhoneNumber()
+    {
+        $this->filter();
     }
 
-    public function updatedForwarderStatusId() {
-        $this->phone_number = "";
-        $this->resetFilter();
-        $this->filterOrdersByForwarder();
-        $this->filterOrderByOrderStatus();
-        $this->filterOrderByForwarderStatus();
+    public function updatedForwarderStatusId()
+    {
+        $this->filter();
     }
 
-    public function updatedStatus() {
-        $this->phone_number = "";
-        $this->resetFilter();
-        $this->filterOrdersByForwarder();
-        $this->filterOrderByForwarderStatus();
-        $this->filterOrderByOrderStatus();
+    public function updatedStatus()
+    {
+        $this->filter();
     }
 
     public function ifForwarderSelected(): bool
     {
-        if($this->forwarder_id == 0 || $this->forwarder_id == Forwarder::NO_FORWARDER) {
+        if ($this->forwarder_id == 0 || $this->forwarder_id == Forwarder::NO_FORWARDER) {
             return false;
         }
         return true;
@@ -116,7 +135,7 @@ class Statistic extends Component
 
     public function render()
     {
-        return view('livewire.pages.orders.statistic',[
+        return view('livewire.pages.orders.statistic', [
             'orders' => !is_null($this->orders) ? $this->orders->get() : collect(),
         ])
             ->extends('layouts.app')

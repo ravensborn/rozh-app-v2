@@ -53,9 +53,9 @@ class OrdersTable extends DataTableComponent
                 ->searchable(),
             Column::make('User', 'user.name')
                 ->searchable(),
-            Column::make('Total (IQD)', 'id')
+            Column::make('Total', 'id')
                 ->format(function ($value, $row, $column) {
-                    return number_format($row->total());
+                    return number_format($row->total()) . ' IQD';
                 })->searchable(),
 //            Column::make('Address', 'delivery_address')
 //                ->searchable(),

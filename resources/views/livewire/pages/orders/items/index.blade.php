@@ -53,7 +53,58 @@
 
                             <div class="col-md-6">
                                 <label for="size">Size</label>
-                                <input type="text" id="size" class="form-control" wire:model.lazy="size">
+
+                                <select name="size" id="size" class="form-control" wire:model.lazy="size">
+                                    <option value="Free Size" selected>Free Size</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                    <option value="XXL">XXL</option>
+                                    <option value="XXXL">XXXL</option>
+                                    <option value="4XL">4XL</option>
+                                    <option value="5XL">5XL</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
+                                    <option value="24">24</option>
+                                    <option value="25">25</option>
+                                    <option value="26">26</option>
+                                    <option value="27">27</option>
+                                    <option value="28">28</option>
+                                    <option value="29">29</option>
+                                    <option value="30">30</option>
+                                    <option value="31">31</option>
+                                    <option value="32">32</option>
+                                    <option value="33">33</option>
+                                    <option value="34">34</option>
+                                    <option value="35">35</option>
+                                    <option value="36">36</option>
+                                    <option value="37">37</option>
+                                    <option value="39">39</option>
+                                    <option value="40">40</option>
+                                    <option value="41">41</option>
+                                    <option value="42">42</option>
+                                    <option value="43">43</option>
+                                    <option value="44">44</option>
+                                    <option value="45">45</option>
+                                    <option value="46">46</option>
+                                    <option value="47">47</option>
+                                    <option value="48">48</option>
+                                    <option value="49">49</option>
+                                    <option value="50">50</option>
+                                    <option value="51">51</option>
+                                    <option value="52">52</option>
+                                    <option value="53">53</option>
+                                    <option value="54">54</option>
+                                    <option value="55">55</option>
+                                    <option value="56">56</option>
+                                    <option value="57">57</option>
+                                    <option value="58">58</option>
+                                    <option value="59">59</option>
+                                    <option value="60">60</option>
+                                </select>
                                 @error('size')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -61,7 +112,26 @@
 
                             <div class="col-md-6">
                                 <label for="color">Color</label>
-                                <input type="text" id="color" class="form-control" wire:model.lazy="color">
+                                <select value="color" id="color" class="form-control" wire:model.lazy="color">
+                                    <option value="Same as picture" selected>Same as picture</option>
+                                    <option value="Red">Red</option>
+                                    <option value="Green">Green</option>
+                                    <option value="Blue">Blue</option>
+                                    <option value="Black">Black</option>
+                                    <option value="Brown">Brown</option>
+                                    <option value="White">White</option>
+                                    <option value="Silver">Silver</option>
+                                    <option value="Gold">Gold</option>
+                                    <option value="Orange">Orange</option>
+                                    <option value="Yellow">Yellow</option>
+                                    <option value="Apricot">Apricot</option>
+                                    <option value="Khaki">Khaki</option>
+                                    <option value="Wind Red">Wind Red</option>
+                                    <option value="Leopard">Leopard</option>
+                                    <option value="Purple">Purple</option>
+                                    <option value="Light Blue">Light Blue</option>
+                                    <option value="Navy Blue">Navy Blue</option>
+                                </select>
                                 @error('color')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -70,7 +140,7 @@
 
                         <div class="row mt-3">
                             <div class="col-md-6">
-                                <label for="price">Price</label>
+                                <label for="price">Price (IQD)</label>
                                 <input type="number" id="price" class="form-control" wire:model.lazy="price">
                                 @error('price')
                                 <div class="text-danger">{{ $message }}</div>
@@ -112,6 +182,7 @@
                 <div class="card-body">
 
                     <table class="table">
+                        <thead>
                         <tr>
                             <th>#</th>
                             <th>Image</th>
@@ -122,6 +193,8 @@
                             <th>Total</th>
                             <th>Actions</th>
                         </tr>
+                        </thead>
+                        <tbody>
                         @forelse($order->items as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
@@ -137,11 +210,12 @@
                                 </td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->color . ' - ' . $item->size }}</td>
-                                <td>{{ $item->price }} IQD</td>
+                                <td>{{ number_format($item->price) }} IQD</td>
                                 <td>{{ $item->quantity }}</td>
-                                <td>{{ $item->total() }} IQD</td>
+                                <td>{{ number_format($item->total()) }} IQD</td>
                                 <td>
-                                    <button class="btn btn-danger btn-sm" wire:click="triggerDeleteOrderItem({{ $item->id }})">
+                                    <button class="btn btn-danger btn-sm"
+                                            wire:click="triggerDeleteOrderItem({{ $item->id }})">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </td>
@@ -151,9 +225,12 @@
                                 <td colspan="8">There are no order items at the moment.</td>
                             </tr>
                         @endforelse
+                        <tr>
                             <td colspan="7"></td>
                             <td><b>Total:</b> {{ $order->total() }} IQD</td>
                         </tr>
+                        </tbody>
+
                     </table>
 
 

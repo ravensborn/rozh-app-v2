@@ -62,6 +62,10 @@ class Create extends Component
             $validated['forwarder_location_id'] = null;
         }
 
+        if($validated['customer_secondary_phone'] == 0 || $validated['customer_secondary_phone'] == "") {
+            $validated['customer_secondary_phone'] = null;
+        }
+
         $order = new Order();
         $order = $order->create($validated);
 

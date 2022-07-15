@@ -11,6 +11,20 @@
                 <div class="card-body">
                     <form>
                         <div class="row">
+                            <div class="col-md-6">
+                                <label for="from_date">From</label>
+                                <input type="date" class="form-control" id="from_date" wire:model="from_date"
+                                       wire:change="filterByDate()">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="to_date">To</label>
+                                <input type="date" class="form-control" id="to_date" wire:model="to_date"
+                                       wire:change="filterByDate()">
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
                             <div class="col-6">
                                 <label for="phone_number">Search by phone number</label>
                                 <input type="text" class="form-control" placeholder="0750-123-4567"
@@ -79,7 +93,7 @@
                 </div>
                 <div class="card-body">
                     Total:
-                    {{ $orders->sum(function ($order) { return $order->total(); }) }}
+                    {{ number_format($orders->sum(function ($order) { return $order->total(); })) }}
                     IQD
                 </div>
             </div>
@@ -122,7 +136,7 @@
                                     <td>{{ $order->number }}</td>
                                     <td>{{ $order->created_at->format('Y-m-d') }}</td>
                                     <td>{{ $order->getStatus() }}</td>
-                                    <td>{{ $order->total() }} IQD</td>
+                                    <td>{{ number_format($order->total()) }} IQD</td>
                                     <td>{{ $order->user->name }}</td>
                                     <td>{{ $order->customer_name }}</td>
                                     <td>{{ $order->customer_primary_phone }}</td>
@@ -139,6 +153,11 @@
                                     </td>
                                 </tr>
                             @empty
+                                <tr>
+                                    <td colspan="8">
+                                        No orders found, please choose different filters.
+                                    </td>
+                                </tr>
                             @endforelse
                             </tbody>
                         </table>

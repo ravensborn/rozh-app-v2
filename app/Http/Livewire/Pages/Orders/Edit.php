@@ -42,9 +42,7 @@ class Edit extends Component
 
         $validated = $this->validate($rules);
 
-
-        $order = new Order();
-        $order = $order->update($validated);
+        $order = $this->order->update($validated);
 
         return redirect()->route('orders.show', [
             'order' => $this->order->id,
@@ -72,7 +70,9 @@ class Edit extends Component
         $this->customer_name = $this->order->customer_name;
         $this->customer_profile_link = $this->order->customer_profile_link;
         $this->customer_primary_phone = $this->order->customer_primary_phone;
-        $this->customer_secondary_phone = $this->order->customer_secondary_phone;
+        if($this->customer_secondary_phone) {
+            $this->customer_secondary_phone = $this->order->customer_secondary_phone;
+        }
         $this->page_id = $this->order->page_id;
         $this->delivery_address = $this->order->delivery_address;
         $this->delivery_price = $this->order->delivery_price;
