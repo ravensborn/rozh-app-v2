@@ -131,7 +131,7 @@ class Order extends Model
         $items = $this->items;
 
         foreach ($items as $item) {
-            $total = $total = $item->total();
+            $total = $total + $item->total();
         }
 
         return $total;
