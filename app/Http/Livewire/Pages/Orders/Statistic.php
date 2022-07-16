@@ -140,7 +140,7 @@ class Statistic extends Component
     public function render()
     {
         return view('livewire.pages.orders.statistic', [
-            'orders' => !is_null($this->orders) ? $this->orders->get() : collect(),
+            'orders' => !is_null($this->orders) ? $this->orders->orderBy('created_at', 'desc')->get() : collect(),
         ])
             ->extends('layouts.app')
             ->section('content');

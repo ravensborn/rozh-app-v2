@@ -64,9 +64,10 @@ class OrdersTable extends DataTableComponent
             Column::make('Forwarder Status', 'id')
                 ->format(function ($value, $row, $column) {
                     if($row->forwarderStatus()->exists()) {
-                        return $row->forwarderStatus;
+                        return $row->forwarderStatus->name;
                     }
                     return '...';
+
                 })->searchable()
                 ->html(),
             Column::make('Items', 'id')->format(function ($value, $row) {
