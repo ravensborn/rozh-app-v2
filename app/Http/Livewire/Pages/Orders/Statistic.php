@@ -6,6 +6,7 @@ use App\Models\Forwarder;
 use App\Models\ForwarderStatus;
 use App\Models\Order;
 use App\Models\Page;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
@@ -30,6 +31,9 @@ class Statistic extends Component
 
     public function mount()
     {
+
+        $this->from_date = Carbon::today()->startOfMonth()->format('Y-m-d');
+        $this->to_date = Carbon::today()->format('Y-m-d');
 
         $this->orders = Order::query();
 

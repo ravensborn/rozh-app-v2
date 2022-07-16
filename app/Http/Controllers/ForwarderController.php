@@ -79,7 +79,7 @@ class ForwarderController extends Controller
                         }
 
 
-                        if($halatId == 10) {
+                        if($halatId == 11) {
                             $status = Order::STATUS_FORWARDER_RETURNED;
                         }
 

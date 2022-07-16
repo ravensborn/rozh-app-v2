@@ -77,7 +77,7 @@
                         <div class="row mt-3">
                             <div class="col-6">
                                 <label for="delivery_address">Delivery Address</label>
-                                <input type="text" id="delivery_address" class="form-control" wire:model.lazy="delivery_address" @if($order->status != \App\Models\Order::STATUS_FORWARDER_NO_STATUS) disabled @endif>
+                                <input type="text" id="delivery_address" class="form-control" wire:model.lazy="delivery_address">
                                 @error('delivery_address')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror

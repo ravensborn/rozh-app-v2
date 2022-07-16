@@ -88,6 +88,7 @@
                             <li class="list-group-item">
                                 <h6><b>Forwarder Id:</b> {{ $order->forwarder_order_id }}</h6>
                             </li>
+
                             <li class="list-group-item">
                                 <h6>
                                     <b>Last
@@ -156,7 +157,7 @@
                                 @endforelse
                                 <tr>
                                     <td colspan="6"></td>
-                                    <td><b>Total:</b> {{ $order->total() }} IQD</td>
+                                    <td><b>Total:</b> {{ number_format($order->total()) }} IQD</td>
                                 </tr>
                                 </tbody>
 

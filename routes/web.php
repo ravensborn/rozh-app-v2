@@ -14,6 +14,7 @@ use App\Http\Livewire\Pages\Orders\Items\Index as OrderItemIndex;
 
 
 use App\Http\Livewire\Pages\Orders\Statistic as OrderStatistic;
+use App\Http\Livewire\Pages\Orders\QuickFind as OrderQuickFind;
 
 use App\Models\Forwarder;
 use App\Models\Order;
@@ -40,7 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::group(['middleware' => ['role:admin']], function () {
 
         Route::get('/orders/statistics', OrderStatistic::class)->name('orders.statistic');
-//        Route::get('/users', ::class)->name('users');
+        Route::get('/orders/quick-find', OrderQuickFind::class)->name('orders.quick-find');
 
     });
 

@@ -99,7 +99,10 @@
                             IQD
                         </li>
                         <li class="list-group-item">
-                            {{ $orders->count() }} Items
+                            Orders count: {{ $orders->count() }}
+                        </li>
+                        <li class="list-group-item">
+                            Items count: {{ $orders->sum(function ($order) { return $order->items->count(); }) }}
                         </li>
                     </ul>
 
@@ -135,6 +138,7 @@
                                 <th>Customer Name</th>
                                 <th>Primary Phone</th>
                                 <th>Forwarder</th>
+                                <th>Forwarder Status</th>
                                 <th>Options</th>
                             </tr>
                             </thead>
@@ -153,6 +157,12 @@
                                         <td>{{ $order->forwarder->name }}</td>
                                     @else
                                         <td>No Forwarder</td>
+                                    @endif
+                                    @if($order->forwarderStatus()->exists())
+
+                                        <td>{{ $order->forwarderStatus->name }}</td>
+                                    @else
+                                        <td>...</td>
                                     @endif
                                     <td>
                                         <a class="btn btn-info btn-sm" href="{{ route('orders.show', $order->id) }}">

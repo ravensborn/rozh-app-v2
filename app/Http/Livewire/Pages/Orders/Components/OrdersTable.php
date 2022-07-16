@@ -41,7 +41,7 @@ class OrdersTable extends DataTableComponent
             Column::make('Date', 'created_at')
                 ->format(function ($value) {
 //                    return $value->format('Y-m-d / h:i A');
-                    return '<span title="'. $value->diffForHumans() .'">' . $value->format('Y-m-d') . '<span>';
+                    return '<span title="' . $value->diffForHumans() . '">' . $value->format('Y-m-d') . '<span>';
                 })->searchable()
                 ->html(),
             Column::make('Status', 'status')
@@ -50,8 +50,8 @@ class OrdersTable extends DataTableComponent
                 })->searchable(),
             Column::make('Primary Phone', 'customer_primary_phone')
                 ->searchable(),
-            Column::make('Page', 'page.name')
-                ->searchable(),
+//            Column::make('Page', 'page.name')
+//                ->searchable(),
             Column::make('User', 'user.name')
                 ->searchable(),
             Column::make('Total', 'id')
@@ -61,6 +61,14 @@ class OrdersTable extends DataTableComponent
 //            Column::make('Address', 'delivery_address')
 //                ->searchable(),
             Column::make('Forwarder', 'forwarder.name')->searchable(),
+            Column::make('Forwarder Status', 'id')
+                ->format(function ($value, $row, $column) {
+                    if($row->forwarderStatus()->exists()) {
+                        return $row->forwarderStatus;
+                    }
+                    return '...';
+                })->searchable()
+                ->html(),
             Column::make('Items', 'id')->format(function ($value, $row) {
 
                 //Todo: Prevent while order is sent.

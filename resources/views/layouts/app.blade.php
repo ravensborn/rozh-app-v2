@@ -25,7 +25,9 @@
     <link href="{{ asset('sb-admin/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
     <style>
-        [x-cloak] { display: none !important; }
+        [x-cloak] {
+            display: none !important;
+        }
     </style>
 
     @yield('style')
@@ -62,37 +64,37 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            Components
+            Orders
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-               aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-file"></i>
-                <span>Orders</span>
+            <a class="nav-link" href="{{ route('orders.index') }}">
+                <i class="fas fa-fw fa-file-alt"></i>
+                <span>All Orders</span>
             </a>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="{{ route('orders.index') }}">All Orders</a>
-                    @role('admin')
-                        <a class="collapse-item" href="{{ route('orders.statistic') }}">Statistics</a>
-                    @endrole
-                </div>
-            </div>
         </li>
+
+
+        @role('admin')
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('orders.statistic') }}">
+                <i class="fas fa-fw fa-file"></i>
+                <span>Statistics</span>
+            </a>
+        </li>
+        @endrole
+
+        @role('admin')
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('orders.quick-find') }}">
+                <i class="fas fa-fw fa-search"></i>
+                <span>Quick Find</span>
+            </a>
+        </li>
+        @endrole
 
         <!-- Heading -->
-        <div class="sidebar-heading">
-            Version
-        </div>
-
-        <li class="nav-item">
-            <a class="nav-link">
-                <span>v1.14</span>
-            </a>
-        </li>
-
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
@@ -102,6 +104,16 @@
             <button class="rounded-circle border-0" id="sidebarToggle"></button>
         </div>
 
+
+        <div class="sidebar-heading">
+            Version
+        </div>
+
+        <li class="nav-item">
+            <a class="nav-link">
+                <span>v2.15</span>
+            </a>
+        </li>
 
     </ul>
     <!-- End of Sidebar -->
@@ -219,7 +231,7 @@
 <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<x-livewire-alert::scripts />
+<x-livewire-alert::scripts/>
 
 </body>
 

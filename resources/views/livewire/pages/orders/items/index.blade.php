@@ -228,7 +228,7 @@
                             @endforelse
                             <tr>
                                 <td colspan="7"></td>
-                                <td><b>Total:</b> {{ $order->total() }} IQD</td>
+                                <td><b>Total:</b> {{ number_format( $order->total()) }} IQD</td>
                             </tr>
                             </tbody>
 
