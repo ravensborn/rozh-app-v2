@@ -61,16 +61,6 @@ class OrdersTable extends DataTableComponent
 //            Column::make('Address', 'delivery_address')
 //                ->searchable(),
             Column::make('Forwarder', 'forwarder.name')->searchable(),
-            Column::make('Forwarder Status', 'id')
-                ->format(function ($value, $row, $column) {
-                    if($row->forwarderStatus()->exists()) {
-                        return $row->forwarderStatus->name;
-                    } else {
-                        return '...';
-                    }
-
-                })->searchable()
-                ->html(),
             Column::make('Items', 'id')->format(function ($value, $row) {
 
                 //Todo: Prevent while order is sent.
