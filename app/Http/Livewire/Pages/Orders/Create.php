@@ -47,6 +47,14 @@ class Create extends Component
             'delivery_price' => 'required|numeric',
         ];
 
+        if($this->forwarder_id == Forwarder::NO_FORWARDER) {
+            $rules['delivery_address'] = 'nullable|max:256';
+            $rules['delivery_price'] = 'nullable|max:256';
+
+            $this->delivery_address = "";
+            $this->delivery_price = 0;
+        }
+
         $validated = $this->validate($rules);
         $validated['user_id'] = auth()->user()->id;
         $validated['number'] = $this->generateNumber();

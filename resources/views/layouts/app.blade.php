@@ -75,7 +75,9 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('orders.index') }}">All Orders</a>
-                    <a class="collapse-item" href="{{ route('orders.statistic') }}">Statistics</a>
+                    @role('admin')
+                        <a class="collapse-item" href="{{ route('orders.statistic') }}">Statistics</a>
+                    @endrole
                 </div>
             </div>
         </li>

@@ -92,9 +92,17 @@
                     </h6>
                 </div>
                 <div class="card-body">
-                    Total:
-                    {{ number_format($orders->sum(function ($order) { return $order->total(); })) }}
-                    IQD
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            Total:
+                            {{ number_format($orders->sum(function ($order) { return $order->total(); })) }}
+                            IQD
+                        </li>
+                        <li class="list-group-item">
+                            {{ $orders->count() }} Items
+                        </li>
+                    </ul>
+
                 </div>
             </div>
         </div>

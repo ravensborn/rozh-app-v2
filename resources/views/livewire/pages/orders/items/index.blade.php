@@ -55,7 +55,7 @@
                                 <label for="size">Size</label>
 
                                 <select name="size" id="size" class="form-control" wire:model.lazy="size">
-                                    <option value="Free Size" selected>Free Size</option>
+                                    <option value="Free Size">Free Size</option>
                                     <option value="S">S</option>
                                     <option value="M">M</option>
                                     <option value="L">L</option>
@@ -113,7 +113,7 @@
                             <div class="col-md-6">
                                 <label for="color">Color</label>
                                 <select value="color" id="color" class="form-control" wire:model.lazy="color">
-                                    <option value="Same as picture" selected>Same as picture</option>
+                                    <option value="Same as picture">Same as picture</option>
                                     <option value="Red">Red</option>
                                     <option value="Green">Green</option>
                                     <option value="Blue">Blue</option>

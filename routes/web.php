@@ -37,7 +37,12 @@ Auth::routes(['register' => false, 'logout' => false]);
 Route::middleware('auth')->group(function () {
 
 
-    Route::get('/orders/statistics', OrderStatistic::class)->name('orders.statistic');
+    Route::group(['middleware' => ['role:admin']], function () {
+
+        Route::get('/orders/statistics', OrderStatistic::class)->name('orders.statistic');
+//        Route::get('/users', ::class)->name('users');
+
+    });
 
 
     Route::get('/', Home::class)->name('home');
@@ -50,11 +55,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders/{order}/items', OrderItemIndex::class)->name('orders.items.index');
 });
 
-
-Route::get('/test', function () {
-
-
-})->name('test');
+//
+//Route::get('/test', function () {
+//
+//
+//})->name('test');
 
 Route::get('/logout', function () {
     auth()->logout();

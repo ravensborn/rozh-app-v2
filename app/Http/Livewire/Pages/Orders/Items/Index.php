@@ -23,8 +23,8 @@ class Index extends Component
     //Creating item variables
     public string $name = "";
     public $image;
-    public string $size = "";
-    public string $color = "";
+    public string $size = "Free Size";
+    public string $color = "Same as picture";
     public int $price = 0;
     public int $quantity = 0;
 
