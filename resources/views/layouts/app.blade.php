@@ -89,7 +89,7 @@
 
         <li class="nav-item">
             <a class="nav-link">
-                <span>v1.12</span>
+                <span>v1.14</span>
             </a>
         </li>
 
