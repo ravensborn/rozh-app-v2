@@ -116,7 +116,7 @@
 
                         <h6>Item Details</h6>
 
-                        <div>
+                        <div class="table-responsive">
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>

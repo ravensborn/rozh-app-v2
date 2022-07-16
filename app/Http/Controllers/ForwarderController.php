@@ -195,10 +195,10 @@ class ForwarderController extends Controller
                 $data = [
                     '_token' => $this->hyperpost_token,
                     'location_id' => $order->forwarder_location_id,
-                    'cod_amount' => $total,
+                    'cod_amount' => $total + $order->delivery_price,
                     'address' => $order->delivery_address,
                     'r_phone1' => $order->customer_primary_phone,
-                    'reference_number' => env('APP_NAME') . ' App v2 Reference: ' . $order->number,
+                    'reference_number' => env('APP_NAME') . ' Reference: ' . $order->number,
                 ];
 
                 if ($order->customer_secondary_phone) {
@@ -223,10 +223,12 @@ class ForwarderController extends Controller
 
                             $order->status = Order::STATUS_FORWARDER_STATUS;
                             $order->forwarder_status_id = $response['halat_id'];
-                            $order->delivery_price = (int)$response['total'] - (int)$response['cod_amount'];
+//                            $order->delivery_price = (int)$response['total'] - (int)$response['cod_amount'];
                             $order->forwarder_order_id = $response['sender_track'];
                             $order->forwarder_refresh_timestamp = now();
                             $order->save();
+
+                            $orders->addProperty('delivery_price_calculated_from_hyperpost', (int)$response['total'] - (int)$response['cod_amount']);
 
                             $numberOfSentOrders++;
 

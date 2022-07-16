@@ -181,58 +181,59 @@
                 </div>
                 <div class="card-body">
 
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Color & Size</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @forelse($order->items as $item)
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>
-                                    @if($item->hasMedia('images'))
-                                        <a href="{{ $item->getFirstMediaUrl('images') }}">
-                                            <img src="{{ $item->getFirstMediaUrl('images') }}" alt="Item Image"
-                                                 width="64" class="img-thumbnail" height="auto">
-                                        </a>
-                                    @else
-                                        no-image
-                                    @endif
-                                </td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->color . ' - ' . $item->size }}</td>
-                                <td>{{ number_format($item->price) }} IQD</td>
-                                <td>{{ $item->quantity }}</td>
-                                <td>{{ number_format($item->total()) }} IQD</td>
-                                <td>
-                                    <button class="btn btn-danger btn-sm"
-                                            wire:click="triggerDeleteOrderItem({{ $item->id }})">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </td>
+                                <th>#</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Color & Size</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Actions</th>
                             </tr>
-                        @empty
+                            </thead>
+                            <tbody>
+                            @forelse($order->items as $item)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>
+                                        @if($item->hasMedia('images'))
+                                            <a href="{{ $item->getFirstMediaUrl('images') }}">
+                                                <img src="{{ $item->getFirstMediaUrl('images') }}" alt="Item Image"
+                                                     width="64" class="img-thumbnail" height="auto">
+                                            </a>
+                                        @else
+                                            no-image
+                                        @endif
+                                    </td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->color . ' - ' . $item->size }}</td>
+                                    <td>{{ number_format($item->price) }} IQD</td>
+                                    <td>{{ $item->quantity }}</td>
+                                    <td>{{ number_format($item->total()) }} IQD</td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm"
+                                                wire:click="triggerDeleteOrderItem({{ $item->id }})">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="8">There are no order items at the moment.</td>
+                                </tr>
+                            @endforelse
                             <tr>
-                                <td colspan="8">There are no order items at the moment.</td>
+                                <td colspan="7"></td>
+                                <td><b>Total:</b> {{ $order->total() }} IQD</td>
                             </tr>
-                        @endforelse
-                        <tr>
-                            <td colspan="7"></td>
-                            <td><b>Total:</b> {{ $order->total() }} IQD</td>
-                        </tr>
-                        </tbody>
+                            </tbody>
 
-                    </table>
-
+                        </table>
+                    </div>
 
                 </div>
             </div>
