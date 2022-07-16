@@ -228,7 +228,7 @@ class ForwarderController extends Controller
                             $order->forwarder_refresh_timestamp = now();
                             $order->save();
 
-                            $orders->setProperty('delivery_price_calculated_from_hyperpost', (int)$response['total'] - (int)$response['cod_amount']);
+                            $order->setProperty('delivery_price_calculated_from_hyperpost', (int)$response['total'] - (int)$response['cod_amount']);
 
                             $numberOfSentOrders++;
 
