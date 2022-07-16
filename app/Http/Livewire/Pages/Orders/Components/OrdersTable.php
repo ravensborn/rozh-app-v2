@@ -41,8 +41,9 @@ class OrdersTable extends DataTableComponent
             Column::make('Date', 'created_at')
                 ->format(function ($value) {
 //                    return $value->format('Y-m-d / h:i A');
-                    return $value->format('Y-m-d');
-                })->searchable(),
+                    return '<span title="'. $value->diffForHumans() .'">' . $value->format('Y-m-d') . '<span>';
+                })->searchable()
+                ->html(),
             Column::make('Status', 'status')
                 ->format(function ($value, $row, $column) {
                     return $row->getStatus();
