@@ -65,8 +65,9 @@ class OrdersTable extends DataTableComponent
                 ->format(function ($value, $row, $column) {
                     if($row->forwarderStatus()->exists()) {
                         return $row->forwarderStatus->name;
+                    } else {
+                        return '...';
                     }
-                    return '...';
 
                 })->searchable()
                 ->html(),
