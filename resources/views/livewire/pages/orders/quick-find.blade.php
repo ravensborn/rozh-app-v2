@@ -109,7 +109,7 @@
                 <div class="card">
                     <div class="card-body">
                         <p>
-                            No orders found with that phone number.
+                            No orders to show.
                         </p>
                     </div>
                 </div>
