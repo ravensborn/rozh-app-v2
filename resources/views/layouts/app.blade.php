@@ -105,7 +105,7 @@
         @role('admin')
         <li class="nav-item">
             <a class="nav-link" href="{{ route('users.index') }}">
-                <i class="fas fa-fw fa-file"></i>
+                <i class="fas fa-fw fa-users"></i>
                 <span>All Users</span>
             </a>
         </li>

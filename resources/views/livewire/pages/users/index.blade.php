@@ -25,11 +25,11 @@
                             <thead>
                             <tr>
                                 <td class="text-center">#</td>
-                                <td>Name</td>
-                                <td>E-mail Address</td>
-                                <td>Roles</td>
-                                <td>Joined Date</td>
-                                <td>Actions</td>
+                                <th>Name</th>
+                                <th>E-mail Address</th>
+                                <th>Roles</th>
+                                <th>Joined Date</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
