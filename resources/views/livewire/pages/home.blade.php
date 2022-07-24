@@ -62,7 +62,7 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $data['status_name']  }}</td>
                                     <td>{{ $data['orders_count']  }}</td>
-                                    <td>{{ $data['orders_total']  }} IQD</td>
+                                    <td>{{ number_format($data['orders_total'])  }} IQD</td>
                                 </tr>
 
                             @empty
