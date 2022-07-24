@@ -21,8 +21,8 @@ class Statistic extends Component
 
     public string $phone_number = "";
 
-    public $from_date = null;
-    public $to_date = null;
+    public string $from_date = "";
+    public string $to_date = "";
 
     public int $page_id = 1;
     public int $forwarder_id = 1;

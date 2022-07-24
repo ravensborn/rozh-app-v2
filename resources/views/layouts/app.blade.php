@@ -94,6 +94,23 @@
         </li>
         @endrole
 
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Users
+        </div>
+
+        @role('admin')
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('users.index') }}">
+                <i class="fas fa-fw fa-file"></i>
+                <span>All Users</span>
+            </a>
+        </li>
+        @endrole
+
         <!-- Heading -->
 
         <!-- Divider -->
@@ -111,7 +128,7 @@
 
         <li class="nav-item">
             <a class="nav-link">
-                <span>v2.15</span>
+                <span>v2.16</span>
             </a>
         </li>
 

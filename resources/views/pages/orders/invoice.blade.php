@@ -102,7 +102,6 @@
             <th>Name</th>
             <th>Price</th>
             <th>Quantity</th>
-            <th>Discount</th>
             <th>Total</th>
         </tr>
         </thead>

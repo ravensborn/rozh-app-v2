@@ -11,13 +11,13 @@
                 <div class="card-body">
                     <form>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-12">
                                 <label for="from_date">From</label>
                                 <input type="date" class="form-control" id="from_date" wire:model="from_date"
                                        wire:change="filterByDate()">
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-12 mt-3 mt-md-0">
                                 <label for="to_date">To</label>
                                 <input type="date" class="form-control" id="to_date" wire:model="to_date"
                                        wire:change="filterByDate()">
@@ -25,7 +25,7 @@
                         </div>
 
                         <div class="row mt-3">
-                            <div class="col-6">
+                            <div class="col-12 col-md-6">
                                 <label for="phone_number">Search by phone number</label>
                                 <input type="text" class="form-control" placeholder="0750-123-4567"
                                        wire:model="phone_number">
@@ -35,7 +35,7 @@
                             </div>
                         </div>
                         <div class="row mt-3">
-                            <div class="col-6">
+                            <div class="col-12 col-md-6">
                                 <label for="forwarder_id">Forwarder</label>
                                 <select id="forwarder_id" class="form-control" wire:model.lazy="forwarder_id">
                                     <option value="0">All</option>
@@ -48,7 +48,7 @@
                                 @enderror
                             </div>
                             @if($this->ifForwarderSelected())
-                                <div class="col-3">
+                                <div class="col-12 col-md-3 mt-3 mt-md-0">
                                     <label for="forwarder_status_id">Forwarder Status</label>
                                     <select id="forwarder_status_id" class="form-control"
                                             wire:model.lazy="forwarder_status_id">
@@ -61,7 +61,7 @@
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="col-3">
+                                <div class="col-12 col-md-3 mt-3 mt-md-0">
                                     <label for="status">Order Status</label>
                                     <select id="status" class="form-control"
                                             wire:model.lazy="status">
@@ -127,7 +127,7 @@
                     </div>
 
                     <div wire:loading.remove>
-                        <table class="table table-sm">
+                        <table class="table table-sm table-bordered">
                             <thead>
                             <tr>
                                 <th>#</th>

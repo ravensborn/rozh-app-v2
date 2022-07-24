@@ -1,24 +1,21 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 
-use App\Http\Controllers\ForwarderController;
-use App\Http\Controllers\TelegramBotController;
 use App\Http\Livewire\Pages\Home;
+use App\Http\Livewire\Pages\Users\Index as UserIndex;
+use App\Http\Livewire\Pages\Users\Create as UserCreate;
+use App\Http\Livewire\Pages\Users\Edit as UserEdit;
 use App\Http\Livewire\Pages\Orders\Index as OrderIndex;
 use App\Http\Livewire\Pages\Orders\Create as OrderCreate;
 use App\Http\Livewire\Pages\Orders\Show as OrderShow;
 use App\Http\Livewire\Pages\Orders\Edit as OrderEdit;
-use App\Http\Controllers\OrderController;
 
 use App\Http\Livewire\Pages\Orders\Items\Index as OrderItemIndex;
-
 
 use App\Http\Livewire\Pages\Orders\Statistic as OrderStatistic;
 use App\Http\Livewire\Pages\Orders\QuickFind as OrderQuickFind;
 
-use App\Models\Forwarder;
-use App\Models\Order;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,6 +37,9 @@ Route::middleware('auth')->group(function () {
 
     Route::group(['middleware' => ['role:admin']], function () {
 
+        Route::get('/users/index', UserIndex::class)->name('users.index');
+        Route::get('/users/create', UserCreate::class)->name('users.create');
+        Route::get('/users/{user}/edit', UserEdit::class)->name('users.edit');
         Route::get('/orders/statistics', OrderStatistic::class)->name('orders.statistic');
         Route::get('/orders/quick-find', OrderQuickFind::class)->name('orders.quick-find');
 

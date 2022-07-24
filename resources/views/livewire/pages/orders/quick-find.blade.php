@@ -1,7 +1,7 @@
 <div>
     <div class="row">
 
-        <div class="col-12">
+        <div class="col-12 col-md-6">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">
@@ -10,11 +10,11 @@
                 </div>
                 <div class="card-body">
                     <form>
-                        <div class="row mt-3">
-                            <div class="col-6">
+                        <div class="row">
+                            <div class="col-12">
                                 <label for="phone_number">Search by phone number</label>
                                 <input type="text" class="form-control" placeholder="0750-123-4567"
-                                       wire:model="phone_number">
+                                       wire:model="phone_number" autofocus>
                                 @error('phone_number')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -47,7 +47,7 @@
                                 @if($order->forwarder_id == \App\Models\Forwarder::FORWARDER_HYPERPOST && $order->forwarder_order_id)
                                     <div>
                                         <a href="{{ 'https://hp-iraq.com/customer/add/track/print/' . $order->forwarder_order_id}}">
-                                            Click to print invoice
+                                            Click to print hyperpost invoice
                                         </a>
                                     </div>
                                 @endif
