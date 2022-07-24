@@ -32,9 +32,9 @@ class Home extends Component
         foreach ($hyperpostStatuses as $status) {
 
             $orders = Order::where('forwarder_id', Forwarder::FORWARDER_HYPERPOST)
+                ->where('forwarder_status_id', $status->status_id)
                 ->whereDate('created_at', '>=', $this->hyperpost_from_date)
                 ->whereDate('created_at', '<=', $this->hyperpost_to_date)
-                ->where('forwarder_status_id', $status->id)
                 ->get();
 
 
