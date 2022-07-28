@@ -127,60 +127,61 @@
                     </div>
 
                     <div wire:loading.remove>
-                        <table class="table table-sm table-bordered">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Total</th>
-                                <th>User</th>
-                                <th>Customer Name</th>
-                                <th>Primary Phone</th>
-                                <th>Forwarder</th>
-                                <th>Forwarder Status</th>
-                                <th>Options</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @forelse($orders as $order)
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
                                 <tr>
-                                    <td>{{ $order->number }}</td>
-                                    <td>{{ $order->created_at->format('Y-m-d') }}</td>
-                                    <td>{{ $order->getStatus() }}</td>
-                                    <td>{{ number_format($order->total()) }} IQD</td>
-                                    <td>{{ $order->user->name }}</td>
-                                    <td>{{ $order->customer_name }}</td>
-                                    <td>{{ $order->customer_primary_phone }}</td>
-                                    @if($order->hasForwarder())
-
-                                        <td>{{ $order->forwarder->name }}</td>
-                                    @else
-                                        <td>No Forwarder</td>
-                                    @endif
-                                    @if($order->forwarderStatus()->exists())
-
-                                        <td>{{ $order->forwarderStatus->name }}</td>
-                                    @else
-                                        <td>...</td>
-                                    @endif
-                                    <td>
-                                        <a class="btn btn-info btn-sm" href="{{ route('orders.show', $order->id) }}">
-                                            <i class="fa fa-file"></i>
-                                        </a>
-                                    </td>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Total</th>
+                                    <th>User</th>
+                                    <th>Customer Name</th>
+                                    <th>Primary Phone</th>
+                                    <th>Forwarder</th>
+                                    <th>Forwarder Status</th>
+                                    <th>Options</th>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="8">
-                                        No orders found, please choose different filters.
-                                    </td>
-                                </tr>
-                            @endforelse
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                @forelse($orders as $order)
+                                    <tr>
+                                        <td>{{ $order->number }}</td>
+                                        <td>{{ $order->created_at->format('Y-m-d') }}</td>
+                                        <td>{{ $order->getStatus() }}</td>
+                                        <td>{{ number_format($order->total()) }} IQD</td>
+                                        <td>{{ $order->user->name }}</td>
+                                        <td>{{ $order->customer_name }}</td>
+                                        <td>{{ $order->customer_primary_phone }}</td>
+                                        @if($order->hasForwarder())
+
+                                            <td>{{ $order->forwarder->name }}</td>
+                                        @else
+                                            <td>No Forwarder</td>
+                                        @endif
+                                        @if($order->forwarderStatus()->exists())
+
+                                            <td>{{ $order->forwarderStatus->name }}</td>
+                                        @else
+                                            <td>...</td>
+                                        @endif
+                                        <td>
+                                            <a class="btn btn-info btn-sm" href="{{ route('orders.show', $order->id) }}">
+                                                <i class="fa fa-file"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="8">
+                                            No orders found, please choose different filters.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-
 
                 </div>
             </div>

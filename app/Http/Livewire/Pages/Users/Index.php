@@ -63,6 +63,8 @@ class Index extends Component
             'toast' => true,
         ]);
 
+        $this->mount();
+
     }
 
     public function mount()

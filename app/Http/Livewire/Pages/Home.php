@@ -53,10 +53,16 @@ class Home extends Component
 
     public function mount()
     {
-//        $this->hyperpost_from_date = Carbon::today()->startOfMonth()->format('Y-m-d');
-        $this->hyperpost_from_date = Carbon::today()->format('Y-m-d');
-        $this->hyperpost_to_date = Carbon::today()->format('Y-m-d');
-        $this->generateHyperpostStatistics();
+
+        if (auth()->user()->hasRole('admin')) {
+
+            //        $this->hyperpost_from_date = Carbon::today()->startOfMonth()->format('Y-m-d');
+            $this->hyperpost_from_date = Carbon::today()->format('Y-m-d');
+            $this->hyperpost_to_date = Carbon::today()->format('Y-m-d');
+            $this->generateHyperpostStatistics();
+
+        }
+
     }
 
     public function render()
