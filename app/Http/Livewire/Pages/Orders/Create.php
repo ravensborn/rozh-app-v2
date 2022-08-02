@@ -72,7 +72,11 @@ class Create extends Component
 
         if($validated['customer_secondary_phone'] == 0 || $validated['customer_secondary_phone'] == "") {
             $validated['customer_secondary_phone'] = null;
+        } else {
+            $validated['customer_secondary_phone'] = str_replace(" ", "", $validated['customer_secondary_phone']);
         }
+
+        $validated['customer_primary_phone'] = str_replace(" ", "", $validated['customer_primary_phone']);
 
         $order = new Order();
         $order = $order->create($validated);
