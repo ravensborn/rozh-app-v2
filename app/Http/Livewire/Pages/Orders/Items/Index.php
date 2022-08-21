@@ -55,8 +55,8 @@ class Index extends Component
 
         $this->name = "";
         $this->image = "";
-        $this->size = "";
-        $this->color = "";
+        $this->size = "Free Size";
+        $this->color = "Same as picture";
         $this->price = 0;
         $this->quantity = 0;
 
