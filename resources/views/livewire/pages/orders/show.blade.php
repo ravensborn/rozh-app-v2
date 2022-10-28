@@ -107,6 +107,8 @@
                                         Send to forwarder
                                     </button>
                                 </li>
+                            @elseif($order->status == \App\Models\Order::STATUS_DEFAULT)
+
                             @else
                                 <li class="list-group-item">
                                     <button class="btn btn-sm btn-primary" wire:click="refreshWithForwarder()">
