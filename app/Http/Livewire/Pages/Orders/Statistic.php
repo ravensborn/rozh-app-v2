@@ -76,7 +76,7 @@ class Statistic extends Component
 
     private function filterOrderByPhoneNumber()
     {
-        if($this->phone_number) {
+        if ($this->phone_number) {
             $this->orders->where('customer_primary_phone', $this->phone_number);
         }
     }
@@ -101,11 +101,13 @@ class Statistic extends Component
         $this->filterOrdersByDate();
     }
 
-    public function filterByDate() {
+    public function filterByDate()
+    {
         if ($this->from_date && $this->to_date) {
             $this->filter();
         }
     }
+
     public function updatedForwarderId()
     {
         $this->status = -1;
@@ -114,6 +116,7 @@ class Statistic extends Component
 
         $this->forwarderStatuses = ForwarderStatus::where('forwarder_id', $this->forwarder_id)->get();
     }
+
     public function updatedPhoneNumber()
     {
         $this->filter();
@@ -139,7 +142,21 @@ class Statistic extends Component
 
     public function render()
     {
+        $orderTotal = $this->orders->get()
+            ->sum(function ($order) {
+                return $order->total();
+            });
+        $ordersCount = $this->orders->get()
+            ->count();
+        $itemCount = $this->orders->get()
+            ->sum(function ($order) {
+                return $order->items->count();
+            });
+
         return view('livewire.pages.orders.statistic', [
+            'orderTotal' => $orderTotal,
+            'ordersCount' => $ordersCount,
+            'itemCount' => $itemCount,
             'orders' => !is_null($this->orders) ? $this->orders->orderBy('created_at', 'desc')->paginate(20) : collect(),
         ])
             ->extends('layouts.app')

@@ -95,14 +95,14 @@
                     <ul class="list-group">
                         <li class="list-group-item">
                             Total:
-                            {{ number_format($orders->sum(function ($order) { return $order->total(); })) }}
+                            {{ number_format($orderTotal) }}
                             IQD
                         </li>
                         <li class="list-group-item">
-                            Orders count: {{ $orders->count() }}
+                            Orders count: {{ number_format($ordersCount) }}
                         </li>
                         <li class="list-group-item">
-                            Items count: {{ $orders->sum(function ($order) { return $order->items->count(); }) }}
+                            Items count: {{ number_format($itemCount) }}
                         </li>
                     </ul>
 
@@ -166,7 +166,8 @@
                                             <td>...</td>
                                         @endif
                                         <td>
-                                            <a class="btn btn-info btn-sm" href="{{ route('orders.show', $order->id) }}">
+                                            <a class="btn btn-info btn-sm"
+                                               href="{{ route('orders.show', $order->id) }}">
                                                 <i class="fa fa-file"></i>
                                             </a>
                                         </td>
