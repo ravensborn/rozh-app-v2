@@ -7,11 +7,17 @@
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">
                         Order Details
+                        <small>
+                            <a href="{{ route('orders.items.index', $order->id) }}"> - Add Items</a>
+                            <a href="{{ route('orders.edit', $order->id) }}"> - Edit</a>
+                        </small>
                     </h6>
                 </div>
                 <div class="card-body">
 
-                    <h6>Order details</h6>
+                    <h6>
+                        Order details
+                    </h6>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <h6><b>Number:</b> {{ $order->number }}</h6>

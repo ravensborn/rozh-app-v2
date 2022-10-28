@@ -37,7 +37,6 @@ class Home extends Component
                 ->whereDate('created_at', '<=', $this->hyperpost_to_date)
                 ->get();
 
-
             array_push($this->hyperpostOrderData, [
                 'status_id' => $status->id,
                 'status_name' => $status->name,

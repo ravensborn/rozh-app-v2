@@ -34,7 +34,19 @@ class Show extends Component
         $forwarderClient = new ForwarderController;
         $result = $forwarderClient->refreshHyperpostOrders($array);
 
-        $this->alert('info', 'Orders refreshed: ' . $result . '.');
+
+        $number = $result['refresh_count'];
+
+        $message = "Orders refreshed: $number";
+        $message .= "\n";
+        if(count($result['error_array'])) {
+            $message .= "Errors:\n";
+            foreach ($result['error_array'] as $errorMessage) {
+                $message .= " - $errorMessage\n";
+            }
+        }
+
+        $this->alert('info', $message);
 
         $this->order = Order::find($this->order->id); //Weird livewire behaviour, without this line, the relationships break.
     }
@@ -47,7 +59,18 @@ class Show extends Component
         $forwarderClient = new ForwarderController;
         $result = $forwarderClient->sendOrders($array);
 
-        $this->alert('info', 'Orders sent: ' . $result);
+        $number = $result['sent_count'];
+
+        $message = "Orders sent: $number";
+        $message .= "\n";
+        if(count($result['error_array'])) {
+            $message .= "Errors:\n";
+            foreach ($result['error_array'] as $errorMessage) {
+                $message .= " - $errorMessage\n";
+            }
+        }
+
+        $this->alert('info', $message);
 
         $this->order = Order::find($this->order->id); //Weird livewire behaviour, without this line, the relationships break.
 

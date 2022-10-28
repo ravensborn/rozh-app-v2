@@ -128,7 +128,7 @@
 
         <li class="nav-item">
             <a class="nav-link">
-                <span>v2.16</span>
+                <span>v2.17</span>
             </a>
         </li>
 

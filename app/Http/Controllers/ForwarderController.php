@@ -13,20 +13,28 @@ use App\Models\ForwarderStatus;
 
 class ForwarderController extends Controller
 {
-    private string $hyperpost_token = '3e3e77464f35426fdb2e018bd8689647';
-    private string $hyperpost_encryptCode = 'eyJpdiI6Ii9mMHBSMHpqcG5Eakt3YmpMY1FWOFE9PSIsInZhbHVlIjoiWE5ySlJvNElmUkljWmtFYWVxN09tQT09IiwibWFjIjoiYWFhN2YzNTJiNDY0NDJlOGYyNzFkZjZiNmRlZjVlNzcyYzMyM2UwNjU5YTkzNmI3ZjIxNWMyZWYxOTliYjNkOSJ9';
-    private string $hyperpost_url = 'https://hp-iraq.com';
+    private string $hyperpost_token;
+    private string $hyperpost_encryptCode;
+    private string $hyperpost_url;
 
     public function __construct()
     {
         $this->middleware('auth');
+        $this->hyperpost_url = config('envAccess.HYPERPOST_API_URL');
+        $this->hyperpost_token = config('envAccess.HYPERPOST_TOKEN');
+        $this->hyperpost_encryptCode = config('envAccess.HYPERPOST_ENCRYPT_CODE');
     }
 
     //Implement different function for other forwarders. or make one to be compatible with all.
-    public function refreshHyperpostOrders($orders): string|int
+    public function refreshHyperpostOrders($orders): array
     {
         if (!count($orders)) {
-            return 0;
+            return [
+                'refresh_count' => 0,
+                'error_array' => [
+                    'Error, Order count was 0.'
+                ],
+            ];
         }
 
         $numberOfRefreshedOrders = 0;
@@ -41,7 +49,7 @@ class ForwarderController extends Controller
 
         $tracks = json_decode($response->body(), true);
 
-        $hasErrors = false;
+        $errorMessages = [];
 
         if ($tracks) {
 
@@ -62,7 +70,7 @@ class ForwarderController extends Controller
 
                         if($halatId == null) {
 
-                            Log::create([
+                            $log = Log::create([
                                 'content' => [
                                     'message' => 'Forwarder order status id returned null, order is probably deleted from hyperpost.',
                                     'type' => 'error',
@@ -73,7 +81,7 @@ class ForwarderController extends Controller
                                 ]
                             ]);
 
-                            $hasErrors = true;
+                            array_push($errorMessages, 'halat_id is null, log: '. $log->id . '.');
 
                             $status = Order::STATUS_FORWARDER_ERROR_REFRESHING;
                         }
@@ -110,7 +118,7 @@ class ForwarderController extends Controller
                             ]
                         ]);
 
-                        return 'Error while refreshing please check logs (' . $log->id . ')';
+                        array_push($errorMessages, 'Order not found in database, log: '. $log->id . '.');
 
                     }
 
@@ -128,7 +136,7 @@ class ForwarderController extends Controller
                         ]
                     ]);
 
-                    return 'Error while refreshing please check logs (' . $log->id . ')';
+                    array_push($errorMessages, 'Did not find halat_id and sender_track, log: '. $log->id . '.');
                 }
             }
 
@@ -146,25 +154,30 @@ class ForwarderController extends Controller
                 ]
             ]);
 
-            return 'Error while refreshing please check logs (' . $log->id . ')';
+            array_push($errorMessages, 'Could not decode hyperpost response, log: '. $log->id . '.');
         }
 
-        if($hasErrors) {
-            return $numberOfRefreshedOrders . ' (has errors)';
-        }
-        return $numberOfRefreshedOrders;
+        return [
+            'refresh_count' => $numberOfRefreshedOrders,
+            'error_array' => $errorMessages,
+        ];
     }
 
     //This function can be modified to work with other forwarders, currently supported, No-forwarder & Hyperpost.
-    public function sendOrders($orders): int|string
+    public function sendOrders($orders): array
     {
 
         if (!count($orders)) {
-            return false;
+            return [
+                'sent_count' => 0,
+                'error_array' => [
+                    'Error, Order count was 0.'
+                ],
+            ];
         }
 
         $numberOfSentOrders = 0;
-        $withErrors = false;
+        $errorMessages = [];
 
         foreach ($orders as $order) {
             //Hyperpost Forwarder
@@ -176,7 +189,7 @@ class ForwarderController extends Controller
 
                     $order->setStatus(Order::STATUS_FORWARDER_ERROR_SENDING);
 
-                    Log::create([
+                    $log = Log::create([
                         'content' => [
                             'message' => 'Order total is less than or equal to 0 iqd, will not be send to forwarder.',
                             'type' => 'info',
@@ -188,7 +201,7 @@ class ForwarderController extends Controller
                         ]
                     ]);
 
-                    $withErrors = true;
+                   array_push($errorMessages, 'Order total was 0, log: ' . $log->id);
                     continue;
                 }
 
@@ -248,7 +261,7 @@ class ForwarderController extends Controller
 
                     $order->setStatus(Order::STATUS_FORWARDER_ERROR_SENDING);
 
-                    Log::create([
+                    $log = Log::create([
                         'content' => [
                             'message' => 'Error in hyperpost response.',
                             'type' => 'error',
@@ -262,20 +275,18 @@ class ForwarderController extends Controller
                         ]
                     ]);
 
-                    $withErrors = true;
+                    array_push($errorMessages, 'Error in hyperpost response, log: ' . $log->id);
                     continue;
                 }
             }
         }
 
-        if($withErrors) {
-            return $numberOfSentOrders . ' (has errors)';
-        }
+        return [
+            'sent_count' => $numberOfSentOrders,
+            'error_array' => $errorMessages,
+        ];
 
-        return $numberOfSentOrders;
     }
-
-
 
     public function refreshForwarderStatus($forwarder_id): bool
     {
