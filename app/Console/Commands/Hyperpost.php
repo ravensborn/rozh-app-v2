@@ -68,7 +68,7 @@ class Hyperpost extends Command
 
                 //Refresh previous orders.
                 $REFRESH_response = $forwarderClient->refreshHyperpostOrders($REFRESH_orders);
-                $REFRESH_totalNumberOfOrders = $REFRESH_response['refresh_count'];
+                $REFRESH_totalNumberOfOrders += $REFRESH_response['refresh_count'];
                 $REFRESH_errorArray = array_merge($REFRESH_errorArray, $REFRESH_response['error_array']);
             }
 
