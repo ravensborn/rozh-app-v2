@@ -94,6 +94,20 @@
         </li>
         @endrole
 
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('orders.return-list') }}">
+                <i class="fas fa-fw fa-undo"></i>
+                <span>Return List</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('block-list') }}">
+                <i class="fas fa-fw fa-ban"></i>
+                <span>Block list</span>
+            </a>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -128,7 +142,7 @@
 
         <li class="nav-item">
             <a class="nav-link">
-                <span>v2.17</span>
+                <span>v2.19</span>
             </a>
         </li>
 

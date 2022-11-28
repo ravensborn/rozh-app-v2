@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Pages\Orders;
 
+use App\Models\BlockList;
 use App\Models\Forwarder;
 use App\Models\Order;
 use Illuminate\Database\Eloquent\Model;
@@ -32,6 +33,17 @@ class Create extends Component
     public string $delivery_address = "";
     public int $delivery_price = 0;
 
+    public bool $blockedPhoneError = false;
+
+    public function updatingCustomerPrimaryPhone($phone) {
+        $blockList = BlockList::where('phone', $phone)->first();
+        if($blockList) {
+            $this->blockedPhoneError = true;
+        } else {
+            $this->blockedPhoneError = false;
+        }
+    }
+
     public function submitOrder()
     {
 
@@ -46,6 +58,12 @@ class Create extends Component
             'delivery_address' => 'required|max:255',
             'delivery_price' => 'required|numeric',
         ];
+
+        $blockList = BlockList::where('phone', $this->customer_primary_phone)->first();
+        if($blockList) {
+            $this->alert('error', 'The customer primary phone number is in block list.');
+            return false;
+        }
 
         if($this->forwarder_id == Forwarder::NO_FORWARDER) {
             $rules['delivery_address'] = 'nullable|max:256';

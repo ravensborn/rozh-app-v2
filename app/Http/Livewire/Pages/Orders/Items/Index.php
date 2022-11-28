@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Pages\Orders\Items;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\ReturnedItem;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
@@ -27,6 +28,9 @@ class Index extends Component
     public string $color = "Same as picture";
     public int $price = 0;
     public int $quantity = 0;
+    public string $code = "";
+
+    public int $foundInReturnedList = 0;
 
     public function submitOrderItem()
     {
@@ -38,6 +42,7 @@ class Index extends Component
             'color' => 'required',
             'price' => 'required',
             'quantity' => 'required',
+            'code' => 'nullable',
         ];
 
         $validated = $this->validate($rules);
@@ -45,7 +50,7 @@ class Index extends Component
 
         $orderItem = OrderItem::create($validated);
 
-        if($this->image) {
+        if ($this->image) {
             $orderItem
                 ->addMedia($this->image)
                 ->toMediaCollection('images');
@@ -59,8 +64,23 @@ class Index extends Component
         $this->color = "Same as picture";
         $this->price = 0;
         $this->quantity = 0;
+        $this->code = "";
 
         $this->alert('success', 'Item added successfully.');
+    }
+
+    public function updatingCode($value)
+    {
+
+        $returnList = ReturnedItem::where('code', $value)->first();
+
+        if ($returnList) {
+            $this->foundInReturnedList = $returnList->quantity;
+
+        } else {
+
+            $this->foundInReturnedList = 0;
+        }
     }
 
 

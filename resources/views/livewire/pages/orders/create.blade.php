@@ -96,6 +96,9 @@
                                 @error('customer_primary_phone')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
+                                @if($blockedPhoneError)
+                                    <div class="text-danger mt-1">This phone number is blocked.</div>
+                                @endif
                             </div>
                             <div class="col-12 col-md-6 mt-3 mt-md-0">
                                 <label for="customer_secondary_phone">Secondary Phone</label>

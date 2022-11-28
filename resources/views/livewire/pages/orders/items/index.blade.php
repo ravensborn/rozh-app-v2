@@ -154,8 +154,19 @@
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+                        </div>
 
-
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label for="code">Code</label>
+                                <input type="text" id="code" class="form-control" wire:model.lazy="code">
+                                @error('code')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                                @if($foundInReturnedList > 0)
+                                   <div class="text-success mt-1">Found in return list: {{ $foundInReturnedList }}</div>
+                                @endif
+                            </div>
                         </div>
 
                         <div class="mt-3">
@@ -188,6 +199,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Image</th>
+                                <th>Code</th>
                                 <th>Name</th>
                                 <th>Color & Size</th>
                                 <th>Price</th>
@@ -210,6 +222,7 @@
                                             no-image
                                         @endif
                                     </td>
+                                    <td>{{ $item->code }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->color . ' - ' . $item->size }}</td>
                                     <td>{{ number_format($item->price) }} IQD</td>
@@ -224,11 +237,11 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8">There are no order items at the moment.</td>
+                                    <td colspan="9">There are no order items at the moment.</td>
                                 </tr>
                             @endforelse
                             <tr>
-                                <td colspan="7"></td>
+                                <td colspan="8"></td>
                                 <td><b>Total:</b> {{ number_format( $order->total()) }} IQD</td>
                             </tr>
                             </tbody>

@@ -142,16 +142,22 @@ class Statistic extends Component
 
     public function render()
     {
-        $orderTotal = $this->orders->get()
-            ->sum(function ($order) {
-                return $order->total();
-            });
-        $ordersCount = $this->orders->get()
-            ->count();
-        $itemCount = $this->orders->get()
-            ->sum(function ($order) {
-                return $order->items->count();
-            });
+       if($this->orders) {
+           $orderTotal = $this->orders->get()
+               ->sum(function ($order) {
+                   return $order->total();
+               });
+           $ordersCount = $this->orders->get()
+               ->count();
+           $itemCount = $this->orders->get()
+               ->sum(function ($order) {
+                   return $order->items->count();
+               });
+       } else {
+           $orderTotal = 0;
+           $ordersCount = 0;
+           $itemCount = 0;
+       }
 
         return view('livewire.pages.orders.statistic', [
             'orderTotal' => $orderTotal,

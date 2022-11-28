@@ -16,6 +16,10 @@ use App\Http\Livewire\Pages\Orders\Items\Index as OrderItemIndex;
 use App\Http\Livewire\Pages\Orders\Statistic as OrderStatistic;
 use App\Http\Livewire\Pages\Orders\QuickFind as OrderQuickFind;
 
+use App\Http\Livewire\Pages\Orders\ReturnList as OrderReturnList;
+
+use App\Http\Livewire\Pages\BlockList;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,11 +53,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/', Home::class)->name('home');
     Route::get('/orders', OrderIndex::class)->name('orders.index');
     Route::get('/orders/create', OrderCreate::class)->name('orders.create');
+    Route::get('/orders/return-list', OrderReturnList::class)->name('orders.return-list');
     Route::get('/orders/{order}', OrderShow::class)->name('orders.show');
     Route::get('/orders/{order}/edit', OrderEdit::class)->name('orders.edit');
     Route::get('/orders/{order}/invoice', [OrderController::class, 'invoice'])->name('orders.invoice');
 
     Route::get('/orders/{order}/items', OrderItemIndex::class)->name('orders.items.index');
+
+    Route::get('/block-list', BlockList::class)->name('block-list');
+
+
 });
 
 //

@@ -27,7 +27,7 @@ class OrdersTable extends DataTableComponent
     {
         $this->setPrimaryKey('id');
         $this->setTableAttributes([
-            'class' => 'table-sm',
+            'class' => 'table-sm text-center table-bordered',
         ]);
         $this->setDefaultSort('id', 'desc');
 
