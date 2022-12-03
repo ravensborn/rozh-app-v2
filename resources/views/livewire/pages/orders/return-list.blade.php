@@ -16,26 +16,25 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <label for="code">Code</label>
-                                        <input type="text" class="form-control form-control-sm" wire:model="code">
+                                        <input type="text" class="form-control" wire:model="code">
                                         @error('code')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="col-6">
                                         <label for="quantity">Quantity</label>
-                                        <input type="number" class="form-control form-control-sm" wire:model="quantity">
+                                        <input type="number" class="form-control" wire:model="quantity">
                                         @error('quantity')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
                                 </div>
-                                <div class="row mt-3">
+                                <div class="row mt-2">
 
-                                    <div class="col-6">
+                                    <div class="col-6 col-md-4">
                                         <label for="size">Size</label>
-
-                                        <select name="size" id="size" class="form-control form-control-sm" wire:model.lazy="size">
+                                        <select name="size" id="size" class="form-control" wire:model.lazy="size">
                                             <option value="Free Size">Free Size</option>
                                             <option value="S">S</option>
                                             <option value="M">M</option>
@@ -92,9 +91,9 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-6">
+                                    <div class="col-6 col-md-4">
                                         <label for="color">Color</label>
-                                        <select id="color" class="form-control form-control-sm" wire:model.lazy="color">
+                                        <select id="color" class="form-control" wire:model.lazy="color">
                                             <option value="Same as picture">Same as picture</option>
                                             <option value="Red">Red</option>
                                             <option value="Green">Green</option>
@@ -115,6 +114,17 @@
                                             <option value="Navy Blue">Navy Blue</option>
                                         </select>
                                         @error('color')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-12 col-md-4 mt-md-0 mt-2">
+                                        <label for="page_id">Page</label>
+                                        <select id="page_id" class="form-control" wire:model.lazy="page_id">
+                                            @foreach($pages as $page)
+                                                <option value="{{ $page->id }}">{{ $page->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('page_id')
                                         <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>

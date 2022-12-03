@@ -7,10 +7,8 @@ use App\Models\Order;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
-
 class Show extends Component
 {
-
     use LivewireAlert;
 
     public Order $order;

@@ -72,7 +72,7 @@ class Index extends Component
     public function updatingCode($value)
     {
 
-        $returnList = ReturnedItem::where('code', $value)->first();
+        $returnList = ReturnedItem::where('code', $value)->where('page_id', $this->order->page_id)->first();
 
         if ($returnList) {
             $this->foundInReturnedList = $returnList->quantity;
@@ -82,7 +82,6 @@ class Index extends Component
             $this->foundInReturnedList = 0;
         }
     }
-
 
     public function triggerDeleteOrderItem(OrderItem $orderItem)
     {

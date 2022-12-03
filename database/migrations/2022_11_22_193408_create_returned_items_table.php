@@ -16,9 +16,16 @@ return new class extends Migration
         Schema::create('returned_items', function (Blueprint $table) {
             $table->id();
 
+            $table->unsignedBigInteger('page_id');
+            $table->foreign('page_id')
+                ->references('id')
+                ->on('pages')
+                ->onDelete('restrict');
+
             $table->string('code');
 
             $table->integer('quantity')->default(0);
+
 
             $table->string('color')
                 ->nullable();

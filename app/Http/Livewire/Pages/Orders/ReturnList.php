@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Pages\Orders;
 
 use App\Models\Order;
 
+use App\Models\Page;
 use App\Models\ReturnedItem;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -21,6 +22,9 @@ class ReturnList extends Component
     public string $size = "Free Size";
     public string $color = "Same as picture";
 
+    public $pages;
+    public int $page_id = 1;
+
     public function addNewCode()
     {
         $rules = [
@@ -29,6 +33,7 @@ class ReturnList extends Component
             'image' => 'required|image|max:5242880', // 5MB Max
             'size' => 'required',
             'color' => 'required',
+            'page_id' => 'required'
         ];
 
         $validated = $this->validate($rules);
@@ -55,7 +60,7 @@ class ReturnList extends Component
 
     public function mount()
     {
-
+        $this->pages = Page::all();
     }
 
     public function render()

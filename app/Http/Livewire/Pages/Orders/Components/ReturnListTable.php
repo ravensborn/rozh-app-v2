@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Pages\Orders\Components;
 use App\Models\ReturnedItem;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
-use App\Models\Order;
 
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
@@ -39,7 +38,7 @@ class ReturnListTable extends DataTableComponent
             Column::make('Code', 'code')->format(function ($value, $item) {
 //                    return $value->format('Y-m-d / h:i A');
                 if($item->hasMedia('images')) {
-                    return '<img src="' . $item->getFirstMediaUrl('images')  . '">';
+                    return '<img width="64" class="img-thumbnail" src="' . $item->getFirstMediaUrl('images')  . '">';
                 }
                 return 'no-image';
 
@@ -56,6 +55,9 @@ class ReturnListTable extends DataTableComponent
                 ->searchable(),
 
             Column::make('Color', 'color')
+                ->searchable(),
+
+            Column::make('Page', 'page.name')
                 ->searchable(),
 
             Column::make('Created Date', 'created_at')

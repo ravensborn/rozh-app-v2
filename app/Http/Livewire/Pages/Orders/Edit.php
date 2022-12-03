@@ -36,7 +36,7 @@ class Edit extends Component
             'delivery_price' => 'required|numeric',
         ];
 
-        if($this->order->status == \App\Models\Order::STATUS_FORWARDER_NO_STATUS) {
+        if(in_array($this->order->status, [\App\Models\Order::STATUS_FORWARDER_NO_STATUS, \App\Models\Order::STATUS_FORWARDER_ERROR_SENDING])) {
             $rules['delivery_address'] = 'required|max:255';
         }
 
