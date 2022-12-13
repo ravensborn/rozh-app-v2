@@ -30,17 +30,29 @@
 
                         <form>
                             <div class="row">
+                                <div class="col-md-12">
+                                    <label for="hyperpost_page_id">Page</label>
+                                    <select wire:model="hyperpost_page_id" class="form-control" wire:change="filterHyperpostStats()" id="hyperpost_page_id">
+                                        <option value="0">ALL</option>
+                                        @foreach($pages as $page)
+                                            <option value="{{ $page->id }}">{{ $page->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+
                                 <div class="col-md-6">
                                     <label for="from_date">From</label>
                                     <input type="date" class="form-control" id="from_date"
                                            wire:model="hyperpost_from_date"
-                                           wire:change="filterHyperpostByDate()">
+                                           wire:change="filterHyperpostStats()">
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-6 mt-md-0 mt-2">
                                     <label for="to_date">To</label>
                                     <input type="date" class="form-control" id="to_date" wire:model="hyperpost_to_date"
-                                           wire:change="filterHyperpostByDate()">
+                                           wire:change="filterHyperpostStats()">
                                 </div>
                             </div>
                         </form>

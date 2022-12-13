@@ -92,6 +92,13 @@
                 <span>Quick Find</span>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('expense-items.index') }}">
+                <i class="fas fa-fw fa-dollar-sign"></i>
+                <span>Expenses</span>
+            </a>
+        </li>
         @endrole
 
         <li class="nav-item">

@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Pages;
 use App\Models\Forwarder;
 use App\Models\ForwarderStatus;
 use App\Models\Order;
+use App\Models\Page;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -15,7 +16,10 @@ class Home extends Component
     public string $hyperpost_from_date = "";
     public string $hyperpost_to_date = "";
 
-    public function filterHyperpostByDate()
+    public int $hyperpost_page_id = 0;
+    public $pages;
+
+    public function filterHyperpostStats()
     {
         if ($this->hyperpost_from_date && $this->hyperpost_to_date) {
             $this->generateHyperpostStatistics();
@@ -31,11 +35,19 @@ class Home extends Component
 
         foreach ($hyperpostStatuses as $status) {
 
-            $orders = Order::where('forwarder_id', Forwarder::FORWARDER_HYPERPOST)
+            $orders = Order::query();
+
+            $orders->where('forwarder_id', Forwarder::FORWARDER_HYPERPOST)
                 ->where('forwarder_status_id', $status->status_id)
                 ->whereDate('created_at', '>=', $this->hyperpost_from_date)
-                ->whereDate('created_at', '<=', $this->hyperpost_to_date)
-                ->get();
+                ->whereDate('created_at', '<=', $this->hyperpost_to_date);
+
+            if($this->hyperpost_page_id != 0) {
+                $orders->where('page_id', $this->hyperpost_page_id);
+            }
+
+            $orders = $orders->get();
+
 
             array_push($this->hyperpostOrderData, [
                 'status_id' => $status->id,
@@ -54,6 +66,8 @@ class Home extends Component
     {
 
         if (auth()->user()->hasRole('admin')) {
+
+            $this->pages = Page::all();
 
             //        $this->hyperpost_from_date = Carbon::today()->startOfMonth()->format('Y-m-d');
             $this->hyperpost_from_date = Carbon::today()->format('Y-m-d');

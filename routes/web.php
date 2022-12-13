@@ -3,9 +3,15 @@
 use App\Http\Controllers\OrderController;
 
 use App\Http\Livewire\Pages\Home;
+
 use App\Http\Livewire\Pages\Users\Index as UserIndex;
 use App\Http\Livewire\Pages\Users\Create as UserCreate;
 use App\Http\Livewire\Pages\Users\Edit as UserEdit;
+
+use App\Http\Livewire\Pages\ExpenseItems\Index as ExpenseItemIndex;
+use App\Http\Livewire\Pages\ExpenseItems\Create as ExpenseItemCreate;
+use App\Http\Livewire\Pages\ExpenseItems\Edit as ExpenseItemEdit;
+
 use App\Http\Livewire\Pages\Orders\Index as OrderIndex;
 use App\Http\Livewire\Pages\Orders\Create as OrderCreate;
 use App\Http\Livewire\Pages\Orders\Show as OrderShow;
@@ -44,6 +50,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/users/index', UserIndex::class)->name('users.index');
         Route::get('/users/create', UserCreate::class)->name('users.create');
         Route::get('/users/{user}/edit', UserEdit::class)->name('users.edit');
+
+        Route::get('/expenses/index', ExpenseItemIndex::class)->name('expense-items.index');
+        Route::get('/expenses/create', ExpenseItemCreate::class)->name('expense-items.create');
+        Route::get('/expenses/{expenseItem}/edit', ExpenseItemEdit::class)->name('expense-items.edit');
+
         Route::get('/orders/statistics', OrderStatistic::class)->name('orders.statistic');
         Route::get('/orders/quick-find', OrderQuickFind::class)->name('orders.quick-find');
 
