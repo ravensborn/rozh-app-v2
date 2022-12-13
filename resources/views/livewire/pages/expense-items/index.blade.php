@@ -21,7 +21,7 @@
                             </div>
 
                         </div>
-                      @if($filter_on)
+                        @if($filter_on)
                             <div class="row">
                                 <div class="col-md-6 col-12">
                                     <label for="from_date">From</label>
@@ -35,7 +35,7 @@
                                            wire:change="filterExpensesByDate()">
                                 </div>
                             </div>
-                          @endif
+                        @endif
                     </form>
 
                     <hr>
@@ -45,19 +45,35 @@
                     </div>
 
                     <div wire:loading.remove>
-                        
-                        <h5>Total Expense Amount: {{ number_format($totalExpensesAmount) }} IQD</h5>
-                        <h5>Number of Orders: {{ number_format($numberOfOrders) }}</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span>Total Expense Amount: {{ number_format($totalExpensesAmount) }} IQD</span>
+                            </li>
 
-                        <h5 class="d-inline">Profit Per Order:</h5>
-                        <input type="number" class="form-control form-control-sm w-auto d-inline" wire:model="profitPerOrder">
-                        <h5 class="d-inline"> IQD</h5>
+                            <li class="list-group-item">
+                                <span>Number of Orders: {{ number_format($numberOfOrders) }}</span>
+                            </li>
 
-                        <h5>Total Profit: {{ number_format($numberOfOrders * $profitPerOrder) }} IQD</h5>
-                        <h5>Total Profit Minus Expenses: {{ number_format(($numberOfOrders * $profitPerOrder) - $totalExpensesAmount) }} IQD</h5>
+                            <li class="list-group-item">
 
+                                <span class="d-inline">Profit Per Order:</span>
+                                <input type="number" class="form-control form-control-sm w-auto d-inline"
+                                       wire:model="profitPerOrder">
+                                <span class="d-inline"> IQD</span>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span>Total Profit: {{ number_format($numberOfOrders * $profitPerOrder) }} IQD</span>
+
+                            </li>
+                            <li class="list-group-item">
+                                <span>Total Profit Minus
+                                    Expenses: {{ number_format(($numberOfOrders * $profitPerOrder) - $totalExpensesAmount) }}
+                                    IQD</span>
+
+                            </li>
+                        </ul>
                     </div>
-
 
 
                 </div>
@@ -114,13 +130,15 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a class="btn btn-warning btn-sm" href="{{ route('expense-items.edit', $item->id) }}">
+                                        <a class="btn btn-warning btn-sm"
+                                           href="{{ route('expense-items.edit', $item->id) }}">
                                             <i class="fa fa-edit"></i>
                                         </a>
 
-                                            <button class="btn btn-danger btn-sm" wire:click="triggerDeleteExpenseItem({{ $item->id }})">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
+                                        <button class="btn btn-danger btn-sm"
+                                                wire:click="triggerDeleteExpenseItem({{ $item->id }})">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             @empty
