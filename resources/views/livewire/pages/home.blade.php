@@ -33,7 +33,7 @@
                                 <div class="col-md-12">
                                     <label for="hyperpost_page_id">Page</label>
                                     <select wire:model="hyperpost_page_id" class="form-control" wire:change="filterHyperpostStats()" id="hyperpost_page_id">
-                                        <option value="0">ALL</option>
+                                        <option value="0">All</option>
                                         @foreach($pages as $page)
                                             <option value="{{ $page->id }}">{{ $page->name }}</option>
                                         @endforeach
