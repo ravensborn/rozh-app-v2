@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Pages\Orders;
 
 use App\Models\Order;
 
+use App\Models\OrderItem;
 use App\Models\Page;
 use App\Models\ReturnedItem;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -24,6 +25,9 @@ class ReturnList extends Component
 
     public $pages;
     public int $page_id = 1;
+
+    public $returnListItems;
+    public $returnListItemsAmount;
 
     public function addNewCode()
     {
@@ -55,12 +59,42 @@ class ReturnList extends Component
 
         $this->emit('refreshed-items');
 
+        $this->calculateStatistics();
+
         $this->alert('success', 'Successfully added new code.');
+    }
+
+    public function calculateStatistics() {
+
+        $items = ReturnedItem::all();
+
+        $this->returnListItems = $items->count();
+
+        $total = 0;
+
+        foreach ($items as $item) {
+
+            $amount = 0;
+
+            $orderItem = OrderItem::where('code', $item->code)->first();
+
+            if($orderItem) {
+                $amount = $orderItem->total() * $item->quantity;
+            }
+
+            $total = $total + $amount;
+        }
+
+        $this->returnListItemsAmount = $total;
+
+        $this->alert('success', 'Refreshed statistics.');
+
     }
 
     public function mount()
     {
         $this->pages = Page::all();
+        $this->calculateStatistics();
     }
 
     public function render()

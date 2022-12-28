@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Pages\ExpenseItems;
 
 use App\Models\ExpenseItem;
 use App\Models\Order;
+use App\Models\Page;
 use Carbon\Carbon;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -17,11 +18,20 @@ class Index extends Component
     public string $from_date = "";
     public string $to_date = "";
 
-    public int $totalExpensesAmount = 0;
-    public int $profitPerOrder = 6000;
-    public int $numberOfOrders = 0;
+    public int $orders = 0;
+    public int $orders_worth = 0;
 
-    public bool $filter_on = false;
+    public int $order_items = 0;
+
+    public int $expenses = 0;
+    public int $expenses_worth = 0;
+
+    public int $profitPerOrderItem = 6000;
+    public int $profit = 0;
+
+    public $pages;
+
+    public int $page_id = 0;
 
     protected $paginationTheme = 'bootstrap';
 
@@ -59,18 +69,41 @@ class Index extends Component
 
     }
 
-    public function updatedFilterOn()
-    {
 
-        if(!$this->filter_on) {
-            $this->totalExpensesAmount = ExpenseItem::all()->sum(function ($item) {
-                return $item->quantity * $item->amount;
-            });
+    public function processFilter() {
 
-            $this->numberOfOrders = Order::count();
-        } else {
-            $this->filterExpensesByDate();
+        $orders = Order::query();
+        $expenses = ExpenseItem::query();
+
+        if($this->to_date && $this->from_date) {
+            $orders->whereDate('created_at', '>=', $this->from_date)
+                ->whereDate('created_at', '<=', $this->to_date);
+
+            $expenses->whereDate('created_at', '>=', $this->from_date)
+                ->whereDate('created_at', '<=', $this->to_date);
         }
+
+        if($this->page_id) {
+            $orders->where('page_id', $this->page_id);
+        }
+
+        $orders = $orders->get();
+        $expenses = $expenses->get();
+
+        $this->orders = $orders->count();
+
+
+        $this->orders_worth = $orders->sum(function($order) {
+            return $order->total();
+        });
+
+        $this->order_items = $orders->sum(function($order) {
+            return $order->items->count();
+        });
+
+        $this->expenses = $expenses->count();
+        $this->expenses_worth = $expenses->sum('amount');
+        $this->profit = $this->profitPerOrderItem * $this->order_items;
 
     }
 
@@ -91,10 +124,11 @@ class Index extends Component
     public function mount()
     {
 
+        $this->pages = Page::all();
         $this->from_date = Carbon::today()->startOfMonth()->format('Y-m-d');
         $this->to_date = Carbon::today()->format('Y-m-d');
-        $this->updatedFilterOn();
-//        $this->filterExpensesByDate();
+
+        $this->processFilter();
 
     }
 

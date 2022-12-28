@@ -5,6 +5,30 @@
             <div class="card shadow">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">
+                        Statistics
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                           Return List Items: {{ $returnListItems }}
+                        </li>
+                        <li class="list-group-item">
+                            Return List Amount: {{ number_format($returnListItemsAmount) }} IQD
+                        </li>
+                        <li class="list-group-item" >
+                            <a wire:click="calculateStatistics" href="#">Click to refresh</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
                         Add new
                     </h6>
                 </div>
