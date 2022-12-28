@@ -22,7 +22,7 @@
                                 <ul class="list-group">
 
                                     <li class="list-group-item">
-                                        <span>Orders: {{ $orders }} - {{ $orders_worth }} IQD</span>
+                                        <span>Orders: {{ $orders }} - {{ number_format($orders_worth) }} IQD</span>
                                     </li>
 
                                     <li class="list-group-item">
@@ -30,7 +30,7 @@
                                     </li>
 
                                     <li class="list-group-item">
-                                        <span>Expenses: {{ $expenses }} - {{ $expenses_worth }} IQD</span>
+                                        <span>Expenses: {{ $expenses }} - {{ number_format($expenses_worth) }} IQD</span>
                                     </li>
 
                                     <li class="list-group-item">
