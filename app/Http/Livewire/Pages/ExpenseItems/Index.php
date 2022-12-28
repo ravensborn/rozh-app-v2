@@ -69,13 +69,18 @@ class Index extends Component
 
     }
 
+    public function updatedProfitPerOrderItem()
+    {
+        $this->processFilter();
+    }
 
-    public function processFilter() {
+    public function processFilter()
+    {
 
         $orders = Order::query();
         $expenses = ExpenseItem::query();
 
-        if($this->to_date && $this->from_date) {
+        if ($this->to_date && $this->from_date) {
             $orders->whereDate('created_at', '>=', $this->from_date)
                 ->whereDate('created_at', '<=', $this->to_date);
 
@@ -83,7 +88,7 @@ class Index extends Component
                 ->whereDate('created_at', '<=', $this->to_date);
         }
 
-        if($this->page_id) {
+        if ($this->page_id) {
             $orders->where('page_id', $this->page_id);
         }
 
@@ -93,11 +98,11 @@ class Index extends Component
         $this->orders = $orders->count();
 
 
-        $this->orders_worth = $orders->sum(function($order) {
+        $this->orders_worth = $orders->sum(function ($order) {
             return $order->total();
         });
 
-        $this->order_items = $orders->sum(function($order) {
+        $this->order_items = $orders->sum(function ($order) {
             return $order->items->count();
         });
 
@@ -107,19 +112,19 @@ class Index extends Component
 
     }
 
-    public function filterExpensesByDate()
-    {
-        if (($this->from_date && $this->to_date) && $this->filter_on) {
-
-            $this->totalExpensesAmount = ExpenseItem::whereDate('created_at', '>=', $this->from_date)
-                ->whereDate('created_at', '<=', $this->to_date)->get()->sum(function ($item) {
-                    return $item->quantity * $item->amount;
-                });
-
-            $this->numberOfOrders = Order::whereDate('created_at', '>=', $this->from_date)
-                ->whereDate('created_at', '<=', $this->to_date)->count();
-        }
-    }
+//    public function filterExpensesByDate()
+//    {
+//        if (($this->from_date && $this->to_date) && $this->filter_on) {
+//
+//            $this->totalExpensesAmount = ExpenseItem::whereDate('created_at', '>=', $this->from_date)
+//                ->whereDate('created_at', '<=', $this->to_date)->get()->sum(function ($item) {
+//                    return $item->quantity * $item->amount;
+//                });
+//
+//            $this->numberOfOrders = Order::whereDate('created_at', '>=', $this->from_date)
+//                ->whereDate('created_at', '<=', $this->to_date)->count();
+//        }
+//    }
 
     public function mount()
     {
