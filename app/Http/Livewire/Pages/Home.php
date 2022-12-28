@@ -70,6 +70,7 @@ class Home extends Component
 
         $data = $orderItems
             ->select('code')
+            ->where('code', '!=', '')
             ->selectRaw('COUNT(*) AS count')
             ->groupBy('code')
             ->orderByDesc('count')
