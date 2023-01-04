@@ -41,13 +41,13 @@ class QuickAccess extends Component
                 ->whereDate('created_at', '<=', $this->to_date);
 
             $miniOrder = $order;
-            $miniOrder->orderBy('id', 'desc');
+            $miniOrder->orderBy('id');
             //$miniOrder->limit(100);
             $this->miniOrders = $miniOrder->get();
 
             $order->where('internal_status', $this->status);
 
-            $order->orderBy('id', 'desc');
+            $order->orderBy('id');
 
             $order->limit(5);
 
