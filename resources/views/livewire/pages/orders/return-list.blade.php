@@ -5,7 +5,7 @@
             <div class="card shadow">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">
-                        Statistics
+                        Overview
                     </h6>
                 </div>
                 <div class="card-body">
@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-12">
             <div class="card shadow">
                 <div class="card-header py-3">
@@ -38,14 +38,21 @@
                         <div class="row">
                             <div class="col-md-7 col-12">
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <label for="code">Code</label>
                                         <input type="text" class="form-control" wire:model="code">
                                         @error('code')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-4">
+                                        <label for="price">Price</label>
+                                        <input type="number" class="form-control" wire:model="price">
+                                        @error('price')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
                                         <label for="quantity">Quantity</label>
                                         <input type="number" class="form-control" wire:model="quantity">
                                         @error('quantity')

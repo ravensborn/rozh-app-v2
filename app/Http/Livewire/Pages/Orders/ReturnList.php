@@ -18,7 +18,8 @@ class ReturnList extends Component
     use LivewireAlert, WithFileUploads;
 
     public $code = '';
-    public $quantity = '';
+    public int $price = 0;
+    public int $quantity = 0;
     public $image = '';
     public string $size = "Free Size";
     public string $color = "Same as picture";
@@ -32,7 +33,8 @@ class ReturnList extends Component
     public function addNewCode()
     {
         $rules = [
-            'code' => 'required|unique:returned_items,code',
+            'code' => 'required|unique:returned_items,code,' . $this->code . ',id,page_id,'  . $this->page_id,
+            'price' => 'required|numeric',
             'quantity' => 'required|numeric',
             'image' => 'required|image|max:5242880', // 5MB Max
             'size' => 'required',
@@ -52,6 +54,7 @@ class ReturnList extends Component
         }
 
         $this->code = '';
+        $this->price = 0;
         $this->quantity = 0;
         $this->size = "Free Size";
         $this->color = "Same as picture";
@@ -70,22 +73,9 @@ class ReturnList extends Component
 
         $this->returnListItems = $items->count();
 
-        $total = 0;
-
-        foreach ($items as $item) {
-
-            $amount = 0;
-
-            $orderItem = OrderItem::where('code', $item->code)->first();
-
-            if($orderItem) {
-                $amount = $orderItem->total() * $item->quantity;
-            }
-
-            $total = $total + $amount;
-        }
-
-        $this->returnListItemsAmount = $total;
+        $this->returnListItemsAmount = $items->sum(function($item) {
+            return $item->quantity * $item->price;
+        });
 
         $this->alert('success', 'Refreshed statistics.');
 

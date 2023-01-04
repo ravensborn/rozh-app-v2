@@ -94,8 +94,22 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('expense-items.index') }}">
+            <a class="nav-link" href="{{ route('orders.quick-access') }}">
+                <i class="fas fa-fighter-jet"></i>
+                <span>Quick Access</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('calculation.profit') }}">
                 <i class="fas fa-fw fa-dollar-sign"></i>
+                <span>Profit</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('expense-items.index') }}">
+                <i class="fas fa-fw fa-hand-holding-usd"></i>
                 <span>Expenses</span>
             </a>
         </li>
@@ -149,7 +163,7 @@
 
         <li class="nav-item">
             <a class="nav-link">
-                <span>v2.19</span>
+                <span>v2.22</span>
             </a>
         </li>
 

@@ -52,14 +52,29 @@ class Order extends Model
     public function getStatus(): string
     {
         switch ($this->status) {
-            case 0: $result = 'Default status'; break;
-            case 1: $result = 'Waiting forwarder'; break;
-            case 2: $result = 'Status received'; break;
-            case 3: $result = 'Item returned'; break;
-            case 4: $result = 'Error while sending'; break;
-            case 5: $result = 'Order fulfilled'; break;
-            case 6: $result = 'Error while refreshing'; break;
-            default: $result = 'Status not found';
+            case 0:
+                $result = 'Default status';
+                break;
+            case 1:
+                $result = 'Waiting forwarder';
+                break;
+            case 2:
+                $result = 'Status received';
+                break;
+            case 3:
+                $result = 'Item returned';
+                break;
+            case 4:
+                $result = 'Error while sending';
+                break;
+            case 5:
+                $result = 'Order fulfilled';
+                break;
+            case 6:
+                $result = 'Error while refreshing';
+                break;
+            default:
+                $result = 'Status not found';
         }
 
         return $result;
@@ -76,6 +91,64 @@ class Order extends Model
             ['id' => 6, 'name' => 'Error while refreshing'],
             ['id' => 5, 'name' => 'Order Fulfilled'],
 
+        ];
+    }
+
+    const INTERNAL_STATUS_PENDING = 0;
+    const INTERNAL_STATUS_FULFILLED = 1;
+    const INTERNAL_STATUS_PROCESS_LATER = 2;
+    const INTERNAL_STATUS_CANCELLED = 3;
+
+    public function getInternalStatus(): string
+    {
+        switch ($this->internal_status) {
+
+            case self::INTERNAL_STATUS_PENDING:
+                $result = 'Pending';
+                break;
+            case self::INTERNAL_STATUS_FULFILLED:
+                $result = 'Done';
+                break;
+            case self::INTERNAL_STATUS_PROCESS_LATER:
+                $result = 'Process Later';
+                break;
+            case self::INTERNAL_STATUS_CANCELLED:
+                $result = 'Cancelled';
+                break;
+            default:
+                $result = 'Internal status not found';
+        }
+        return $result;
+    }
+
+    public function getInternalStatusColor(): string
+    {
+        switch ($this->internal_status) {
+            case self::INTERNAL_STATUS_PENDING:
+                $result = '#909090';
+                break;
+            case self::INTERNAL_STATUS_FULFILLED:
+                $result = '#1cc88a';
+                break;
+            case self::INTERNAL_STATUS_PROCESS_LATER:
+                $result = '#f6c23e';
+                break;
+            case self::INTERNAL_STATUS_CANCELLED:
+                $result = '#e74a3b';
+                break;
+            default:
+                $result = 'Internal status not found';
+        }
+        return $result;
+    }
+
+    public static function getInternalStatusArray(): array
+    {
+        return [
+            ['id' => self::INTERNAL_STATUS_FULFILLED, 'name' => 'Done'],
+            ['id' => self::INTERNAL_STATUS_PENDING, 'name' => 'Pending'],
+            ['id' => self::INTERNAL_STATUS_PROCESS_LATER, 'name' => 'Process Later'],
+            ['id' => self::INTERNAL_STATUS_CANCELLED, 'name' => 'Cancelled'],
         ];
     }
 
@@ -136,15 +209,15 @@ class Order extends Model
 
     public function setProperty($key, $data)
     {
-        $peroperties = $this->properties;
-        $peroperties[$key] = $data;
-        $this->properties = $peroperties;
+        $properties = $this->properties;
+        $properties[$key] = $data;
+        $this->properties = $properties;
         $this->save();
     }
 
     public function getProperty($key)
     {
-        if(array_key_exists($this->properties, $key)) {
+        if (array_key_exists($this->properties, $key)) {
             return $this->properties[$key];
         }
 

@@ -72,15 +72,15 @@ class Index extends Component
     public function updatingCode($value)
     {
 
-        $returnList = ReturnedItem::where('code', $value)->where('page_id', $this->order->page_id)->first();
+        $returnedItems = ReturnedItem::where('code', $value)->get();
 
-        if ($returnList) {
-            $this->foundInReturnedList = $returnList->quantity;
+        $total = 0;
 
-        } else {
-
-            $this->foundInReturnedList = 0;
+        foreach ($returnedItems as $item) {
+            $total = $total + $item->quantity;
         }
+
+        $this->foundInReturnedList = $total;
     }
 
     public function triggerDeleteOrderItem(OrderItem $orderItem)

@@ -48,8 +48,18 @@ class ReturnListTable extends DataTableComponent
             Column::make('Code', 'code')
                 ->searchable(),
 
+            Column::make('Price', 'price')
+                ->format(function ($value, $row) {
+                    return number_format($value) . ' IQD';
+                })->html(),
+
             Column::make('Quantity', 'quantity')
                 ->searchable(),
+
+            Column::make('Total', 'id')
+                ->format(function ($value, $row) {
+                    return number_format($row->quantity * $row->price) . ' IQD';
+                })->html(),
 
             Column::make('Size', 'size')
                 ->searchable(),
