@@ -146,9 +146,9 @@ class Order extends Model
     {
         return [
             ['id' => self::INTERNAL_STATUS_FULFILLED, 'name' => 'Done'],
-            ['id' => self::INTERNAL_STATUS_PENDING, 'name' => 'Pending'],
             ['id' => self::INTERNAL_STATUS_PROCESS_LATER, 'name' => 'Process Later'],
             ['id' => self::INTERNAL_STATUS_CANCELLED, 'name' => 'Cancelled'],
+            ['id' => self::INTERNAL_STATUS_PENDING, 'name' => 'Pending'],
         ];
     }
 
