@@ -57,7 +57,7 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $item->title }}</td>
                                     <td>{{ number_format($item->amount) }} IQD</td>
-                                    <td>{{ number_format($item->quantity) }} IQD</td>
+                                    <td>{{ $item->quantity}}</td>
                                     <td>{{ number_format($item->quantity * $item->amount) }} IQD</td>
                                     <td>{{ $item->created_at->format('d-m-Y') }}</td>
                                     <td>

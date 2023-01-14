@@ -1,6 +1,33 @@
 <div>
 
     <div class="row">
+        <div class="col-6 col-md-3">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Expenses
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <a class="btn btn-primary" href="{{ route('expense-items.index') }}">Go to expenses page</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Order Statistics
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <a class="btn btn-primary" href="{{ route('orders.statistic') }}">Go to statistics page</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
@@ -110,7 +137,7 @@
 
                     @if($pc_enabled)
                         <div class="row mt-3">
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-6 order-1 mt-3 mt-md-0">
 
                                 <div wire:loading wire:target="processProfitCalculator">
                                     Loading Data...
@@ -154,7 +181,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-6 order-0">
 
                                 <div class="row mt-3 mt-md-0">
                                     <div class="col-md-6">

@@ -9,7 +9,7 @@ use App\Models\Page;
 use Carbon\Carbon;
 use Livewire\Component;
 
-class Profit extends Component
+class Index extends Component
 {
 
     public $pages;
@@ -135,7 +135,7 @@ class Profit extends Component
 
     public function render()
     {
-        return view('livewire.pages.calculations.profit')
+        return view('livewire.pages.calculations.index')
             ->extends('layouts.app')
             ->section('content');
     }

@@ -11,7 +11,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="icon" type="image/svg" href="{{ asset('img/logo.svg') }}">
+    <link rel="icon" type="image/png" href="{{ asset('img/' . config('envAccess.LOGO_SMALL')) }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -45,19 +45,19 @@
 
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
-            <img src="{{ asset('img/logo.svg') }}" width="32px" alt="Logo">
+            <img src="{{ asset('img/' . config('envAccess.LOGO_SMALL')) }}" width="32px" alt="Logo">
             <div class="sidebar-brand-text mx-3">{{ env('APP_NAME') }}</div>
         </a>
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
 
-        <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
-            <a class="nav-link" href="{{ route('home') }}">
-                <i class="fas fa-fw fa-home"></i>
-                <span>Home</span></a>
-        </li>
+{{--        <!-- Nav Item - Dashboard -->--}}
+{{--        <li class="nav-item active">--}}
+{{--            <a class="nav-link" href="{{ route('home') }}">--}}
+{{--                <i class="fas fa-fw fa-home"></i>--}}
+{{--                <span>Home</span></a>--}}
+{{--        </li>--}}
 
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -76,14 +76,14 @@
         </li>
 
 
-        @role('admin')
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('orders.statistic') }}">
-                <i class="fas fa-fw fa-file"></i>
-                <span>Statistics</span>
-            </a>
-        </li>
-        @endrole
+{{--        @role('admin')--}}
+{{--        <li class="nav-item">--}}
+{{--            <a class="nav-link" href="{{ route('orders.statistic') }}">--}}
+{{--                <i class="fas fa-fw fa-file"></i>--}}
+{{--                <span>Statistics</span>--}}
+{{--            </a>--}}
+{{--        </li>--}}
+{{--        @endrole--}}
 
         @role('admin')
         <li class="nav-item">
@@ -101,16 +101,9 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('calculation.profit') }}">
+            <a class="nav-link" href="{{ route('calculations.index') }}">
                 <i class="fas fa-fw fa-dollar-sign"></i>
-                <span>Profit</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('expense-items.index') }}">
-                <i class="fas fa-fw fa-hand-holding-usd"></i>
-                <span>Expenses</span>
+                <span>Calculations</span>
             </a>
         </li>
         @endrole
@@ -163,7 +156,7 @@
 
         <li class="nav-item">
             <a class="nav-link">
-                <span>v2.22</span>
+                <span>v2.23</span>
             </a>
         </li>
 

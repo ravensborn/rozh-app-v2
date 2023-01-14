@@ -30,13 +30,32 @@ class ReturnList extends Component
     public $returnListItems;
     public $returnListItemsAmount;
 
+    public $foundImageByCodeUrl = '';
+
+    public function updatedCode() {
+
+        $item = OrderItem::latest()->where('code', $this->code)->first();
+
+        $this->price = $item->price;
+        $this->size = $item->size;
+        $this->color = $item->color;
+        $this->foundImageByCodeUrl = $item->getFirstMediaUrl('images');
+
+    }
+
+    public function updatedImage() {
+
+        $this->foundImageByCodeUrl = '';
+
+    }
+
     public function addNewCode()
     {
         $rules = [
             'code' => 'required|unique:returned_items,code,' . $this->code . ',id,page_id,'  . $this->page_id,
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
-            'image' => 'required|image|max:5242880', // 5MB Max
+            'image' => 'nullable|image|max:5242880', // 5MB Max
             'size' => 'required',
             'color' => 'required',
             'page_id' => 'required'
@@ -47,10 +66,18 @@ class ReturnList extends Component
         $item = new ReturnedItem;
         $item = $item->create($validated);
 
-        if ($this->image) {
+        if($this->foundImageByCodeUrl) {
+
             $item
-                ->addMedia($this->image)
+                ->addMediaFromUrl($this->foundImageByCodeUrl)
                 ->toMediaCollection('images');
+
+        } else {
+            if ($this->image) {
+                $item
+                    ->addMedia($this->image)
+                    ->toMediaCollection('images');
+            }
         }
 
         $this->code = '';

@@ -19,7 +19,7 @@ use App\Http\Livewire\Pages\Orders\Edit as OrderEdit;
 
 use App\Http\Livewire\Pages\Orders\Items\Index as OrderItemIndex;
 
-use App\Http\Livewire\Pages\Calculations\Profit as CalculationProfit;
+use App\Http\Livewire\Pages\Calculations\Index as CalculationIndex;
 
 use App\Http\Livewire\Pages\Orders\Statistic as OrderStatistic;
 use App\Http\Livewire\Pages\Orders\QuickFind as OrderQuickFind;
@@ -58,7 +58,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/expenses/create', ExpenseItemCreate::class)->name('expense-items.create');
         Route::get('/expenses/{expenseItem}/edit', ExpenseItemEdit::class)->name('expense-items.edit');
 
-        Route::get('/profit', CalculationProfit::class)->name('calculation.profit');
+        Route::get('/calculations/index', CalculationIndex::class)->name('calculations.index');
 
         Route::get('/orders/statistics', OrderStatistic::class)->name('orders.statistic');
         Route::get('/orders/quick-find', OrderQuickFind::class)->name('orders.quick-find');

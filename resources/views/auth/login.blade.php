@@ -4,8 +4,14 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+
+            <div class="text-center mb-3 mt-1">
+                <img style="width: 224px;" src="{{ asset('img/'. config('envAccess.LOGO_MAIN')) }}" alt="Main Logo">
+            </div>
+
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+
+                <div class="card-header">Login to {{ env('APP_NAME') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">

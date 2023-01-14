@@ -288,6 +288,7 @@ class ForwarderController extends Controller
 
     }
 
+    //Outdated.
     public function refreshForwarderStatus($forwarder_id): bool
     {
         $forwarder = Forwarder::findOrFail($forwarder_id);
@@ -337,6 +338,7 @@ class ForwarderController extends Controller
 
     }
 
+    //Outdated.
     public function refreshForwarderLocations($forwarder_id): bool
     {
 

@@ -9,7 +9,7 @@
     <div class="row">
 
         <div class="col-12">
-            <img src="{{ asset('img/logo.svg') }}" alt="Website Logo" width="32px">
+            <img src="{{ asset('img/' . config('envAccess.LOGO_SMALL')) }}" alt="Website Logo" width="32px">
             <span>&nbsp; This dashboard allows you to to easily manage {{ strtolower( env('APP_NAME'))  }} orders.</span>
         </div>
 

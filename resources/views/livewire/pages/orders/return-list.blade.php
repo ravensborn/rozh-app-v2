@@ -11,12 +11,12 @@
                 <div class="card-body">
                     <ul class="list-group">
                         <li class="list-group-item">
-                           Return List Items: {{ $returnListItems }}
+                            Return List Items: {{ $returnListItems }}
                         </li>
                         <li class="list-group-item">
                             Return List Amount: {{ number_format($returnListItemsAmount) }} IQD
                         </li>
-                        <li class="list-group-item" >
+                        <li class="list-group-item">
                             <a wire:click="calculateStatistics" href="#">Click to refresh</a>
                         </li>
                     </ul>
@@ -39,7 +39,8 @@
                             <div class="col-md-7 col-12">
                                 <div class="row">
                                     <div class="col-4">
-                                        <label for="code">Code</label>
+
+                                        <label for="code">Code / Quick Add</label>
                                         <input type="text" class="form-control" wire:model="code">
                                         @error('code')
                                         <span class="text-danger">{{ $message }}</span>
@@ -163,37 +164,48 @@
                                 </div>
                             </div>
                             <div class="col-md-5 col-12">
-                              <div class="row">
-                                  <div class="col">
-                                      <div class="row mt-md-0 mt-3">
-                                          <div class="col">
-                                              <label for="image">Image</label>
-                                              <input type="file" id="image" class="form-control-file" wire:model.lazy="image"
-                                                     accept="image/*">
-                                              @error('image')
-                                              <div class="text-danger">{{ $message }}</div>
-                                              @enderror
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="row mt-md-0 mt-3">
+                                            <div class="col">
+                                                <label for="image">Image</label>
+                                                <input type="file" id="image" class="form-control-file"
+                                                       wire:model.lazy="image"
+                                                       accept="image/*">
+                                                @error('image')
+                                                <div class="text-danger">{{ $message }}</div>
+                                                @enderror
 
 
-                                          </div>
-                                          <div class="col">
-                                              @if ($image)
-                                                  <div>
-                                                      <img src="{{ $image->temporaryUrl() }}" style="width: 200px; height: auto;"
-                                                           class="img-fluid border">
-                                                  </div>
-                                              @endif
-                                          </div>
-                                      </div>
+                                            </div>
+                                            <div class="col">
+                                                @if($foundImageByCodeUrl)
+                                                    <div>
+                                                        <img src="{{ $foundImageByCodeUrl }}"
+                                                             style="width: 200px; height: auto;"
+                                                             class="img-fluid border">
+                                                    </div>
+                                                @endif
+                                                @if ($image)
+                                                    <div>
+                                                        <img src="{{ $image->temporaryUrl() }}"
+                                                             style="width: 200px; height: auto;"
+                                                             class="img-fluid border">
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
 
-                                  </div>
-                              </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="row mt-3">
                             <div class="col-12">
-                                <button class="btn btn-primary btn-sm" type="button" wire:click.prevent="addNewCode()">Save</button>
+                                <button class="btn btn-primary btn-sm" type="button" wire:click.prevent="addNewCode()">
+                                    Save
+                                </button>
                             </div>
                         </div>
                     </form>
