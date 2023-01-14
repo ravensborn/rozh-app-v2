@@ -36,10 +36,15 @@ class ReturnList extends Component
 
         $item = OrderItem::latest()->where('code', $this->code)->first();
 
-        $this->price = $item->price;
-        $this->size = $item->size;
-        $this->color = $item->color;
-        $this->foundImageByCodeUrl = $item->getFirstMediaUrl('images');
+        if($item) {
+            $this->price = $item->price;
+            $this->size = $item->size;
+            $this->color = $item->color;
+            $this->foundImageByCodeUrl = $item->getFirstMediaUrl('images');
+            $this->alert('success', 'Code was found.');
+        } {
+            $this->alert('info', 'Code was not found.');
+        }
 
     }
 
