@@ -41,8 +41,8 @@ class ReturnList extends Component
             $this->size = $item->size;
             $this->color = $item->color;
             $this->foundImageByCodeUrl = $item->getFirstMediaUrl('images');
-          
-        } {
+            $this->alert('success', 'Code was found.');
+        } else {
             $this->alert('info', 'Code was not found.');
         }
 
