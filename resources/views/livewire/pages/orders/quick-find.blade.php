@@ -46,7 +46,7 @@
                                 <div><b>Item count: </b>{{ $order->items->count() }}</div>
                                 @if($order->forwarder_id == \App\Models\Forwarder::FORWARDER_HYPERPOST && $order->forwarder_order_id)
                                     <div>
-                                        <a href="{{ 'https://hp-iraq.com/customer/add/track/print/' . $order->forwarder_order_id}}">
+                                        <a href="{{ 'https://hyperpostbackup.com/customer/add/track/print/' . $order->forwarder_order_id}}">
                                             Click to print hyperpost invoice
                                         </a>
                                     </div>

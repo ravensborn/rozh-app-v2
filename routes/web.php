@@ -82,11 +82,13 @@ Route::middleware('auth')->group(function () {
 
 });
 
-//
-//Route::get('/test', function () {
-//
-//
-//})->name('test');
+
+Route::get('/test', function () {
+
+    $c = new \App\Http\Controllers\ForwarderController();
+    dd($c->getToken());
+
+})->name('test');
 
 Route::get('/logout', function () {
     auth()->logout();
