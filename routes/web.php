@@ -29,6 +29,8 @@ use App\Http\Livewire\Pages\Orders\ReturnList as OrderReturnList;
 
 use App\Http\Livewire\Pages\BlockList;
 
+use App\Models\Forwarder;
+use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -85,8 +87,15 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/test', function () {
 
-    $c = new \App\Http\Controllers\ForwarderController();
-    dd($c->getToken());
+    $orders = Order::where('forwarder_id', Forwarder::FORWARDER_HYPERPOST)
+        ->whereIn('status', [Order::STATUS_FORWARDER_NO_STATUS, Order::STATUS_FORWARDER_ERROR_SENDING])->get();
+
+
+    $c = new \App\Http\Controllers\ForwarderNewController();
+//    $c->sendOrders($orders);
+    $c->refreshForwarderStatuses(\App\Models\Forwarder::FORWARDER_HYPERPOST);
+//    $c->refreshForwarderLocations(\App\Models\Forwarder::FORWARDER_HYPERPOST);
+    $c->sendLog();
 
 })->name('test');
 

@@ -10,6 +10,14 @@ class TelegramBotController extends Controller
 {
     private string $authKey = "5312778529:AAF0EkMl5oKvW3WgJSPbBGWIoWqxmE7uKR4";
 
+    public string $defaultChatId = '';
+
+    public function __construct()
+    {
+
+        $this->defaultChatId = config('envAccess.TELEGRAM_CHAT_ID');
+    }
+
     public function sendMessage($chatId, $text): bool
     {
         $response = Http::post('https://api.telegram.org/bot' . $this->authKey . '/sendMessage', [
