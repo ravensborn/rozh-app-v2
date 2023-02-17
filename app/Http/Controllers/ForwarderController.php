@@ -285,6 +285,7 @@ class ForwarderController extends Controller
                 ->first();
 
             $order->update([
+                'forwarder_status_id' => null,
                 'status' => Order::STATUS_FORWARDER_ORDER_DOESNT_EXIST
             ]);
 
