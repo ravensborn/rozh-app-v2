@@ -43,7 +43,12 @@ class Show extends Component
             return 0;
         }
         $forwarderClient = new ForwarderController;
+
+        $forwarderClient->writeLog("Task invoked manually.");
+        $forwarderClient->writeLog("\n-----------\n");
+
         $forwarderClient->sendOrders([$this->order]);
+
         $forwarderClient->sendLogToTelegram();
 
         $this->alert('success', "Successfully initiated order send.");
