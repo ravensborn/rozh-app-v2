@@ -84,20 +84,22 @@ Route::middleware('auth')->group(function () {
 
 });
 
-
-Route::get('/test', function () {
-
-    $orders = Order::where('forwarder_id', Forwarder::FORWARDER_HYPERPOST)
-        ->whereIn('status', [Order::STATUS_FORWARDER_NO_STATUS, Order::STATUS_FORWARDER_ERROR_SENDING])->get();
-
-
-    $c = new \App\Http\Controllers\ForwarderNewController();
+//
+//Route::get('/test', function () {
+//
+//    $orders = Order::where('forwarder_id', Forwarder::FORWARDER_HYPERPOST)
+//        ->whereIn('status', [Order::STATUS_FORWARDER_NO_STATUS, Order::STATUS_FORWARDER_ERROR_SENDING])->get();
+//
+//    $c = new \App\Http\Controllers\ForwarderNewController();
+//
 //    $c->sendOrders($orders);
-    $c->refreshForwarderStatuses(\App\Models\Forwarder::FORWARDER_HYPERPOST);
-//    $c->refreshForwarderLocations(\App\Models\Forwarder::FORWARDER_HYPERPOST);
-    $c->sendLog();
-
-})->name('test');
+//    $c->refreshHyperpostOrders($orders->pluck('forwarder_order_id'));
+//
+//
+//
+//    $c->sendLog();
+//
+//})->name('test');
 
 Route::get('/logout', function () {
     auth()->logout();

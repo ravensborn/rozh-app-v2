@@ -45,6 +45,22 @@
                                 @enderror
                             </div>
 
+                            @if($role_name == 'data-entry')
+                                <div class="col-12 mt-3">
+                                    <label for="limited_to_page_id">Limit user to page</label>
+                                    <select id="limited_to_page_id" class="form-control"
+                                            wire:model.lazy="limited_to_page_id">
+                                        <option value="">Allowed all access</option>
+                                        @foreach(\App\Models\Page::all() as $page)
+                                            <option value="{{ $page->id }}">{{ $page->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('limited_to_page_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            @endif
+
                         </div>
 
                         <div class="mt-3">

@@ -7,6 +7,9 @@
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">
                         Edit Order {{ $order->number }}
+                        <small>
+                            <a href="{{ route('orders.show', $order->id) }}"> - Show Order Details</a>
+                        </small>
                     </h6>
                 </div>
                 <div class="card-body">
@@ -63,9 +66,17 @@
                             <div class="col-6">
                                 <label for="page_id">Page</label>
                                 <select id="page_id" class="form-control" wire:model.lazy="page_id">
-                                    @foreach($pages as $page)
-                                        <option value="{{ $page->id }}">{{ $page->name }}</option>
-                                    @endforeach
+
+                                    @if(!auth()->user()->hasRole('limited_to_page'))
+
+                                        @foreach($pages as $page)
+                                            <option value="{{ $page->id }}">{{ $page->name }}</option>
+                                        @endforeach
+
+                                    @else
+                                        <option value="{{\App\Models\Page::find(auth()->user()->getLimitedByPageId()) }}">{{ \App\Models\Page::find(auth()->user()->getLimitedByPageId())->name }}</option>
+                                    @endif
+
                                 </select>
                                 @error('page_id')
                                 <div class="text-danger">{{ $message }}</div>

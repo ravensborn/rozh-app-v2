@@ -122,15 +122,19 @@
             </a>
         </li>
 
+        @role('admin')
+
         <!-- Divider -->
         <hr class="sidebar-divider">
+
+
 
         <!-- Heading -->
         <div class="sidebar-heading">
             Users
         </div>
 
-        @role('admin')
+
         <li class="nav-item">
             <a class="nav-link" href="{{ route('users.index') }}">
                 <i class="fas fa-fw fa-users"></i>
@@ -156,7 +160,7 @@
 
         <li class="nav-item">
             <a class="nav-link">
-                <span>v2.23</span>
+                <span>v2.24</span>
             </a>
         </li>
 

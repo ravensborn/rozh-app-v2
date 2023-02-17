@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Pages\Orders\Components;
 
-use App\Models\Forwarder;
+use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Order;
@@ -31,6 +31,25 @@ class OrdersTable extends DataTableComponent
         ]);
         $this->setDefaultSort('id', 'desc');
 
+    }
+
+    public function builder(): Builder
+    {
+
+        $query = Order::query();
+        $user = auth()->user();
+
+        if ($user->hasRole('data-entry')) {
+            if ($user->hasRole('limited_to_page')) {
+
+                $page_id = $user->getLimitedByPageId();
+
+                $query->where('page_id', $page_id);
+
+            }
+        }
+
+        return $query;
     }
 
     public function columns(): array

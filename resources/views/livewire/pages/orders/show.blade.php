@@ -7,10 +7,16 @@
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">
                         Order Details
-                        <small>
-                            <a href="{{ route('orders.items.index', $order->id) }}"> - Add Items</a>
-                            <a href="{{ route('orders.edit', $order->id) }}"> - Edit</a>
-                        </small>
+                        @if(in_array($order->status, [
+                    \App\Models\Order::STATUS_DEFAULT,
+                    \App\Models\Order::STATUS_FORWARDER_NO_STATUS,
+                    \App\Models\Order::STATUS_FORWARDER_ERROR_SENDING
+                ]))
+                            <small>
+                                <a href="{{ route('orders.items.index', $order->id) }}"> - Add Items</a>
+                                <a href="{{ route('orders.edit', $order->id) }}"> - Edit</a>
+                            </small>
+                        @endif
                     </h6>
                 </div>
                 <div class="card-body">

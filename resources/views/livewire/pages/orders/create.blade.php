@@ -120,9 +120,17 @@
                             <div class="col-12 col-md-6">
                                 <label for="page_id">Page</label>
                                 <select id="page_id" class="form-control" wire:model.lazy="page_id">
-                                    @foreach($pages as $page)
-                                        <option value="{{ $page->id }}">{{ $page->name }}</option>
-                                    @endforeach
+
+                                    @if(!auth()->user()->hasRole('limited_to_page'))
+
+                                        @foreach($pages as $page)
+                                            <option value="{{ $page->id }}">{{ $page->name }}</option>
+                                        @endforeach
+
+                                    @else
+                                        <option value="{{\App\Models\Page::find(auth()->user()->getLimitedByPageId()) }}">{{ \App\Models\Page::find(auth()->user()->getLimitedByPageId())->name }}</option>
+                                    @endif
+
                                 </select>
                                 @error('page_id')
                                 <div class="text-danger">{{ $message }}</div>

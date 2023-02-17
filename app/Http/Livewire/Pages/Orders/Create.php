@@ -110,10 +110,6 @@ class Create extends Component
         $this->forwarderLocations = ForwarderLocation::where('forwarder_id', $this->forwarder_id)->get();
     }
 
-    public function create() {
-
-    }
-
     public function mount() {
 
         $this->pages = Page::all();

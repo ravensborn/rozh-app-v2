@@ -12,6 +12,9 @@
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">
                         New Item
+                        <small>
+                            <a href="{{ route('orders.show', $order->id) }}"> - Show Order Details</a>
+                        </small>
                     </h6>
                 </div>
                 <div class="card-body">

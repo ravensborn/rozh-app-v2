@@ -82,4 +82,22 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+
+    public function getLimitedByPageId() : int {
+        foreach ($this->getRoleNames() as $role) {
+            if($this->startsWith($role, 'limited_to_page_')) {
+                $array = explode('_', $role);
+                return $array[3];
+            }
+        }
+
+        return 0;
+    }
+
+    function startsWith ($string, $startString): bool
+    {
+        $len = strlen($startString);
+        return (substr($string, 0, $len) === $startString);
+    }
+
 }

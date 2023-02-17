@@ -13,62 +13,40 @@ class Show extends Component
 
     public Order $order;
 
-    public function mount(Order $order) {
+    public function mount(Order $order)
+    {
 
         $this->order = $order;
     }
 
     public function refreshWithForwarder()
     {
-        $array = [];
-
-        if(!$this->order->forwarder_order_id) {
+        if (!$this->order->forwarder_order_id) {
             $this->alert('error', 'Order does not have a forwarder order id.');
             return false;
         }
 
-        array_push($array, ['sender_track' => $this->order->forwarder_order_id]);
-
         $forwarderClient = new ForwarderController;
-        $result = $forwarderClient->refreshHyperpostOrders($array);
+        $forwarderClient->refreshHyperpostOrders([$this->order->forwarder_order_id]);
 
-
-        $number = $result['refresh_count'];
-
-        $message = "Orders refreshed: $number";
-        $message .= "\n";
-        if(count($result['error_array'])) {
-            $message .= "Errors:\n";
-            foreach ($result['error_array'] as $errorMessage) {
-                $message .= " - $errorMessage\n";
-            }
-        }
-
-        $this->alert('info', $message);
+        $this->alert('info', "Successfully initiated order refresh.");
 
         $this->order = Order::find($this->order->id); //Weird livewire behaviour, without this line, the relationships break.
     }
 
     public function sendToForwarder()
     {
-        $array = [];
-        array_push($array, $this->order);
 
-        $forwarderClient = new ForwarderController;
-        $result = $forwarderClient->sendOrders($array);
+        if($this->order->total() > 0) {
+            $this->alert('error', "Order total is zero, please add items and try again.");
 
-        $number = $result['sent_count'];
-
-        $message = "Orders sent: $number";
-        $message .= "\n";
-        if(count($result['error_array'])) {
-            $message .= "Errors:\n";
-            foreach ($result['error_array'] as $errorMessage) {
-                $message .= " - $errorMessage\n";
-            }
+            return 0;
         }
+        $forwarderClient = new ForwarderController;
+        $forwarderClient->sendOrders([$this->order]);
+        $forwarderClient->sendLogToTelegram();
 
-        $this->alert('info', $message);
+        $this->alert('success', "Successfully initiated order send.");
 
         $this->order = Order::find($this->order->id); //Weird livewire behaviour, without this line, the relationships break.
 
