@@ -85,19 +85,19 @@ Route::middleware('auth')->group(function () {
 });
 
 
-//Route::get('/prepare', function () {
-//
-//
-//    $c = new \App\Http\Controllers\ForwarderController();
-//
-//
-//    $c->refreshForwarderLocations(Forwarder::FORWARDER_HYPERPOST);
-//    $c->refreshForwarderStatuses(Forwarder::FORWARDER_HYPERPOST);
-//    $c->sendLogToTelegram();
-//
-//    return 'done';
-//
-//})->name('test');
+Route::get('/prepare', function () {
+
+
+    $c = new \App\Http\Controllers\ForwarderController();
+
+
+    $c->refreshForwarderLocations(Forwarder::FORWARDER_HYPERPOST);
+    $c->refreshForwarderStatuses(Forwarder::FORWARDER_HYPERPOST);
+    $c->sendLogToTelegram();
+
+    return 'done';
+
+})->name('test');
 
 //
 //Route::get('/test', function () {
