@@ -59,6 +59,7 @@ class ForwarderController extends Controller
 
     public function generateToken()
     {
+        dd([$this->email,$this->password]);
         $http = Http::withHeaders($this->headers)->post($this->host . '/api/v1/sender-api/auth/login', [
             'email' => $this->email,
             'password' => $this->password,
