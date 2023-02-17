@@ -91,8 +91,8 @@ Route::get('/prepare', function () {
     $c = new \App\Http\Controllers\ForwarderController();
 
 
-    $c->refreshForwarderLocations();
-    $c->refreshForwarderStatuses();
+    $c->refreshForwarderLocations(Forwarder::FORWARDER_HYPERPOST);
+    $c->refreshForwarderStatuses(Forwarder::FORWARDER_HYPERPOST);
     $c->sendLogToTelegram();
 
     return 'done';
