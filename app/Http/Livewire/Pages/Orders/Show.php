@@ -27,7 +27,10 @@ class Show extends Component
         }
 
         $forwarderClient = new ForwarderController;
+        $forwarderClient->writeLog("Task invoked manually.");
+        $forwarderClient->writeLog("\n-----------\n");
         $forwarderClient->refreshHyperpostOrders([$this->order->forwarder_order_id]);
+        $forwarderClient->sendLogToTelegram();
 
         $this->alert('info', "Successfully initiated order refresh.");
 
