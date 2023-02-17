@@ -240,7 +240,7 @@ class ForwarderController extends Controller
 
             }
 
-            $this->totalNumberOfOrdersToSend++;
+            ++$this->totalNumberOfOrdersToSend;
         }
 
         $this->writeLog('Batches: ' . $this->sendOrdersBatchCounter . "\n");
