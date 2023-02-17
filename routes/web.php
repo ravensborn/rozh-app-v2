@@ -84,6 +84,21 @@ Route::middleware('auth')->group(function () {
 
 });
 
+
+Route::get('/prepare', function () {
+
+
+    $c = new \App\Http\Controllers\ForwarderController();
+
+
+    $c->refreshForwarderLocations();
+    $c->refreshForwarderStatuses();
+    $c->sendLogToTelegram();
+
+    return 'done';
+
+})->name('test');
+
 //
 //Route::get('/test', function () {
 //
