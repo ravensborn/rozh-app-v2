@@ -33,7 +33,10 @@ class Hyperpost extends Command
 
         $forwarderClient = new ForwarderController();
 
+
+
         //REFRESH
+        $forwarderClient->writeLog("Updating orders with hyperpost initiated.\n");
         $REFRESH_query = Order::where('forwarder_id', Forwarder::FORWARDER_HYPERPOST)
             ->whereIn('status', [Order::STATUS_FORWARDER_STATUS, Order::STATUS_FORWARDER_ERROR_REFRESHING])
             ->where('forwarder_order_id', '!=', null); //Unnecessary just to make sure we aren't sending empty.
@@ -55,9 +58,18 @@ class Hyperpost extends Command
             }
         }
 
+        $forwarderClient->writeLog('Batches: ' . $forwarderClient->updateOrdersBatchCounter . "\n");
+        $forwarderClient->writeLog('Orders scheduled to update: ' . $forwarderClient->totalNumberOfOrdersToRefresh . "\n");
+        $forwarderClient->writeLog('Orders refreshed: ' . $forwarderClient->numberOfRefreshedOrders . "\n");
+        if (strlen($forwarderClient->ordersLevelLog) > 0) {
+            $forwarderClient->writeLog("Error Log:\n" . $forwarderClient->ordersLevelLog);
+        }
+        $forwarderClient->writeLog("Task successfully finished.\n");
+        $forwarderClient->writeLog("-----------\n");
+
 
         //SEND, Although paginating this does not make any difference as I understand, since we are making an API call for each order.
-
+        $forwarderClient->writeLog("Sending orders to forwarder initiated.\n");
         $SEND_query = Order::where('forwarder_id', Forwarder::FORWARDER_HYPERPOST)
             ->whereIn('status', [Order::STATUS_FORWARDER_NO_STATUS, Order::STATUS_FORWARDER_ERROR_SENDING]);
 
@@ -73,6 +85,15 @@ class Hyperpost extends Command
                 $forwarderClient->sendOrders($SEND_orders);
             }
         }
+
+        $forwarderClient->writeLog('Batches: ' . $forwarderClient->sendOrdersBatchCounter . "\n");
+        $forwarderClient->writeLog('Orders scheduled to send: ' . $forwarderClient->totalNumberOfOrdersToSend . "\n");
+        $forwarderClient->writeLog('Orders sent: ' . $forwarderClient->numberOfSentOrders . "\n");
+        if (strlen($forwarderClient->ordersLevelLog) > 0) {
+            $forwarderClient->writeLog("Error Log:\n" . $forwarderClient->ordersLevelLog);
+        }
+        $forwarderClient->writeLog("Task successfully finished.\n");
+        $forwarderClient->writeLog("-----------\n");
 
         $forwarderClient->sendLogToTelegram();
 

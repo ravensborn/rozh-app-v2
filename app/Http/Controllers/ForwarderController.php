@@ -23,11 +23,14 @@ class ForwarderController extends Controller
     private TelegramBotController $botController;
 
     private string $log = '';
+    public string $ordersLevelLog = '';
 
-    private int $totalNumberOfOrdersToSend = 0;
-    private int $totalNumberOfOrdersToRefresh = 0;
-    private int $sendOrdersBatchCounter = 0;
-    private int $updateOrdersBatchCounter = 0;
+    public int $totalNumberOfOrdersToSend = 0;
+    public int $numberOfSentOrders = 0;
+    public int $totalNumberOfOrdersToRefresh = 0;
+    public int $numberOfRefreshedOrders = 0;
+    public int $sendOrdersBatchCounter = 0;
+    public int $updateOrdersBatchCounter = 0;
 
 
     private array $headers = [
@@ -164,7 +167,7 @@ class ForwarderController extends Controller
 
         $this->sendOrdersBatchCounter += 1;
 
-        $this->writeLog("Sending orders to forwarder initiated.\n");
+
 
         if (!count($orders)) {
 
@@ -173,9 +176,9 @@ class ForwarderController extends Controller
             return false;
         }
 
-        $numberOfSentOrders = 0;
+        $this->numberOfSentOrders = 0;
 
-        $ordersLevelLog = '';
+        $this->ordersLevelLog = '';
 
         foreach ($orders as $order) {
             //Hyperpost Forwarder
@@ -187,7 +190,7 @@ class ForwarderController extends Controller
 
                     $order->setStatus(Order::STATUS_FORWARDER_ERROR_SENDING);
 
-                    $ordersLevelLog .= "Order total was zero for " . $order->number . "\n";
+                    $this->ordersLevelLog .= "Order total was zero for " . $order->number . "\n";
 
                     continue;
                 }
@@ -225,7 +228,7 @@ class ForwarderController extends Controller
 
                         $order->setProperty('delivery_price_calculated_from_hyperpost', $track['delivery_price']);
 
-                        $numberOfSentOrders++;
+                        ++$this->numberOfSentOrders;
 
                     } else {
 
@@ -243,15 +246,6 @@ class ForwarderController extends Controller
             ++$this->totalNumberOfOrdersToSend;
         }
 
-        $this->writeLog('Batches: ' . $this->sendOrdersBatchCounter . "\n");
-        $this->writeLog('Orders scheduled to send: ' . $this->totalNumberOfOrdersToSend . "\n");
-        $this->writeLog('Orders sent: ' . $numberOfSentOrders . "\n");
-        if (strlen($ordersLevelLog) > 0) {
-            $this->writeLog("Error Log:\n" . $ordersLevelLog);
-        }
-        $this->writeLog("Task successfully finished.\n");
-        $this->writeLog("-----------\n");
-
 
     }
 
@@ -260,8 +254,7 @@ class ForwarderController extends Controller
     {
 
         $this->updateOrdersBatchCounter += 1;
-
-        $this->writeLog("Updating orders with hyperpost initiated.\n");
+        $this->ordersLevelLog = '';
 
         if (!count($orders)) {
 
@@ -269,10 +262,6 @@ class ForwarderController extends Controller
 
             return false;
         }
-
-        $ordersLevelLog = '';
-
-        $numberOfRefreshedOrders = 0;
 
         $data = json_encode([
             'track_ids' => $orders
@@ -328,7 +317,7 @@ class ForwarderController extends Controller
                         'forwarder_refresh_timestamp' => now(),
                     ]);
 
-                    $numberOfRefreshedOrders++;
+                    $this->numberOfRefreshedOrders++;
 
                 } else {
 
@@ -339,21 +328,13 @@ class ForwarderController extends Controller
                     $ordersLevelLog .= "Order with track " . $trackId . " was not found in local database.\n";
                 }
 
-                $this->totalNumberOfOrdersToRefresh++;
+                ++$this->totalNumberOfOrdersToRefresh;
 
             }
         } else {
-            $ordersLevelLog .= "Failed making request to hyperpost api on batch: " . $this->updateOrdersBatchCounter . "\n";
+            $this->ordersLevelLog .= "Failed making request to hyperpost api on batch: " . $this->updateOrdersBatchCounter . "\n";
         }
 
-        $this->writeLog('Batches: ' . $this->updateOrdersBatchCounter . "\n");
-        $this->writeLog('Orders scheduled to update: ' . ++$this->totalNumberOfOrdersToRefresh . "\n");
-        $this->writeLog('Orders refreshed: ' . $numberOfRefreshedOrders . "\n");
-        if (strlen($ordersLevelLog) > 0) {
-            $this->writeLog("Error Log:\n" . $ordersLevelLog);
-        }
-        $this->writeLog("Task successfully finished.\n");
-        $this->writeLog("-----------\n");
 
     }
 
