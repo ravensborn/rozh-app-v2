@@ -37,7 +37,7 @@ class Show extends Component
     public function sendToForwarder()
     {
 
-        if($this->order->total() > 0) {
+        if($this->order->total() <= 0) {
             $this->alert('error', "Order total is zero, please add items and try again.");
 
             return 0;
