@@ -246,7 +246,7 @@ class ForwarderController extends Controller
         $this->writeLog('Batches: ' . $this->sendOrdersBatchCounter . "\n");
         $this->writeLog('Orders scheduled to send: ' . $this->totalNumberOfOrdersToSend . "\n");
         $this->writeLog('Orders sent: ' . $numberOfSentOrders . "\n");
-        if(strlen($ordersLevelLog) > 0) {
+        if (strlen($ordersLevelLog) > 0) {
             $this->writeLog("Error Log:\n" . $ordersLevelLog);
         }
         $this->writeLog("Task successfully finished.\n");
@@ -282,9 +282,12 @@ class ForwarderController extends Controller
 
             $order = Order::where('forwarder_id', Forwarder::FORWARDER_HYPERPOST)
                 ->where('forwarder_order_id', '=', $order)
-                ->update([
-                    'status' => Order::STATUS_FORWARDER_ORDER_DOESNT_EXIST
-                ]);
+                ->first();
+
+            $order->update([
+                'status' => Order::STATUS_FORWARDER_ORDER_DOESNT_EXIST
+            ]);
+
         }
 
         $http = Http::withHeaders($this->headers)
@@ -293,10 +296,9 @@ class ForwarderController extends Controller
             ->post($this->host . '/api/v1/sender-api/get-multiple-tracks-info');
 
 
-
         if ($http->successful()) {
 
-            $tracks =  $http->json()['data']['tracks']['data'];
+            $tracks = $http->json()['data']['tracks']['data'];
 
             foreach ($tracks as $track) {
 
@@ -307,15 +309,15 @@ class ForwarderController extends Controller
                     ->where('forwarder_order_id', '=', $trackId)
                     ->first();
 
-                if($order) {
+                if ($order) {
 
                     $setStatus = Order::STATUS_FORWARDER_STATUS;
 
-                    if($statusId == 10) {
+                    if ($statusId == 10) {
                         $setStatus = Order::STATUS_FORWARDER_RETURNED;
                     }
 
-                    if($statusId == 8) {
+                    if ($statusId == 8) {
                         $setStatus = Order::STATUS_FORWARDER_ORDER_FULFILLED;
                     }
 
@@ -346,7 +348,7 @@ class ForwarderController extends Controller
         $this->writeLog('Batches: ' . $this->updateOrdersBatchCounter . "\n");
         $this->writeLog('Orders scheduled to update: ' . $this->totalNumberOfOrdersToRefresh . "\n");
         $this->writeLog('Orders refreshed: ' . $numberOfRefreshedOrders . "\n");
-        if(strlen($ordersLevelLog) > 0) {
+        if (strlen($ordersLevelLog) > 0) {
             $this->writeLog("Error Log:\n" . $ordersLevelLog);
         }
         $this->writeLog("Task successfully finished.\n");
