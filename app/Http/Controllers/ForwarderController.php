@@ -347,7 +347,7 @@ class ForwarderController extends Controller
         }
 
         $this->writeLog('Batches: ' . $this->updateOrdersBatchCounter . "\n");
-        $this->writeLog('Orders scheduled to update: ' . $this->totalNumberOfOrdersToRefresh . "\n");
+        $this->writeLog('Orders scheduled to update: ' . ++$this->totalNumberOfOrdersToRefresh . "\n");
         $this->writeLog('Orders refreshed: ' . $numberOfRefreshedOrders . "\n");
         if (strlen($ordersLevelLog) > 0) {
             $this->writeLog("Error Log:\n" . $ordersLevelLog);
