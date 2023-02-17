@@ -283,11 +283,12 @@ class ForwarderController extends Controller
             ->withBody($data, 'application/json')
             ->post($this->host . '/api/v1/sender-api/get-multiple-tracks-info');
 
-        dd($http);
+
 
         if ($http->successful()) {
 
             $tracks =  $http->json()['data']['tracks']['data'];
+            dd($tracks);
             foreach ($tracks as $track) {
 
                 $trackId = $track['id'];
