@@ -278,6 +278,15 @@ class ForwarderController extends Controller
             'track_ids' => $orders
         ]);
 
+        foreach ($orders as $order) {
+
+            $order = Order::where('forwarder_id', Forwarder::FORWARDER_HYPERPOST)
+                ->where('forwarder_order_id', '=', $order)
+                ->update([
+                    'status' => Order::STATUS_FORWARDER_ORDER_DOESNT_EXIST
+                ]);
+        }
+
         $http = Http::withHeaders($this->headers)
             ->withToken($this->token)
             ->withBody($data, 'application/json')
@@ -288,7 +297,7 @@ class ForwarderController extends Controller
         if ($http->successful()) {
 
             $tracks =  $http->json()['data']['tracks']['data'];
-            dd($tracks);
+
             foreach ($tracks as $track) {
 
                 $trackId = $track['id'];
@@ -319,6 +328,11 @@ class ForwarderController extends Controller
                     $numberOfRefreshedOrders++;
 
                 } else {
+
+                    $order->update([
+                        'status' => Order::STATUS_FORWARDER_ERROR_REFRESHING,
+                    ]);
+
                     $ordersLevelLog .= "Order with track " . $trackId . " was not found in local database.\n";
                 }
 

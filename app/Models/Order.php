@@ -48,6 +48,7 @@ class Order extends Model
     const STATUS_FORWARDER_ERROR_SENDING = 4;
     const STATUS_FORWARDER_ERROR_REFRESHING = 6;
     const STATUS_FORWARDER_ORDER_FULFILLED = 5;
+    const STATUS_FORWARDER_ORDER_DOESNT_EXIST = 7;
 
     public function getStatus(): string
     {
@@ -73,6 +74,9 @@ class Order extends Model
             case 6:
                 $result = 'Error while refreshing';
                 break;
+            case 7:
+                $result = 'Order does not exist';
+                break;
             default:
                 $result = 'Status not found';
         }
@@ -90,6 +94,7 @@ class Order extends Model
             ['id' => 4, 'name' => 'Error while sending'],
             ['id' => 6, 'name' => 'Error while refreshing'],
             ['id' => 5, 'name' => 'Order Fulfilled'],
+            ['id' => 7, 'name' => 'Order does not exist'],
 
         ];
     }
