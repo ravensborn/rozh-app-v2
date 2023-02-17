@@ -65,8 +65,6 @@ class ForwarderController extends Controller
             'password' => $this->password,
         ]);
 
-        dd($http->json());
-
         if ($http->successful()) {
 
             $this->writeLog("Retrieving token from API.\n");
