@@ -65,7 +65,7 @@ class ForwarderController extends Controller
             'password' => $this->password,
         ]);
 
-        dd($http);
+        dd($http->json());
 
         if ($http->successful()) {
 
