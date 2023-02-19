@@ -32,8 +32,8 @@ class Show extends Component
 
         $forwarderClient->refreshHyperpostOrders([$this->order->forwarder_order_id]);
 
-        $forwarderClient->writeLog('Orders scheduled to send: ' . $forwarderClient->totalNumberOfOrdersToSend . "\n");
-        $forwarderClient->writeLog('Orders sent: ' . $forwarderClient->numberOfSentOrders . "\n");
+        $forwarderClient->writeLog('Orders scheduled to update: ' . $forwarderClient->totalNumberOfOrdersToRefresh . "\n");
+        $forwarderClient->writeLog('Orders refreshed: ' . $forwarderClient->numberOfRefreshedOrders . "\n");
         if (strlen($forwarderClient->ordersLevelLog) > 0) {
             $forwarderClient->writeLog("Error Log:\n" . $forwarderClient->ordersLevelLog);
         }
@@ -62,13 +62,15 @@ class Show extends Component
 
         $forwarderClient->sendOrders([$this->order]);
 
-        $forwarderClient->writeLog('Orders scheduled to update: ' . $forwarderClient->totalNumberOfOrdersToRefresh . "\n");
-        $forwarderClient->writeLog('Orders refreshed: ' . $forwarderClient->numberOfRefreshedOrders . "\n");
+
+        $forwarderClient->writeLog('Orders scheduled to send: ' . $forwarderClient->totalNumberOfOrdersToSend . "\n");
+        $forwarderClient->writeLog('Orders sent: ' . $forwarderClient->numberOfSentOrders . "\n");
         if (strlen($forwarderClient->ordersLevelLog) > 0) {
             $forwarderClient->writeLog("Error Log:\n" . $forwarderClient->ordersLevelLog);
         }
         $forwarderClient->writeLog("Task successfully finished.\n");
         $forwarderClient->writeLog("-----------\n");
+
 
         $forwarderClient->sendLogToTelegram();
 
