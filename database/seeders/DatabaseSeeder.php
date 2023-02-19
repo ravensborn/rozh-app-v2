@@ -38,38 +38,28 @@ class DatabaseSeeder extends Seeder
             ->create(
                 [
                     'name' => 'Admin',
-                    'email' => 'admin@zaiton.shop'
+                    'email' => 'admin@nuqla.didar.co'
                 ]
             );
 
         $mainUser->assignRole('admin');
         $adminUser->assignRole('admin');
-
-        if (app()->environment(['local'])) {
-
-            $user = User::factory()->create([
-                'name' => 'Yad Hoshyar',
-                'email' => 'yad@gmail.com',
-                'password' => bcrypt('password'),
-            ]);
-
-            $user->assignRole('admin');
-
-        }
+//
+//        if (app()->environment(['local'])) {
+//
+//            $user = User::factory()->create([
+//                'name' => 'Yad Hoshyar',
+//                'email' => 'yad@gmail.com',
+//                'password' => bcrypt('password'),
+//            ]);
+//
+//            $user->assignRole('admin');
+//
+//        }
 
         Page::factory()->create([
-            'name' => 'Mata Shopping',
-            'link' => 'https://www.facebook.com/matashopping-106426504646135',
-            'platform' => 'facebook'
-        ]);
-        Page::factory()->create([
-            'name' => 'Zaiton Shopping',
-            'link' => 'https://www.facebook.com/Zaiton-shopping-101367362065302',
-            'platform' => 'facebook'
-        ]);
-        Page::factory()->create([
-            'name' => 'Zaiton Home',
-            'link' => 'https://www.facebook.com/Zaiton_home-104057008535979',
+            'name' => 'Nuqla Store',
+            'link' => 'no-url',
             'platform' => 'facebook'
         ]);
 
@@ -99,7 +89,7 @@ class DatabaseSeeder extends Seeder
         $getForwarderLocations->refreshForwarderLocations(Forwarder::FORWARDER_HYPERPOST);
 
         $getForwarderStatuses = new ForwarderController;
-        $getForwarderStatuses->refreshForwarderStatus(Forwarder::FORWARDER_HYPERPOST);
+        $getForwarderStatuses->refreshForwarderStatuses(Forwarder::FORWARDER_HYPERPOST);
 
     }
 }
