@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
             ->create(
                 [
                     'name' => 'Admin',
-                    'email' => 'admin@nuqla.didar.co'
+                    'email' => 'admin@nuqla.didarapp.co'
                 ]
             );
 
