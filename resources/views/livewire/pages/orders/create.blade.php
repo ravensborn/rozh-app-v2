@@ -29,16 +29,25 @@
                                 @enderror
                             </div>
                             <div class="col-12 col-md-6 mt-3 mt-md-0">
-                                <label for="forwarder_location_id">Forwarder Location</label>
-                                <select id="forwarder_location_id" class="form-control"
-                                        wire:model.lazy="forwarder_location_id">
-                                    @foreach($forwarderLocations as $forwarderLocation)
-                                        <option value="{{ $forwarderLocation->location_id }}">{{ $forwarderLocation->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('forwarder_location_id')
-                                <div class="text-danger">{{ $message }}</div>
-                                @enderror
+                                <div class="row">
+
+                                    <div class="col-12 col-md-8">
+                                        <label for="forwarder_location_id">Forwarder Location</label>
+                                        <select id="forwarder_location_id" class="form-control"
+                                                wire:model.lazy="forwarder_location_id">
+                                            @foreach($forwarderLocations as $forwarderLocation)
+                                                <option value="{{ $forwarderLocation->location_id }}">{{ $forwarderLocation->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('forwarder_location_id')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-12 col-md-4  mt-3 mt-md-0">
+                                        <label for="forwarder_location_id">Search Forwarder Location</label>
+                                        <input type="text" class="form-control" wire:model="searchForwarderLocation">
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

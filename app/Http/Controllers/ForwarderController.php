@@ -196,8 +196,8 @@ class ForwarderController extends Controller
                 }
 
                 $data = [
-//                    'total_price' => $total + $order->delivery_price,
-                    'total_price' => $total,
+                    'total_price' => $total + $order->delivery_price,
+//                    'total_price' => $total,
                     'location_id' => $order->forwarder_location_id,
                     'receiver_phone_number_1' => $order->customer_primary_phone,
                     'detail_location' => $order->delivery_address,

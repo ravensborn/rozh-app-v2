@@ -30,14 +30,26 @@ class Create extends Component
     public int $page_id = 1;
     public int $forwarder_id = 1;
     public int $forwarder_location_id = 0;
+    public string $searchForwarderLocation = '';
     public string $delivery_address = "";
     public int $delivery_price = 0;
 
     public bool $blockedPhoneError = false;
 
-    public function updatingCustomerPrimaryPhone($phone) {
+    public function updatingSearchForwarderLocation($value)
+    {
+
+        if ($this->forwarderLocations) {
+
+            $this->getForwarderLocations($value);
+
+        }
+    }
+
+    public function updatingCustomerPrimaryPhone($phone)
+    {
         $blockList = BlockList::where('phone', $phone)->first();
-        if($blockList) {
+        if ($blockList) {
             $this->blockedPhoneError = true;
         } else {
             $this->blockedPhoneError = false;
@@ -60,12 +72,12 @@ class Create extends Component
         ];
 
         $blockList = BlockList::where('phone', $this->customer_primary_phone)->first();
-        if($blockList) {
+        if ($blockList) {
             $this->alert('error', 'The customer primary phone number is in block list.');
             return false;
         }
 
-        if($this->forwarder_id == Forwarder::NO_FORWARDER) {
+        if ($this->forwarder_id == Forwarder::NO_FORWARDER) {
             $rules['delivery_address'] = 'nullable|max:256';
             $rules['delivery_price'] = 'nullable|max:256';
 
@@ -77,18 +89,18 @@ class Create extends Component
         $validated['user_id'] = auth()->user()->id;
         $validated['number'] = $this->generateNumber();
 
-        $validated['status'] =  Order::STATUS_DEFAULT;
+        $validated['status'] = Order::STATUS_DEFAULT;
 
         //TODO Forwarder Settings
-        if($validated['forwarder_id'] == Forwarder::FORWARDER_HYPERPOST) {
-            $validated['status'] =  Order::STATUS_FORWARDER_NO_STATUS;
+        if ($validated['forwarder_id'] == Forwarder::FORWARDER_HYPERPOST) {
+            $validated['status'] = Order::STATUS_FORWARDER_NO_STATUS;
         }
 
-        if($validated['forwarder_id'] == Forwarder::NO_FORWARDER) {
+        if ($validated['forwarder_id'] == Forwarder::NO_FORWARDER) {
             $validated['forwarder_location_id'] = null;
         }
 
-        if($validated['customer_secondary_phone'] == 0 || $validated['customer_secondary_phone'] == "") {
+        if ($validated['customer_secondary_phone'] == 0 || $validated['customer_secondary_phone'] == "") {
             $validated['customer_secondary_phone'] = null;
         } else {
             $validated['customer_secondary_phone'] = str_replace(" ", "", $validated['customer_secondary_phone']);
@@ -105,23 +117,39 @@ class Create extends Component
         return redirect()->route('orders.index');
     }
 
-    public function updatedForwarderId() {
+    public function updatedForwarderId()
+    {
 
         $this->forwarderLocations = ForwarderLocation::where('forwarder_id', $this->forwarder_id)->get();
     }
 
-    public function mount() {
+    public function getForwarderLocations($search = null) {
+
+        $locations = ForwarderLocation::where('forwarder_id', $this->forwarder_id);
+
+        if($search) {
+            $locations->where('name', 'LIKE', '%'. $search .'%');
+        }
+
+        $this->forwarderLocations = $locations->get();
+
+        if ($this->forwarderLocations->count() > 0) {
+
+            $this->forwarder_location_id = $this->forwarderLocations->first()->location_id;
+        } else {
+            $this->forwarder_location_id = -1;
+        }
+    }
+
+    public function mount()
+    {
 
         $this->pages = Page::all();
         $this->forwarders = Forwarder::all();
 
         $this->forwarder_id = Forwarder::FORWARDER_HYPERPOST;
 
-        $this->forwarderLocations = ForwarderLocation::where('forwarder_id', $this->forwarder_id)->get();
-
-        if($this->forwarderLocations->count() > 0) {
-            $this->forwarder_location_id = $this->forwarderLocations->first()->location_id;
-        }
+       $this->getForwarderLocations();
 
     }
 
