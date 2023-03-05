@@ -435,8 +435,8 @@ class ForwarderController extends Controller
                 foreach ($send as $order) {
                     $http = Http::withHeaders($this->headers)
                         ->withToken($this->token)
-                        ->delete($this->host . '/api/v1/sender-api/delete-track', [
-                            'trackId' => $order->forwarder_order_id
+                        ->delete($this->host . '/api/v1/sender-api/delete-track/' . $order->forwarder_order_id, [
+                            '_method' => 'delete'
                         ]);
 
                     if ($http->successful()) {
