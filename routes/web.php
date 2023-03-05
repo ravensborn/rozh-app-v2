@@ -85,6 +85,21 @@ Route::middleware('auth')->group(function () {
 });
 
 
+Route::get('/delete-range', function () {
+
+
+    $c = new \App\Http\Controllers\ForwarderController();
+
+
+    $c->deleteOrders(Forwarder::FORWARDER_HYPERPOST);
+    $c->sendLogToTelegram();
+
+    return 'done';
+
+})->name('test');
+
+
+
 //Route::get('/prepare', function () {
 //
 //

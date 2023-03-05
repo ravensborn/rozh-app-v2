@@ -168,7 +168,6 @@ class ForwarderController extends Controller
         $this->sendOrdersBatchCounter += 1;
 
 
-
         if (!count($orders)) {
 
             $this->writeLog("Task skipped, orders array had no elements.\n");
@@ -412,6 +411,36 @@ class ForwarderController extends Controller
 
                 $this->writeLog("Failed refreshing hyperpost location list.\n");
             }
+        }
+
+    }
+
+    public function deleteOrders($forwarder_id)
+    {
+
+        $forwarder = Forwarder::findOrFail($forwarder_id);
+
+        if ($forwarder->id == Forwarder::FORWARDER_HYPERPOST) {
+
+
+            foreach (Order::whereDate('created_at', '>=', '2023-01-15')->get() as $order) {
+                $http = Http::withHeaders($this->headers)
+                    ->withToken($this->token)
+                    ->delete($this->host . '/api/v1/sender-api/delete-track', [
+                        'trackId' => $order->forwarder_order_id
+                    ]);
+
+                if ($http->successful()) {
+
+                    echo 'done deleting ' . $order->number . '<br>';
+
+                } else {
+                    echo 'error deleting ' . $order->number . '<br>';
+                }
+            }
+
+            echo 'done';
+
         }
 
     }
