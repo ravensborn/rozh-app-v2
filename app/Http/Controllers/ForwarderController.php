@@ -423,7 +423,7 @@ class ForwarderController extends Controller
         if ($forwarder->id == Forwarder::FORWARDER_HYPERPOST) {
 
 
-            foreach (Order::whereDate('created_at', '>=', '2023-01-15')->limit(10)->get() as $order) {
+            foreach (Order::whereDate('created_at', '>=', '2023-01-15')->limit(50)->get() as $order) {
                 $http = Http::withHeaders($this->headers)
                     ->withToken($this->token)
                     ->delete($this->host . '/api/v1/sender-api/delete-track', [
