@@ -422,24 +422,37 @@ class ForwarderController extends Controller
 
         if ($forwarder->id == Forwarder::FORWARDER_HYPERPOST) {
 
+            $orders = Order::whereDate('created_at', '>=', '2023-01-15');
 
-            foreach (Order::whereDate('created_at', '>=', '2023-01-15')->limit(50)->get() as $order) {
-                $http = Http::withHeaders($this->headers)
-                    ->withToken($this->token)
-                    ->delete($this->host . '/api/v1/sender-api/delete-track', [
-                        'trackId' => $order->forwarder_order_id
-                    ]);
+            $perpage = 50;
+            $totalpages = $orders->paginate($perpage)->lastPage();
 
-                if ($http->successful()) {
+            //Send new orders.
+            for ($i = 1; $i <= $totalpages; $i++) {
 
-                    echo 'done deleting ' . $order->number . '<br>';
+                $send = $orders->paginate($perpage, ['*'], 'page', $i)->items();
 
-                } else {
-                    echo 'error deleting ' . $order->number . '<br>';
+                foreach ($send as $order) {
+                    $http = Http::withHeaders($this->headers)
+                        ->withToken($this->token)
+                        ->delete($this->host . '/api/v1/sender-api/delete-track', [
+                            'trackId' => $order->forwarder_order_id
+                        ]);
+
+                    if ($http->successful()) {
+
+                        echo 'done deleting ' . $order->number . '<br>';
+
+                    } else {
+                        echo 'error deleting ' . $order->number . '<br>';
+                    }
                 }
+
             }
 
-            echo 'done';
+
+
+            echo 'done all';
 
         }
 
