@@ -423,7 +423,7 @@ class ForwarderController extends Controller
 
         if ($forwarder->id == Forwarder::FORWARDER_HYPERPOST) {
 
-            $orders = Order::whereDate('created_at', '>=', '2023-01-15');
+            $orders = Order::whereDate('created_at', '>=', '2023-01-15')->whereNotNull('forwarder_order_id');
 
             $perpage = 50;
             $totalpages = $orders->paginate($perpage)->lastPage();
