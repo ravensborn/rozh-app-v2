@@ -443,13 +443,7 @@ class ForwarderController extends Controller
                         ]);
                     
 
-                    if ($http->successful()) {
-
-                        echo 'done deleting ' . $order->number . '<br>';
-
-                    } else {
-                        echo 'error deleting ' . $order->number . '<br>';
-                    }
+                   echo $http->json();
                 }
 
             }
