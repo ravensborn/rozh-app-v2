@@ -443,7 +443,7 @@ class ForwarderController extends Controller
                         ]);
                     
 
-                   echo $http->json();
+                   echo json_encode($http->json());
                 }
 
             }
