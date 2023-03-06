@@ -418,6 +418,7 @@ class ForwarderController extends Controller
     public function deleteOrders($forwarder_id)
     {
 
+
         $forwarder = Forwarder::findOrFail($forwarder_id);
 
         if ($forwarder->id == Forwarder::FORWARDER_HYPERPOST) {
@@ -433,11 +434,14 @@ class ForwarderController extends Controller
                 $send = $orders->paginate($perpage, ['*'], 'page', $i)->items();
 
                 foreach ($send as $order) {
+
+
                     $http = Http::withHeaders($this->headers)
                         ->withToken($this->token)
-                        ->delete($this->host . '/api/v1/sender-api/delete-track/' . $order->forwarder_order_id, [
+                        ->delete('https://hp-iraq.co/api/v1/sender-api/delete-track/' . $order->forwarder_order_id, [
                             '_method' => 'delete'
                         ]);
+                    
 
                     if ($http->successful()) {
 
