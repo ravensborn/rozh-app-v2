@@ -28,6 +28,9 @@
         [x-cloak] {
             display: none !important;
         }
+        .quick-access-little-box-hover:hover {
+            background-color: #a69de5 !important;
+        }
     </style>
 
     @yield('style')
@@ -160,7 +163,7 @@
 
         <li class="nav-item">
             <a class="nav-link">
-                <span>v2.24</span>
+                <span>v2.25</span>
             </a>
         </li>
 

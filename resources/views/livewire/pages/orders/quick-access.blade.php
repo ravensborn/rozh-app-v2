@@ -140,18 +140,7 @@
 
                                         <div class="d-flex justify-content-between">
 
-                                            @if($currentOrder->internal_status == \App\Models\Order::INTERNAL_STATUS_PENDING)
-
-                                                <button class="btn btn-warning btn-icon-split mb-3"
-                                                        wire:click="setStatus({{ $currentOrder->id }}, {{ \App\Models\Order::INTERNAL_STATUS_PROCESS_LATER }})">
-                                                    <span class="icon text-white-50">
-                                                        <i class="fas fa-arrow-right"></i>
-                                                    </span>
-                                                    <span class="text">
-                                                        Process Later
-                                                    </span>
-                                                </button>
-
+                                            <div>
                                                 <button class="btn btn-success btn-icon-split mb-3"
                                                         wire:click="setStatus({{ $currentOrder->id }},{{ \App\Models\Order::INTERNAL_STATUS_FULFILLED }})">
                                                     <span class="icon text-white-50">
@@ -161,11 +150,19 @@
                                                         Mark as Done
                                                     </span>
                                                 </button>
+                                            </div>
 
-                                            @endif
 
-                                            @if($currentOrder->internal_status == \App\Models\Order::INTERNAL_STATUS_PROCESS_LATER)
-
+                                            <div>
+                                                <button class="btn btn-warning btn-icon-split mb-3"
+                                                        wire:click="setStatus({{ $currentOrder->id }}, {{ \App\Models\Order::INTERNAL_STATUS_PROCESS_LATER }})">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-arrow-right"></i>
+                                                    </span>
+                                                    <span class="text">
+                                                        Process Later
+                                                    </span>
+                                                </button>
                                                 <button class="btn btn-danger btn-icon-split mb-3"
                                                         wire:click="setStatus({{ $currentOrder->id }},{{ \App\Models\Order::INTERNAL_STATUS_CANCELLED }})">
                                                     <span class="icon text-white-50">
@@ -176,35 +173,9 @@
                                                      </span>
                                                 </button>
 
-
-                                                <button class="btn btn-success btn-icon-split mb-3"
-                                                        wire:click="setStatus({{ $currentOrder->id }},{{ \App\Models\Order::INTERNAL_STATUS_FULFILLED }})">
-                                                    <span class="icon text-white-50">
-                                                        <i class="fas fa-check"></i>
-                                                    </span>
-                                                    <span class="text">
-                                                        Mark as Done
-                                                    </span>
-                                                </button>
-
-                                            @endif
-
-                                            @if($currentOrder->internal_status == \App\Models\Order::INTERNAL_STATUS_FULFILLED || $currentOrder->internal_status == \App\Models\Order::INTERNAL_STATUS_CANCELLED)
-
-                                                <button class="btn btn-warning btn-icon-split mb-3"
-                                                        wire:click="setStatus({{ $currentOrder->id }}, {{ \App\Models\Order::INTERNAL_STATUS_PROCESS_LATER }})">
-                                                    <span class="icon text-white-50">
-                                                        <i class="fas fa-arrow-right"></i>
-                                                    </span>
-                                                    <span class="text">
-                                                        Process Later
-                                                    </span>
-                                                </button>
-
-                                            @endif
+                                            </div>
 
                                         </div>
-
                                         <div style="background-color: {{ $currentOrder->getInternalStatusColor() }}; height: 20px;"></div>
                                     </div>
                                 </div>
@@ -228,36 +199,22 @@
                     <div class="d-flex flex-wrap">
                         @foreach($miniOrders as $order)
 
-
-                            @if($currentOrder)
-
-                                @if($currentOrder->id == $order->id)
-                                    <div class="rounded mr-1 mb-1"
-                                         style="background-color: mediumslateblue; color: white; padding: 5px;"
-                                         wire:click="overrideCurrentOrder({{ $order->id }})">
-                                        {{ $order->number }}
-                                    </div>
-
-                                @else
-
-                                    <div class="rounded mr-1 mb-1"
-                                         style="background-color: {{ $order->getInternalStatusColor() }}; color: white; padding: 5px;"
-                                         wire:click="overrideCurrentOrder({{ $order->id }})">
-                                        {{ $order->number }}
-                                    </div>
-
-                                @endif
+                            @if(($currentOrder) && $currentOrder->id == $order->id)
+                                <div class="rounded quick-access-little-box-hover mr-1 mb-1"
+                                     style="background-color: mediumslateblue; color: white; padding: 5px; cursor: pointer;"
+                                     wire:click="overrideCurrentOrder({{ $order->id }})">
+                                    {{ $order->number }}
+                                </div>
 
                             @else
 
-                                <div class="rounded mr-1 mb-1"
-                                     style="background-color: {{ $order->getInternalStatusColor() }}; color: white; padding: 5px;"
+                                <div class="rounded quick-access-little-box-hover mr-1 mb-1"
+                                     style="background-color: {{ $order->getInternalStatusColor() }}; color: white; padding: 5px; cursor: pointer;"
                                      wire:click="overrideCurrentOrder({{ $order->id }})">
                                     {{ $order->number }}
                                 </div>
 
                             @endif
-
                         @endforeach
                     </div>
                 </div>
