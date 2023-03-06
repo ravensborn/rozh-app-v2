@@ -2,13 +2,49 @@
 
 
     <div class="row">
-        <div class="col-12 col-md-11">
+        <div class="col-12">
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="d-flex">
+                        @foreach($miniOrders as $order)
+
+
+                            @if($currentOrder)
+
+                                @if($currentOrder->id == $order->id)
+                                    <div class="rounded mr-1" style="background-color: mediumslateblue; color: white; padding: 5px;"
+                                         wire:click="overrideCurrentOrder({{ $order->id }})">
+                                        {{ $order->number }}
+                                    </div>
+
+                                @else
+
+                                    <div class="rounded mr-1" style="background-color: {{ $order->getInternalStatusColor() }}; color: white; padding: 5px;"
+                                         wire:click="overrideCurrentOrder({{ $order->id }})">
+                                        {{ $order->number }}
+                                    </div>
+
+                                @endif
+
+                            @else
+
+                                <div class="rounded mr-1" style="background-color: {{ $order->getInternalStatusColor() }}; color: white; padding: 5px;"
+                                     wire:click="overrideCurrentOrder({{ $order->id }})">
+                                    {{ $order->number }}
+                                </div>
+
+                            @endif
+
+                        @endforeach
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-12">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">
-                               Select Orders
+                                Select Orders
                             </h6>
                         </div>
                         <div class="card-body">
@@ -19,19 +55,19 @@
                                     <label for="from_date">From</label>
                                     <input type="date" class="form-control" id="from_date"
                                            wire:model="from_date"
-                                           wire:change="getOrders()">
+                                           wire:change="getOrder()">
                                 </div>
                                 <div class="col-12 col-md-3 mt-2 mt-md-0">
                                     <label for="to_date">To</label>
                                     <input type="date" class="form-control" id="to_date"
                                            wire:model="to_date"
-                                           wire:change="getOrders()">
+                                           wire:change="getOrder()">
                                 </div>
                                 <div class="col-12 col-md-3 mt-2 mt-md-0">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <label for="status">Status</label>
-                                            <select wire:model="status" wire:change="getOrders()" class="form-control">
+                                            <select wire:model="status" wire:change="getOrder()" class="form-control">
                                                 @foreach(\App\Models\Order::getInternalStatusArray() as $status)
                                                     <option value="{{ $status['id'] }}">{{ $status['name'] }}</option>
                                                 @endforeach
@@ -48,7 +84,7 @@
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-history"></i>
                                                     </span>
-                                                    <span class="text">
+                                            <span class="text">
                                                         Revert
                                                     </span>
                                         </button>
@@ -60,7 +96,7 @@
                 </div>
             </div>
 
-            @forelse($orders as $order)
+            @if($currentOrder)
 
                 <div class="row mt-3">
                     <div class="col-12">
@@ -69,19 +105,20 @@
                                 <div class="row">
                                     <div class="col-12 col-md-4">
                                         <div>
-                                            <h4 class="font-weight-bold">{{ $order->number }}</h4>
+                                            <h4 class="font-weight-bold">{{ $currentOrder->number }}</h4>
                                         </div>
-                                        <div><b>Date: </b>{{ $order->created_at->format('d-m-Y') }}</div>
-                                        <div><b>Customer Name: </b>{{ $order->customer_name }}</div>
-                                        <div><b>Primary Phone: </b>{{ $order->customer_primary_phone }}</div>
-                                        @if($order->customer_secondary_phone)
-                                            <span><b>Secondary Phone: </b>{{ $order->customer_secondary_phone }}</span>
+                                        <div><b>Date: </b>{{ $currentOrder->created_at->format('d-m-Y') }}</div>
+                                        <div><b>Customer Name: </b>{{ $currentOrder->customer_name }}</div>
+                                        <div><b>Primary Phone: </b>{{ $currentOrder->customer_primary_phone }}</div>
+                                        @if($currentOrder->customer_secondary_phone)
+                                            <span><b>Secondary Phone: </b>{{ $currentOrder->customer_secondary_phone }}</span>
                                         @endif
-                                        <div><b>Total: </b>{{ number_format($order->total()) }} IQD</div>
-                                        <div><b>Item count: </b>{{ $order->items->count() }}</div>
-                                        @if($order->forwarder_id == \App\Models\Forwarder::FORWARDER_HYPERPOST && $order->forwarder_order_id)
+                                        <div><b>Total: </b>{{ number_format($currentOrder->total()) }} IQD</div>
+                                        <div><b>Item count: </b>{{ $currentOrder->items->count() }}</div>
+                                        @if($currentOrder->forwarder_id == \App\Models\Forwarder::FORWARDER_HYPERPOST && $currentOrder->forwarder_order_id)
                                             <div>
-                                                <a target="_blank" href="{{ 'https://hp-iraq.com/print-public-track/' . $order->forwarder_order_id}}">
+                                                <a target="_blank"
+                                                   href="{{ 'https://hp-iraq.co/print-public-track/' . $currentOrder->forwarder_order_id}}">
                                                     Click to print hyperpost invoice
                                                 </a>
                                             </div>
@@ -102,7 +139,7 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                @forelse($order->items as $item)
+                                                @forelse($currentOrder->items as $item)
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>
@@ -138,10 +175,10 @@
 
                                         <div class="d-flex justify-content-between">
 
-                                            @if($order->internal_status == \App\Models\Order::INTERNAL_STATUS_PENDING)
+                                            @if($currentOrder->internal_status == \App\Models\Order::INTERNAL_STATUS_PENDING)
 
                                                 <button class="btn btn-warning btn-icon-split mb-3"
-                                                        wire:click="setStatus({{ $order->id }}, {{ \App\Models\Order::INTERNAL_STATUS_PROCESS_LATER }})">
+                                                        wire:click="setStatus({{ $currentOrder->id }}, {{ \App\Models\Order::INTERNAL_STATUS_PROCESS_LATER }})">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-arrow-right"></i>
                                                     </span>
@@ -151,7 +188,7 @@
                                                 </button>
 
                                                 <button class="btn btn-success btn-icon-split mb-3"
-                                                        wire:click="setStatus({{ $order->id }},{{ \App\Models\Order::INTERNAL_STATUS_FULFILLED }})">
+                                                        wire:click="setStatus({{ $currentOrder->id }},{{ \App\Models\Order::INTERNAL_STATUS_FULFILLED }})">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-check"></i>
                                                     </span>
@@ -162,10 +199,10 @@
 
                                             @endif
 
-                                            @if($order->internal_status == \App\Models\Order::INTERNAL_STATUS_PROCESS_LATER)
+                                            @if($currentOrder->internal_status == \App\Models\Order::INTERNAL_STATUS_PROCESS_LATER)
 
                                                 <button class="btn btn-danger btn-icon-split mb-3"
-                                                        wire:click="setStatus({{ $order->id }},{{ \App\Models\Order::INTERNAL_STATUS_CANCELLED }})">
+                                                        wire:click="setStatus({{ $currentOrder->id }},{{ \App\Models\Order::INTERNAL_STATUS_CANCELLED }})">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-arrow-right"></i>
                                                     </span>
@@ -176,7 +213,7 @@
 
 
                                                 <button class="btn btn-success btn-icon-split mb-3"
-                                                        wire:click="setStatus({{ $order->id }},{{ \App\Models\Order::INTERNAL_STATUS_FULFILLED }})">
+                                                        wire:click="setStatus({{ $currentOrder->id }},{{ \App\Models\Order::INTERNAL_STATUS_FULFILLED }})">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-check"></i>
                                                     </span>
@@ -187,10 +224,10 @@
 
                                             @endif
 
-                                            @if($order->internal_status == \App\Models\Order::INTERNAL_STATUS_FULFILLED || $order->internal_status == \App\Models\Order::INTERNAL_STATUS_CANCELLED)
+                                            @if($currentOrder->internal_status == \App\Models\Order::INTERNAL_STATUS_FULFILLED || $currentOrder->internal_status == \App\Models\Order::INTERNAL_STATUS_CANCELLED)
 
                                                 <button class="btn btn-warning btn-icon-split mb-3"
-                                                        wire:click="setStatus({{ $order->id }}, {{ \App\Models\Order::INTERNAL_STATUS_PROCESS_LATER }})">
+                                                        wire:click="setStatus({{ $currentOrder->id }}, {{ \App\Models\Order::INTERNAL_STATUS_PROCESS_LATER }})">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-arrow-right"></i>
                                                     </span>
@@ -203,7 +240,7 @@
 
                                         </div>
 
-                                        <div style="background-color: {{ $order->getInternalStatusColor() }}; height: 20px;"></div>
+                                        <div style="background-color: {{ $currentOrder->getInternalStatusColor() }}; height: 20px;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -211,27 +248,24 @@
                     </div>
                 </div>
 
-            @empty
+            @else
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
                                 <p style="margin-bottom: 0;">
-                                    No orders to show.
+                                    No order to show.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
-            @endforelse
+            @endif
         </div>
-        <div class="col-12 col-md-1 mt-3 mt-md-0">
-            @foreach($miniOrders as $order)
-                <div style="background-color: {{ $order->getInternalStatusColor() }}; color: white; padding: 5px;">
-                    {{ $order->number }}
-                </div>
-            @endforeach
-        </div>
+
+{{--        <div class="col-12 col-md-1 mt-3 mt-md-0">--}}
+
+{{--        </div>--}}
     </div>
 
 </div>

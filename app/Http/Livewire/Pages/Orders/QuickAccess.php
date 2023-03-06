@@ -14,7 +14,8 @@ class QuickAccess extends Component
 
     use LivewireAlert;
 
-    public $orders;
+//    public $orders;
+
     public $miniOrders;
 
     public string $from_date = "";
@@ -23,7 +24,16 @@ class QuickAccess extends Component
 
     public $lastOrderSentToPending;
 
-    public function getOrders()
+    public $currentOrder;
+
+    public function overrideCurrentOrder($orderId) {
+
+        $order = Order::find($orderId);
+        $this->currentOrder = $order;
+
+    }
+
+    public function getOrder()
     {
 
         if ($this->from_date && $this->to_date) {
@@ -49,10 +59,10 @@ class QuickAccess extends Component
 
             $order->orderBy('id');
 
-            $order->limit(5);
+//            $order->limit(5);
+//            $order->limit(1);
 
-            $this->orders = $order->get();
-
+            $this->currentOrder = $order->first();
 
         }
     }
@@ -64,7 +74,7 @@ class QuickAccess extends Component
 
         $order->update(['internal_status' => $status]);
         $this->alert('success', 'Successfully updated status to ' . strtolower($order->getInternalStatus()) . '.');
-        $this->getOrders();
+        $this->getOrder();
     }
 
     public function returnLastUpdatedOrderToPending()
@@ -76,7 +86,7 @@ class QuickAccess extends Component
 
             $this->alert('success', 'Successfully restored order to pending status.');
 
-            $this->getOrders();
+            $this->getOrder();
             $this->lastOrderSentToPending = null;
 
             return false;
@@ -88,14 +98,15 @@ class QuickAccess extends Component
 
     public function mount()
     {
-        $this->orders = collect();
+//        $this->orders = collect();
         $this->miniOrders = collect();
 
         $this->status = Order::INTERNAL_STATUS_PENDING;
 
         $this->from_date = Carbon::today()->startOfMonth()->subMonth(1)->format('Y-m-d');
         $this->to_date = Carbon::today()->format('Y-m-d');
-        $this->getOrders();
+
+        $this->getOrder();
     }
 
     public function render()
