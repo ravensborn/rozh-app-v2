@@ -5,7 +5,7 @@
         <div class="col-12">
             <div class="row mb-3">
                 <div class="col-12">
-                    <div class="d-flex">
+                    <div class="d-flex flex-wrap">
                         @foreach($miniOrders as $order)
 
 
