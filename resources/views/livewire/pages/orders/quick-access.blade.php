@@ -3,45 +3,10 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="row mb-3">
+
+            <div class="row mb-2">
                 <div class="col-12">
-                    <div class="d-flex flex-wrap">
-                        @foreach($miniOrders as $order)
-
-
-                            @if($currentOrder)
-
-                                @if($currentOrder->id == $order->id)
-                                    <div class="rounded mr-1" style="background-color: mediumslateblue; color: white; padding: 5px;"
-                                         wire:click="overrideCurrentOrder({{ $order->id }})">
-                                        {{ $order->number }}
-                                    </div>
-
-                                @else
-
-                                    <div class="rounded mr-1" style="background-color: {{ $order->getInternalStatusColor() }}; color: white; padding: 5px;"
-                                         wire:click="overrideCurrentOrder({{ $order->id }})">
-                                        {{ $order->number }}
-                                    </div>
-
-                                @endif
-
-                            @else
-
-                                <div class="rounded mr-1" style="background-color: {{ $order->getInternalStatusColor() }}; color: white; padding: 5px;"
-                                     wire:click="overrideCurrentOrder({{ $order->id }})">
-                                    {{ $order->number }}
-                                </div>
-
-                            @endif
-
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card shadow mb-4">
+                    <div class="card shadow">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">
                                 Select Orders
@@ -96,10 +61,10 @@
                 </div>
             </div>
 
-            @if($currentOrder)
 
-                <div class="row mt-3">
-                    <div class="col-12">
+            <div class="row mt-3">
+                <div class="col-12">
+                    @if($currentOrder)
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
@@ -245,12 +210,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-            @else
-                <div class="row">
-                    <div class="col-12">
+                    @else
                         <div class="card">
                             <div class="card-body">
                                 <p style="margin-bottom: 0;">
@@ -258,14 +218,53 @@
                                 </p>
                             </div>
                         </div>
+                    @endif
+                </div>
+            </div>
+
+
+            <div class="row my-3">
+                <div class="col-12">
+                    <div class="d-flex flex-wrap">
+                        @foreach($miniOrders as $order)
+
+
+                            @if($currentOrder)
+
+                                @if($currentOrder->id == $order->id)
+                                    <div class="rounded mr-1"
+                                         style="background-color: mediumslateblue; color: white; padding: 5px;"
+                                         wire:click="overrideCurrentOrder({{ $order->id }})">
+                                        {{ $order->number }}
+                                    </div>
+
+                                @else
+
+                                    <div class="rounded mr-1"
+                                         style="background-color: {{ $order->getInternalStatusColor() }}; color: white; padding: 5px;"
+                                         wire:click="overrideCurrentOrder({{ $order->id }})">
+                                        {{ $order->number }}
+                                    </div>
+
+                                @endif
+
+                            @else
+
+                                <div class="rounded mr-1"
+                                     style="background-color: {{ $order->getInternalStatusColor() }}; color: white; padding: 5px;"
+                                     wire:click="overrideCurrentOrder({{ $order->id }})">
+                                    {{ $order->number }}
+                                </div>
+
+                            @endif
+
+                        @endforeach
                     </div>
                 </div>
-            @endif
+            </div>
+
         </div>
 
-{{--        <div class="col-12 col-md-1 mt-3 mt-md-0">--}}
-
-{{--        </div>--}}
     </div>
 
 </div>
