@@ -451,6 +451,8 @@ class ForwarderController extends Controller
                    echo json_encode($http->json());
                 }
 
+                echo 'page switched <br>';
+
             }
 
 
