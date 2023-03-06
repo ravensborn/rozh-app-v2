@@ -441,6 +441,11 @@ class ForwarderController extends Controller
                         ->delete('https://hp-iraq.co/api/v1/sender-api/delete-track/' . $order->forwarder_order_id, [
                             '_method' => 'delete'
                         ]);
+
+                    $order->update([
+                        'forwarder_order_id' => null,
+                        'forwarder_refresh_timestamp' => null,
+                    ]);
                     
 
                    echo json_encode($http->json());
