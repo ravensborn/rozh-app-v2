@@ -232,7 +232,7 @@
                             @if($currentOrder)
 
                                 @if($currentOrder->id == $order->id)
-                                    <div class="rounded mr-1"
+                                    <div class="rounded mr-1 mb-1"
                                          style="background-color: mediumslateblue; color: white; padding: 5px;"
                                          wire:click="overrideCurrentOrder({{ $order->id }})">
                                         {{ $order->number }}
@@ -240,7 +240,7 @@
 
                                 @else
 
-                                    <div class="rounded mr-1"
+                                    <div class="rounded mr-1 mb-1"
                                          style="background-color: {{ $order->getInternalStatusColor() }}; color: white; padding: 5px;"
                                          wire:click="overrideCurrentOrder({{ $order->id }})">
                                         {{ $order->number }}
@@ -250,7 +250,7 @@
 
                             @else
 
-                                <div class="rounded mr-1"
+                                <div class="rounded mr-1 mb-1"
                                      style="background-color: {{ $order->getInternalStatusColor() }}; color: white; padding: 5px;"
                                      wire:click="overrideCurrentOrder({{ $order->id }})">
                                     {{ $order->number }}
