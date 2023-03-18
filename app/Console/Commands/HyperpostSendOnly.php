@@ -36,7 +36,8 @@ class HyperpostSendOnly extends Command
         $forwarderClient->writeLog("Sending orders to forwarder initiated.\n");
 
         $orders = Order::where('forwarder_id', Forwarder::FORWARDER_HYPERPOST)
-            ->whereIn('status', [Order::STATUS_FORWARDER_NO_STATUS, Order::STATUS_FORWARDER_ERROR_SENDING]);
+            ->whereIn('status', [Order::STATUS_FORWARDER_NO_STATUS, Order::STATUS_FORWARDER_ERROR_SENDING])
+        ->get();
 
         $forwarderClient->sendOrders($orders);
 
