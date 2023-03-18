@@ -358,6 +358,8 @@ class ForwarderController extends Controller
 
                 $data = $http->json()['data']['statuses'];
 
+                ForwarderStatus::truncate();
+
                 foreach ($data as $status) {
                     ForwarderStatus::updateOrCreate([
                         'status_id' => $status['id'],
@@ -395,6 +397,8 @@ class ForwarderController extends Controller
             if ($http->successful()) {
 
                 $data = $http->json()['data']['locations'];
+
+                ForwarderLocation::truncate();
 
                 foreach ($data as $location) {
                     ForwarderLocation::updateOrCreate([
