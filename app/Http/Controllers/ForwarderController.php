@@ -442,7 +442,7 @@ class ForwarderController extends Controller
 
                     $http = Http::withHeaders($this->headers)
                         ->withToken($this->token)
-                        ->delete('https://hp-iraq.co/api/v1/sender-api/delete-track/' . $order->forwarder_order_id, [
+                        ->delete('https://hp-iraq.com/api/v1/sender-api/delete-track/' . $order->forwarder_order_id, [
                             '_method' => 'delete'
                         ]);
 
