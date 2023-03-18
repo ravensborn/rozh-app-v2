@@ -237,7 +237,7 @@ class ForwarderController extends Controller
                     }
                 } else {
                     $ordersLevelLog = "Issue while sending order " . $order->number . "\n";
-                    $order->setProperty('log', ['request' => $data, 'response' => $http]);
+                    $order->setProperty('log', ['request' => $data, 'response' => $http->json()]);
                 }
 
             }
