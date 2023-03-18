@@ -360,10 +360,9 @@ class ForwarderController extends Controller
 
                 foreach ($data as $status) {
                     ForwarderStatus::updateOrCreate([
-                        'name' => $status['name_ku'],
                         'status_id' => $status['id'],
                         'forwarder_id' => Forwarder::FORWARDER_HYPERPOST
-                    ], ['status_id' => $status['id']]);
+                    ], ['name' => $status['name_ku']]);
                 }
 
                 $this->writeLog("Successfully refreshed hyperpost status list.\n");
@@ -399,11 +398,10 @@ class ForwarderController extends Controller
 
                 foreach ($data as $location) {
                     ForwarderLocation::updateOrCreate([
-                        'name' => $location['name_ku'],
                         'location_id' => $location['id'],
                         'forwarder_id' => Forwarder::FORWARDER_HYPERPOST
                     ], [
-                        'location_id' => $location['id'],
+                        'name' => $location['name_ku'],
                     ]);
                 }
 
