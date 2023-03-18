@@ -215,7 +215,7 @@ class ForwarderController extends Controller
 
                     $order->setProperty('log', '');
 
-                    if ($response['status']) {
+                    if (array_key_exists('status', $response) && $response['status']) {
 
                         $track = $response['data']['track'];
 
