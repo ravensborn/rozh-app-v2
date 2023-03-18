@@ -225,18 +225,22 @@ class ForwarderController extends Controller
                         $order->forwarder_refresh_timestamp = now();
                         $order->save();
 
+
                         $order->setProperty('delivery_price_calculated_from_hyperpost', $track['delivery_price']);
 
                         ++$this->numberOfSentOrders;
 
                     } else {
 
-                        $ordersLevelLog = "Issue while sending order " . $order->number . "\n";
-                        $order->setProperty('log', $response);
+                        $order->setStatus(Order::STATUS_FORWARDER_ERROR_SENDING);
+                        $this->ordersLevelLog = "Issue while sending order " . $order->number . "\n";
+                        $order->setProperty('log', ['request' => $data, 'response' => $http->json()]);
 
                     }
                 } else {
-                    $ordersLevelLog = "Issue while sending order " . $order->number . "\n";
+
+                    $order->setStatus(Order::STATUS_FORWARDER_ERROR_SENDING);
+                    $this->ordersLevelLog = "Issue while sending order " . $order->number . "\n";
                     $order->setProperty('log', ['request' => $data, 'response' => $http->json()]);
                 }
 
@@ -324,7 +328,7 @@ class ForwarderController extends Controller
                         'status' => Order::STATUS_FORWARDER_ERROR_REFRESHING,
                     ]);
 
-                    $ordersLevelLog .= "Order with track " . $trackId . " was not found in local database.\n";
+                    $this->ordersLevelLog .= "Order with track " . $trackId . " was not found in local database.\n";
                 }
 
                 ++$this->totalNumberOfOrdersToRefresh;
