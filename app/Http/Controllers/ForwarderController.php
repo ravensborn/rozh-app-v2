@@ -233,14 +233,14 @@ class ForwarderController extends Controller
                     } else {
 
                         $order->setStatus(Order::STATUS_FORWARDER_ERROR_SENDING);
-                        $this->ordersLevelLog = "Issue while sending order " . $order->number . "\n";
+                        $this->ordersLevelLog .= "Issue while sending order " . $order->number . "\n";
                         $order->setProperty('log', ['request' => $data, 'response' => $http->json()]);
 
                     }
                 } else {
 
                     $order->setStatus(Order::STATUS_FORWARDER_ERROR_SENDING);
-                    $this->ordersLevelLog = "Issue while sending order " . $order->number . "\n";
+                    $this->ordersLevelLog .= "Issue while sending order " . $order->number . "\n";
                     $order->setProperty('log', ['request' => $data, 'response' => $http->json()]);
                 }
 
