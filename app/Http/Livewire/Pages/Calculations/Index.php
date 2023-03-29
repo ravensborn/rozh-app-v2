@@ -56,7 +56,7 @@ class Index extends Component
             ->selectRaw('COUNT(*) AS count')
             ->groupBy('code')
             ->orderByDesc('count')
-            ->limit(5)
+            ->limit(10)
             ->get()->toArray();
 
         $this->mpi_topSoldItemsByCodeArray = $data;
