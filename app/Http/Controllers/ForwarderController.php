@@ -118,6 +118,7 @@ class ForwarderController extends Controller
 
         $http = Http::withHeaders($this->headers)
             ->withToken($this->token)
+            ->timeout(25)
             ->get($this->host . '/api/v1/sender-api/get-statuses');
 
         if ($http->successful()) {
