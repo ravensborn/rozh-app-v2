@@ -118,10 +118,7 @@ class ForwarderController extends Controller
 
         $http = Http::withHeaders($this->headers)
             ->withToken($this->token)
-            ->accept('application/json')
-            ->get($this->host . '/api/v1/sender-api/get-statuses');
-
-        dd($http);
+            ->get($this->host . '/api/v1/sender-api/get-cities');
 
         if ($http->successful()) {
 
