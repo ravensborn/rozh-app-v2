@@ -34,8 +34,8 @@ class ForwarderController extends Controller
 
 
     private array $headers = [
-        'accept' => 'application/json',
-        'content-type'=> 'application/json',
+        'Accept' => 'application/json',
+        'Content-Type'=> 'application/json',
     ];
 
     public function __construct()
@@ -117,9 +117,8 @@ class ForwarderController extends Controller
     {
 
         $http = Http::withHeaders($this->headers)
-            ->accept('application/json')
             ->withToken($this->token)
-            ->connectTimeout(60)
+            ->accept('application/json')
             ->get($this->host . '/api/v1/sender-api/get-statuses');
 
         if ($http->successful()) {
