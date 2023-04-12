@@ -117,6 +117,7 @@ class ForwarderController extends Controller
     {
 
         $http = Http::withHeaders($this->headers)
+            ->accept('application/json')
             ->withToken($this->token)
             ->connectTimeout(60)
             ->get($this->host . '/api/v1/sender-api/get-statuses');
