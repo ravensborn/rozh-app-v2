@@ -121,6 +121,8 @@ class ForwarderController extends Controller
             ->accept('application/json')
             ->get($this->host . '/api/v1/sender-api/get-statuses');
 
+        dd($http);
+
         if ($http->successful()) {
 
             $this->tokenValidated = true;
