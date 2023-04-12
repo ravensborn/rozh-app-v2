@@ -109,13 +109,13 @@
                             </li>
                             @if(in_array($order->status, [\App\Models\Order::STATUS_FORWARDER_ERROR_SENDING, \App\Models\Order::STATUS_FORWARDER_NO_STATUS]))
                                 <li class="list-group-item">
-                                    <button class="btn btn-sm btn-primary" wire:click="sendToForwarder()">
+                                    <button class="btn btn-sm btn-primary" wire:click="sendToForwarder()" wire:loading.attr="disabled" wire:target="sendToForwarder">
                                         Send to forwarder
                                     </button>
                                 </li>
                             @else
                                 <li class="list-group-item">
-                                    <button class="btn btn-sm btn-primary" wire:click="refreshWithForwarder()">
+                                    <button class="btn btn-sm btn-primary" wire:click="refreshWithForwarder()" wire:loading.attr="disabled" wire:target="refreshWithForwarder">
                                         Refresh with forwarder
                                     </button>
                                 </li>
