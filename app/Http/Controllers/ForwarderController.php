@@ -34,7 +34,8 @@ class ForwarderController extends Controller
 
 
     private array $headers = [
-        'accept' => 'application/json'
+        'accept' => 'application/json',
+        'content-type'=> 'application/json',
     ];
 
     public function __construct()
@@ -419,52 +420,5 @@ class ForwarderController extends Controller
 
     }
 
-    public function deleteOrders($forwarder_id)
-    {
-
-
-        $forwarder = Forwarder::findOrFail($forwarder_id);
-
-        if ($forwarder->id == Forwarder::FORWARDER_HYPERPOST) {
-
-            $orders = Order::whereDate('created_at', '>=', '2023-01-15')->whereNotNull('forwarder_order_id');
-
-            $perpage = 50;
-            $totalpages = $orders->paginate($perpage)->lastPage();
-
-            //Send new orders.
-            for ($i = 1; $i <= $totalpages; $i++) {
-
-                $send = $orders->paginate($perpage, ['*'], 'page', $i)->items();
-
-                foreach ($send as $order) {
-
-
-                    $http = Http::withHeaders($this->headers)
-                        ->withToken($this->token)
-                        ->delete('https://hp-iraq.com/api/v1/sender-api/delete-track/' . $order->forwarder_order_id, [
-                            '_method' => 'delete'
-                        ]);
-
-                    $order->update([
-                        'forwarder_order_id' => null,
-                        'forwarder_refresh_timestamp' => null,
-                    ]);
-                    
-
-                   echo json_encode($http->json());
-                }
-
-                echo 'page switched <br>';
-
-            }
-
-
-
-            echo 'done all';
-
-        }
-
-    }
 
 }
