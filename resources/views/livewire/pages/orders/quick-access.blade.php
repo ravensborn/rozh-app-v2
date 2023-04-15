@@ -88,6 +88,12 @@
                                                 </a>
                                             </div>
                                         @endif
+                                        <div>
+                                            <a target="_blank"
+                                               href="{{ route('orders.index', $currentOrder->id) }}">
+                                                Click to internal print.
+                                            </a>
+                                        </div>
                                     </div>
                                     <div class="col-12 col-md-8">
                                         <div class="table-responsive">
