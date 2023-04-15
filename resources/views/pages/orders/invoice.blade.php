@@ -94,60 +94,74 @@
                 {{ '-' .  $order->customer_secondary_phone }}
             @endif
         </li>
+        <li>
+            <b>
+                Total:
+            </b>
+            {{ number_format($order->total() + $order->delivery_price) }}
+        </li>
     </ul>
 
-    <table class="table table-sm table-bordered">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($order->items as $item)
 
-            <tr>
-                <td style="word-break: break-word; width: 100px;">{{ $item->name }}</td>
-                <td>
-                    {{ number_format($item->price) }}
-                </td>
-                <td>{{ $item->quantity }}</td>
-                <td>
-                    {{ number_format($item->total()) }}
-                </td>
+    {{--    <table class="table table-sm table-bordered">--}}
+    {{--        <thead>--}}
+    {{--        <tr>--}}
+    {{--            <th>Name</th>--}}
+    {{--            <th>Price</th>--}}
+    {{--            <th>Quantity</th>--}}
+    {{--            <th>Total</th>--}}
+    {{--        </tr>--}}
+    {{--        </thead>--}}
+    {{--        <tbody>--}}
+    {{--        @foreach($order->items as $item)--}}
 
-            </tr>
+    {{--            <tr>--}}
+    {{--                <td style="word-break: break-word; width: 100px;">{{ $item->name }}</td>--}}
+    {{--                <td>--}}
+    {{--                    {{ number_format($item->price) }}--}}
+    {{--                </td>--}}
+    {{--                <td>{{ $item->quantity }}</td>--}}
+    {{--                <td>--}}
+    {{--                    {{ number_format($item->total()) }}--}}
+    {{--                </td>--}}
 
-
-        @endforeach
+    {{--            </tr>--}}
 
 
-        <tr>
-            <th>Delivery</th>
-            <th colspan="3">
-            </th>
-            <th>
-                {{ number_format($order->delivery_price) }}
-            </th>
-        </tr>
-
-        <tr>
-            <th>Total</th>
-            <th colspan="3">
-            </th>
-            <th>
-                {{ number_format($order->total()) }}
-            </th>
-        </tr>
+    {{--        @endforeach--}}
 
 
-        </tbody>
-    </table>
+    {{--        <tr>--}}
+    {{--            <th>Delivery</th>--}}
+    {{--            <th colspan="3">--}}
+    {{--            </th>--}}
+    {{--            <th>--}}
+    {{--                {{ number_format($order->delivery_price) }}--}}
+    {{--            </th>--}}
+    {{--        </tr>--}}
+
+    {{--        <tr>--}}
+    {{--            <th>Total</th>--}}
+    {{--            <th colspan="3">--}}
+    {{--            </th>--}}
+    {{--            <th>--}}
+    {{--                {{ number_format($order->total()) }}--}}
+    {{--            </th>--}}
+    {{--        </tr>--}}
+
+
+    {{--        </tbody>--}}
+    {{--    </table>--}}
 
 
 </div>
+
+
+<div class="d-print-none p-3 ps-0">
+    <button class="d-print-none btn btn-primary" style="width: 200px;" onclick="window.print()">Print</button>
+
+</div>
+
 
 </body>
 </html>
