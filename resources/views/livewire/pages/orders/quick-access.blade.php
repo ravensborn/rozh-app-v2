@@ -90,7 +90,7 @@
                                         @endif
                                         <div>
                                             <a target="_blank"
-                                               href="{{ route('orders.index', $currentOrder->id) }}">
+                                               href="{{ route('orders.index', ['order' => $currentOrder->id]) }}">
                                                 Click to internal print.
                                             </a>
                                         </div>
