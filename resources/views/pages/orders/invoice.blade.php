@@ -67,19 +67,24 @@
                  src='https://barcode.tec-it.com/barcode.ashx?data={{ $order->number }}&code=Code128&multiplebarcodes=false&translate-esc=true&unit=Fit&dpi=96&imagetype=Jpg&rotation=0&color=%23000000&bgcolor=%23ffffff&codepage=Default&qunit=Mm&quiet=0&hidehrt=False&dmsize=Default'/>
         </li>
 
-        <li>
-            <b>Order Date:</b>
-            {{$order->created_at->format('Y-m-d')}}
-        </li>
+{{--        <li>--}}
+{{--            <b>Order Date:</b>--}}
+{{--            {{$order->created_at->format('Y-m-d')}}--}}
+{{--        </li>--}}
 
         <li>
             <b>Order Number:</b>
             {{$order->number}}
         </li>
 
+{{--        <li>--}}
+{{--            <b>Customer Name:</b>--}}
+{{--            {{$order->customer_name}}--}}
+{{--        </li>--}}
+
         <li>
-            <b>Customer Name:</b>
-            {{$order->customer_name}}
+            <b>Forwarder Address:</b>
+            {{ $order->forwarderLocation->name }}
         </li>
 
         <li>
