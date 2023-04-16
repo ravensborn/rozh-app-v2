@@ -103,7 +103,7 @@
             <b>
                 Total:
             </b>
-            {{ number_format($order->total() + $order->delivery_price) }}
+            {{ number_format($order->total() + $order->delivery_price) }} IQD
         </li>
     </ul>
 
