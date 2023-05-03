@@ -71,8 +71,8 @@ services:
             - PMA_ARBITRARY=1
             - PMA_HOST=rozh-app-db
             - PMA_PORT=9003
-            - PMA_USER=rozh
-            - PMA_PASSWORD=0a9d8aw9dff9adwagl
+#            - PMA_USER=rozh
+#            - PMA_PASSWORD=0a9d8aw9dff9adwagl
         networks:
             - rozh-app-network
 
