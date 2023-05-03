@@ -60,6 +60,21 @@ services:
         networks:
             - rozh-app-network
 
+
+    rozh-app-phpmyadmin:
+        image: phpmyadmin
+        restart: always
+        ports:
+            - "9004:80"
+        environment:
+            - PMA_ARBITRARY=1
+            - PMA_HOST=mysql
+            - PMA_PORT=9003
+            - PMA_USER=rozh
+            - PMA_PASSWORD=0a9d8aw9dff9adwagl
+        networks:
+            - rozh-app-network
+
 #Docker Networks
 networks:
     rozh-app-network:
