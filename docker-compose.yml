@@ -49,7 +49,9 @@ services:
             MYSQL_TCP_PORT: 9003
             SQL_INTERNAL_PORT: 3306
             MYSQL_DATABASE: laravel
-            MYSQL_ROOT_PASSWORD: laravel
+            MYSQL_USER: rozh
+            MYSQL_PASSWORD: 0a9d8aw9dff9adwagl
+            MYSQL_ROOT_PASSWORD: 2109a8wd7aw89g
             SERVICE_TAGS: prod
             SERVICE_NAME: mysql
         volumes:
