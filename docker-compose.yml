@@ -10,6 +10,8 @@ services:
     container_name: rozh-app
     restart: unless-stopped
     tty: true
+    ports:
+        - "9000:3306"
     environment:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
@@ -21,14 +23,14 @@ services:
       - rozh-app-network
 
   #Nginx Service
-  rozh-app-webserver:
+  rozh-app-nginx:
     image: nginx:alpine
     container_name: rozh-app-nginx
     restart: unless-stopped
     tty: true
     ports:
-      - "80:80"
-      - "443:443"
+      - "9001:80"
+      - "9002:443"
     volumes:
       - ./:/var/www
       - ./docker/nginx/conf.d:/etc/nginx/conf.d/
@@ -38,15 +40,15 @@ services:
   #MySQL Service
   rozh-app-db:
     image: mysql:8.0.33
-    container_name: db
+    container_name: rozh-app-db
     restart: unless-stopped
     tty: true
     ports:
-      - "3306:3306"
+      - "9003:3306"
     environment:
       MYSQL_DATABASE: laravel
-      MYSQL_ROOT_PASSWORD: your_mysql_root_password
-      SERVICE_TAGS: dev
+      MYSQL_ROOT_PASSWORD: laravel
+      SERVICE_TAGS: prod
       SERVICE_NAME: mysql
     volumes:
       - dbdata:/var/lib/mysql/
