@@ -41,4 +41,4 @@ RUN chmod +x /usr/bin/entrypoint.sh
 EXPOSE 9000
 
 # Run php-fpm
-CMD ["php-fpm"]
+#CMD ["php-fpm"]
