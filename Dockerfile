@@ -43,10 +43,11 @@ COPY --chown=www:www . /var/www
 
 COPY docker/entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
 
 # Change current user to www
 USER www
+
+ENTRYPOINT ["entrypoint.sh"]
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
