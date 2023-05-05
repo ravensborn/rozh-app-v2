@@ -1,55 +1,44 @@
+# Base image
 FROM php:8.2.5-fpm
 
-# Copy composer.lock and composer.json
+# Copy composer files to var/www
 COPY composer.lock composer.json /var/www/
 
 # Set working directory
 WORKDIR /var/www
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    libpng-dev \
-    libjpeg62-turbo-dev \
-    libfreetype6-dev \
-    locales \
-    zip \
-    jpegoptim optipng pngquant gifsicle \
-    vim \
-    unzip \
-    git \
-    curl \
-    libzip-dev
+# Install common dependencies
+RUN apt-get update \
+    && apt-get install -y \
+        libzip-dev \
+        zip \
+        unzip \
+        curl \
+        git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install extensions
-RUN docker-php-ext-install pdo_mysql zip exif pcntl
-RUN docker-php-ext-install gd
+# Install common php extensions
+RUN docker-php-ext-install pdo_mysql zip
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Add user for laravel application
-RUN groupadd -g 1000 www
-RUN useradd -u 1000 -ms /bin/bash -g www www
+# Copy application directory contents
+COPY . /var/www/html
 
-# Copy existing application directory contents
-COPY . /var/www
+# Set appropriate permissions
+RUN chown -R www-data:www-data /var/www/html
 
-# Copy existing application directory permissions
-COPY --chown=www:www . /var/www
-
+# Copy entrypoint script
 COPY docker/entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 
-# Change current user to www
-USER www
-
-ENTRYPOINT ["entrypoint.sh"]
-
-# Expose port 9000 and start php-fpm server
+# Expose port 9000
 EXPOSE 9000
-CMD ["php-fpm"]
 
+# Run php-fpm
+CMD ["php-fpm"]
