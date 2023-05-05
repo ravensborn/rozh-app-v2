@@ -13,9 +13,18 @@ services:
         ports:
             - "9000:3306"
         environment:
-            SELECTED_ENV: .env.docker.rozhapp.live
-            SERVICE_NAME: app
-            SERVICE_TAGS: dev
+            LOGO_MAIN: rozh_logo_main.png
+            LOGO_SMALL: logo.svg
+            LOGO_LARGE: logo.svg
+            DB_HOST: rozh-app-db
+            DB_PORT: 9003
+            DB_DATABASE: laravel
+            DB_USERNAME: rozh
+            DB_PASSWORD: 0a9d8aw9dff9adwagl
+            TELEGRAM_CHAT_ID: 1745934868
+            HYPERPOST_API_URL: 'https://hp-iraq.com'
+            HYPERPOST_USER_EMAIL: mata@gmail.com
+            HYPERPOST_USER_PASSWORD: 123456
         working_dir: /var/www
         volumes:
             - ./:/var/www
