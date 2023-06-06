@@ -39,7 +39,7 @@ class HyperpostRefreshErrorOnly extends Command
         $forwarderClient->writeLog("Updating orders with hyperpost initiated (refresh errors only).\n");
         $REFRESH_query = Order::where('forwarder_id', Forwarder::FORWARDER_HYPERPOST)
             ->whereIn('status', [Order::STATUS_FORWARDER_ORDER_DOESNT_EXIST, Order::STATUS_FORWARDER_ERROR_REFRESHING])
-            ->whereDate('created_at', '>', '2023-05-01')
+            ->whereDate('created_at', '<=', '2023-05-01')
             ->where('forwarder_order_id', '!=', null); //Unnecessary just to make sure we aren't sending empty.
 
         if ($REFRESH_query->count()) {
