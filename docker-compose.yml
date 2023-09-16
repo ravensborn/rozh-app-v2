@@ -1,97 +1,40 @@
-version: '3'
+version: "3.8"
 services:
+  app:
+    container_name: ${APP_CONTAINER_NAME}
+    build:
+      context: .
+      target: php
+      args:
+        - APP_ENV=${APP_ENV}
+    environment:
+      - APP_ENV=${APP_ENV}
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    ports:
+      - "9005:8080"
+    depends_on:
+      - database
+    networks:
+      - laravel-network
 
-    #PHP Service
-    rozh-app:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        image: rozh-app
-        container_name: rozh-app
-        restart: unless-stopped
-        tty: true
-        ports:
-            - "9000:3306"
-        environment:
-            LOGO_MAIN: rozh_logo_main.png
-            LOGO_SMALL: logo.svg
-            LOGO_LARGE: logo.svg
-            DB_HOST: rozh-app-db
-            DB_PORT: 9003
-            DB_DATABASE: laravel
-            DB_USERNAME: rozh
-            DB_PASSWORD: 0a9d8aw9dff9adwagl
-            TELEGRAM_CHAT_ID: 1745934868
-            HYPERPOST_API_URL: 'https://hp-iraq.com'
-            HYPERPOST_USER_EMAIL: mata@gmail.com
-            HYPERPOST_USER_PASSWORD: 123456
-        working_dir: /var/www
-        volumes:
-            - ./:/var/www
-            - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
-        networks:
-            - rozh-app-network
+  database:
+    container_name: ${DB_CONTAINER_NAME}
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ./docker/mysql/db-data:/var/lib/mysql
+    networks:
+      - laravel-network
 
-    #Nginx Service
-    rozh-app-nginx:
-        image: nginx:alpine
-        container_name: rozh-app-nginx
-        restart: unless-stopped
-        tty: true
-        ports:
-            - "9001:80"
-            - "9002:443"
-        volumes:
-            - ./:/var/www
-            - ./docker/nginx/conf.d:/etc/nginx/conf.d/
-        networks:
-            - rozh-app-network
-
-    #MySQL Service
-    rozh-app-db:
-        image: mysql:8.0.33
-        container_name: rozh-app-db
-        restart: unless-stopped
-        tty: true
-        ports:
-            - "9003:3306"
-        environment:
-            MYSQL_TCP_PORT: 9003
-            SQL_INTERNAL_PORT: 3306
-            MYSQL_DATABASE: laravel
-            MYSQL_USER: rozh
-            MYSQL_PASSWORD: 0a9d8aw9dff9adwagl
-            MYSQL_ROOT_PASSWORD: 2109a8wd7aw89g
-            SERVICE_TAGS: prod
-            SERVICE_NAME: mysql
-        volumes:
-            - dbdata:/var/lib/mysql/
-            - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
-        networks:
-            - rozh-app-network
-
-
-    rozh-app-phpmyadmin:
-        image: phpmyadmin
-        container_name: rozh-app-phpmyadmin
-        restart: always
-        ports:
-            - "9004:80"
-        environment:
-            - PMA_ARBITRARY=1
-            - PMA_HOST=rozh-app-db
-            - PMA_PORT=9003
-#            - PMA_USER=rozh
-#            - PMA_PASSWORD=0a9d8aw9dff9adwagl
-        networks:
-            - rozh-app-network
-
-#Docker Networks
-networks:
-    rozh-app-network:
-        driver: bridge
-#Volumes
 volumes:
-    dbdata:
-        driver: local
+  db-data: ~
 
+networks:
+  laravel-network:
+    driver: bridge

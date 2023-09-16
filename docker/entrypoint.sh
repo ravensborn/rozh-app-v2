@@ -1,12 +1,18 @@
-#!/bin/sh
+#!/bin/bash
 
-composer install --no-progress --no-interaction
+if [ ! -f "vendor/autoload.php" ]; then
+    composer install --no-progress --no-interaction
+fi
 
-composer dump-autoload --optimize
+if [ ! -f ".env" ]; then
+    echo "Creating env file for env $APP_ENV"
+    cp .env.docker .env
+else
+    echo "env file exists."
+fi
 
-php artisan key:generate
-php artisan optimize:clear
-php artisan cache:clear
-php artisan config:clear
-php artisan route:clear
-exec docker-php-entrypoint "$@"
+php artisan optimize
+php artisan view:cache
+
+php-fpm -D
+nginx -g "daemon off;"

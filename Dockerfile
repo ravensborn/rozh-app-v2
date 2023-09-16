@@ -1,44 +1,37 @@
-# Base image
-FROM php:8.2.5-fpm
+# Used for prod build.
+FROM php:8.2-fpm as php
 
-# Copy composer files to var/www
-COPY composer.lock composer.json /var/www/
+# Set environment variables
+ENV PHP_OPCACHE_ENABLE=1
+ENV PHP_OPCACHE_ENABLE_CLI=1
+ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS=1
+ENV PHP_OPCACHE_REVALIDATE_FREQ=1
 
-# Set working directory
+# Install dependencies.
+RUN apt-get update && apt-get install -y unzip libpq-dev libcurl4-gnutls-dev nginx libonig-dev
+
+# Install PHP extensions.
+RUN docker-php-ext-install pdo pdo_mysql bcmath curl mbstring opcache exif
+
+# Copy configuration files.
+COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
+COPY ./docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
+COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
+
+# Copy composer executable.
+COPY --from=composer:2.5.5 /usr/bin/composer /usr/bin/composer
+
+# Set working directory to /var/www.
 WORKDIR /var/www
 
-# Install common dependencies
-RUN apt-get update \
-    && apt-get install -y \
-        libzip-dev \
-        zip \
-        unzip \
-        curl \
-        git \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# Copy existing application directory files and permissions
+COPY --chown=www-data:www-data . .
 
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+# Set correct permissions.
+RUN chmod -R 755 /var/www
 
-# Install common php extensions
-RUN docker-php-ext-install pdo_mysql zip exif
+# Adjust user permission & group
+RUN usermod --uid 1000 www-data
+RUN groupmod --gid 1000 www-data
 
-# Install composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Copy application directory contents
-COPY . /var/www/html
-
-# Set appropriate permissions
-RUN chown -R www-data:www-data /var/www/html
-
-# Copy entrypoint script
-COPY docker/entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-
-# Expose port 9000
-EXPOSE 9000
-
-# Run php-fpm
-#CMD ["php-fpm"]
+ENTRYPOINT [ "docker/entrypoint.sh" ]
