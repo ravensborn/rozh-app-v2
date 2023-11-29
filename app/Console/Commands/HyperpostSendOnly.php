@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Http\Controllers\ForwarderController;
 use App\Models\Forwarder;
 use App\Models\Order;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class HyperpostSendOnly extends Command
@@ -37,6 +38,7 @@ class HyperpostSendOnly extends Command
 
         $orders = Order::where('forwarder_id', Forwarder::FORWARDER_HYPERPOST)
             ->whereIn('status', [Order::STATUS_FORWARDER_NO_STATUS, Order::STATUS_FORWARDER_ERROR_SENDING])
+            ->whereDate('created_at', '<', Carbon::today()->subWeek())
         ->get();
 
         $forwarderClient->sendOrders($orders);
