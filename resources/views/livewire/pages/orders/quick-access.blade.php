@@ -83,7 +83,7 @@
                                         @if($currentOrder->forwarder_id == \App\Models\Forwarder::FORWARDER_HYPERPOST && $currentOrder->forwarder_order_id)
                                             <div>
                                                 <a target="_blank"
-                                                   href="{{ 'https://hp-iraq.com/print-public-track/' . $currentOrder->forwarder_order_id}}">
+                                                   href="{{ 'https://hyperpost.me/print-public-track/' . $currentOrder->forwarder_order_id}}">
                                                     Click to print hyperpost invoice
                                                 </a>
                                             </div>
