@@ -78,7 +78,7 @@
                         <hr>
 
                         <div class="row mt-3">
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-4">
                                 <label for="customer_name">Name</label>
                                 <input type="text" id="customer_name" class="form-control"
                                        wire:model.lazy="customer_name">
@@ -87,11 +87,23 @@
                                 @enderror
                             </div>
 
-                            <div class="col-12 col-md-6 mt-3 mt-md-0">
+                            <div class="col-12 col-md-4 mt-3 mt-md-0">
                                 <label for="customer_profile_link">Profile Link</label>
                                 <input type="text" id="customer_profile_link" class="form-control"
                                        wire:model.lazy="customer_profile_link">
                                 @error('customer_profile_link')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-12 col-md-4 mt-3 mt-md-0">
+                                <label for="customer_profile_link">Profile Type</label>
+                                <select id="customer_profile_type" class="form-control"  wire:model.lazy="customer_profile_type">
+                                    @foreach($websiteTypes as $item)
+                                        <option value="{{ $item }}">{{ ucfirst($item) }}</option>
+                                    @endforeach
+                                </select>
+                                @error('customer_profile_type')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>

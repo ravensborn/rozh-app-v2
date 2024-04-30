@@ -218,5 +218,87 @@
         </div>
     </div>
 
+    <div class="row">
+
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Per Website Statistics (PWS)
+                    </h6>
+                </div>
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" wire:model="pws_enabled" value=""
+                                       id="pws_filter_enabled">
+                                <label class="form-check-label" for="pws_filter_enabled">
+                                    Enable PWS
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    @if($pws_enabled)
+                        <div class="row mt-3">
+                            <div class="col-12 col-md-6 order-1 mt-3 mt-md-0">
+
+                                <div wire:loading wire:target="processPWS()">
+                                    Loading Data...
+                                </div>
+
+                                <div wire:loading.remove>
+                                    <ul class="list-group">
+
+                                        <li class="list-group-item">
+                                            <span>Orders: {{ number_format($pws_number_of_orders) }} - {{ number_format($pws_orders_worth) }} IQD  </span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <span>Order Items: {{ number_format($pws_number_of_order_items) }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <div class="col-12 col-md-6 order-0">
+
+                                <div class="row mt-3 mt-md-0">
+                                    <div class="col-md-6">
+                                        <label for="pws_selected_website">Website</label>
+                                        <select wire:model="pws_selected_website" class="form-control" id="pws_selected_website"
+                                                wire:change="processPWS()">
+                                            <option value="all">All</option>
+                                            @foreach($PWSwebsites as $item)
+                                                <option value="{{ $item }}">{{ ucfirst($item) }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-6 col-12">
+                                        <label for="pws_from_date">From</label>
+                                        <input type="date" class="form-control" id="pws_from_date"
+                                               wire:model="pws_from_date"
+                                               wire:change="processPWS()">
+                                    </div>
+
+                                    <div class="col-md-6 col-12 mt-3 mt-md-0">
+                                        <label for="pws_to_date">To</label>
+                                        <input type="date" class="form-control" id="pws_to_date" wire:model="pws_to_date"
+                                               wire:change="processPWS()">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>

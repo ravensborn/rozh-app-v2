@@ -19,12 +19,16 @@ class Create extends Component
 {
     use LivewireAlert;
 
+    public array $websiteTypes = [
+        'facebook', 'instagram', 'other',
+    ];
     public Collection $pages;
     public Collection $forwarderLocations;
     public Collection $forwarders;
 
     public string $customer_name = "";
     public string $customer_profile_link = "";
+    public string $customer_profile_type = "other";
     public string $customer_primary_phone = "";
     public string $customer_secondary_phone = "";
     public int $page_id = 1;
@@ -56,12 +60,27 @@ class Create extends Component
         }
     }
 
+    public function updatingCustomerProfileLink($profileLink): void
+    {
+
+        $this->customer_profile_type = 'other';
+
+        if (str_contains($profileLink, 'instagram')) {
+            $this->customer_profile_type = 'instagram';
+        }
+
+        if (str_contains($profileLink, 'facebook') || str_contains($profileLink, 'fb')) {
+            $this->customer_profile_type = 'facebook';
+        }
+    }
+
     public function submitOrder()
     {
 
         $rules = [
             'customer_name' => 'required|max:255',
             'customer_profile_link' => 'required|max:255',
+            'customer_profile_type' => 'required|in:facebook,instagram,other',
             'customer_primary_phone' => 'required|max:255',
             'customer_secondary_phone' => 'nullable|max:255',
             'page_id' => 'required|exists:pages,id',
@@ -123,12 +142,13 @@ class Create extends Component
         $this->forwarderLocations = ForwarderLocation::where('forwarder_id', $this->forwarder_id)->get();
     }
 
-    public function getForwarderLocations($search = null) {
+    public function getForwarderLocations($search = null)
+    {
 
         $locations = ForwarderLocation::where('forwarder_id', $this->forwarder_id);
 
-        if($search) {
-            $locations->where('name', 'LIKE', '%'. $search .'%');
+        if ($search) {
+            $locations->where('name', 'LIKE', '%' . $search . '%');
         }
 
         $this->forwarderLocations = $locations->get();
@@ -149,7 +169,7 @@ class Create extends Component
 
         $this->forwarder_id = Forwarder::FORWARDER_HYPERPOST;
 
-       $this->getForwarderLocations();
+        $this->getForwarderLocations();
 
     }
 
