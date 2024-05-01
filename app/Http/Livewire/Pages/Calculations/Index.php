@@ -146,7 +146,7 @@ class Index extends Component
 
     public array $PWSwebsites = ['facebook', 'instagram', 'other'];
 
-    public string $pws_selected_website = 'all';
+    public string $pws_selected_website = 'none';
 
     public function updatedPWSEnabled()
     {
@@ -161,28 +161,30 @@ class Index extends Component
 
     public function processPWS(): void
     {
+        if($this->pws_selected_website != 'none') {
 
-        $orders = Order::query();
+            $orders = Order::query();
 
-        if(in_array($this->pws_selected_website, $this->PWSwebsites)) {
-            $orders->where('customer_profile_type', $this->pws_selected_website);
+            if(in_array($this->pws_selected_website, $this->PWSwebsites)) {
+                $orders->where('customer_profile_type', $this->pws_selected_website);
+            }
+
+            if ($this->pws_to_date && $this->pws_from_date) {
+                $orders->whereDate('created_at', '>=', $this->pws_from_date)
+                    ->whereDate('created_at', '<=', $this->pws_to_date);
+            }
+
+            $orders = $orders->get();
+
+            $this->pws_number_of_orders = $orders->count();
+            $this->pws_orders_worth = $orders->sum(function ($order) {
+                return $order->total();
+            });
+            $this->pws_number_of_order_items = $orders->sum(function ($order) {
+                return $order->items->count();
+            });
+
         }
-
-        if ($this->pws_to_date && $this->pws_from_date) {
-            $orders->whereDate('created_at', '>=', $this->pws_from_date)
-                ->whereDate('created_at', '<=', $this->pws_to_date);
-        }
-
-        $orders = $orders->get();
-
-        $this->pws_number_of_orders = $orders->count();
-        $this->pws_orders_worth = $orders->sum(function ($order) {
-            return $order->total();
-        });
-        $this->pws_number_of_order_items = $orders->sum(function ($order) {
-            return $order->items->count();
-        });
-
     }
 
     public function mount()

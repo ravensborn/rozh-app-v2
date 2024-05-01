@@ -247,7 +247,7 @@
                         <div class="row mt-3">
                             <div class="col-12 col-md-6 order-1 mt-3 mt-md-0">
 
-                                <div wire:loading wire:target="processPWS()">
+                                <div wire:loading wire:target="processPWS">
                                     Loading Data...
                                 </div>
 
@@ -271,6 +271,7 @@
                                         <label for="pws_selected_website">Website</label>
                                         <select wire:model="pws_selected_website" class="form-control" id="pws_selected_website"
                                                 wire:change="processPWS()">
+                                            <option value="none">Select</option>
                                             <option value="all">All</option>
                                             @foreach($PWSwebsites as $item)
                                                 <option value="{{ $item }}">{{ ucfirst($item) }}</option>
