@@ -85,18 +85,25 @@ Route::middleware('auth')->group(function () {
 });
 
 
-//Route::get('/delete-range', function () {
-//
-//
-//    $c = new \App\Http\Controllers\ForwarderController();
-//
-//
-//    $c->deleteOrders(Forwarder::FORWARDER_HYPERPOST);
-//    $c->sendLogToTelegram();
-//
-//    return 'done';
-//
-//})->name('test');
+Route::get('/test', function () {
+
+    foreach (Order::all() as $order) {
+
+        if (str_contains($order->customer_profile_link, 'instagram')) {
+            $order->update([
+                'customer_profile_type' => 'instagram'
+            ]);
+        }
+
+        if (str_contains($order->customer_profile_link, 'facebook') || str_contains($order->customer_profile_link, 'fb')) {
+            $order->update([
+                'customer_profile_type' => 'facebook'
+            ]);
+        }
+    }
+
+
+})->name('test');
 
 
 
